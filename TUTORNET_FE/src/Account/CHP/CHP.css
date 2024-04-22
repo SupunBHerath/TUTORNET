@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+
+.ImageArea1 img {
+    max-height: 500px;
+    max-width: auto !important;
+}
+
+/* Home page  */
+#PT {
+    font-family: 'Oswald';
+}
+
+/* CHPCard */
+.CHPCard {
+    border-style: solid;
+   
+
+
+}
+
+/* conterner  */
+#conTitle {
+    font-family: 'Oswald';
+    font-size: 80px;
+    text-align: center;
+}
+
+
+/* CHPNaviBar */
+.CHPNaviBar .logo {
+    font-family: 'Oswald';
+    cursor: pointer;
+  
+}.CHPNaviBar  {
+    font-family: 'Oswald';
+  
+}
+.NaviHover{
+    font-family: 'Oswald';
+}
+.NaviHover:hover {
+    color: goldenrod;
+    border-style: solid;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.NaviBarLink a {
+padding: 0  20px;
+text-decoration: none;
+color: white;
+}
+.NaviBarLink a:hover {
+text-decoration: underline;
+text-underline-offset: 10px;
+text-decoration-color: goldenrod;
+}
+/* SideShowDiv */
+.SideShowDiv{
+    max-height: 100vh;
+  
+}
