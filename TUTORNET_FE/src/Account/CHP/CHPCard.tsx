@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import 'bootstrap/dist/css/bootstrap.css'
-import { ColorCode } from '../../Components/Color/ColorCode';
+import { ColorCode } from '../../Components/CSS/CSS';
 
 export default function CHPCard(prop: any) {
   return (
