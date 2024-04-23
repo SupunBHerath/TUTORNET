@@ -8,10 +8,11 @@ require("dotenv").config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
-app.use(cors());
 
 // app middleware 
+app.use(cors());
 app.use(bodyParser.json());
+app.disable('x-powered-by');//less hackers know about our stack
 
 const URL = process.env.MONGODB_URL
 mongoose.connect(URL, {

@@ -5,15 +5,17 @@
     "express": "^4.19.2",
     "init": "^0.1.2",
     "mongoose": "^8.2.3",
+    "morgan": "^1.10.0",
     "nodemon": "^3.1.0"
   },
   "name": "tutornet_be",
   "version": "1.0.0",
   "main": "index.js",
+  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node sever.js",
-    "dev" : "nodemon sever.js"
+    "dev": "nodemon sever2.js"
   },
   "author": "supun",
   "license": "ISC",
