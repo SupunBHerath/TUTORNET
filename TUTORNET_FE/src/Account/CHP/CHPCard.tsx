@@ -6,12 +6,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import 'bootstrap/dist/css/bootstrap.css'
-import { ColorCode } from '../../Components/CSS/CSS';
+import { Color } from '../../Components/CSS/CSS';
 
 export default function CHPCard(prop: any) {
   return (
     <div className="col-md-3   ">
-      <Card sx={{ maxWidth: 345 }} className='CHPCard mt-4 mx-auto ' style={{borderColor:ColorCode.SecondaryColor}}>
+      <Card sx={{ maxWidth: 345 }} className='CHPCard mt-4 mx-auto ' style={{borderColor:Color.SecondaryColor}}>
         <CardMedia
           sx={{ height: 240 }}
           image={prop.image}
