@@ -61,7 +61,7 @@ export default function RegisterForm() {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Name "
+                label="Name* "
                 name="username"
                 value={formData.username}
                 onChange={handleInputChange}
@@ -80,7 +80,7 @@ export default function RegisterForm() {
               <TextField
                 fullWidth
                 type="email"
-                label="Email"
+                label="Email*"
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}

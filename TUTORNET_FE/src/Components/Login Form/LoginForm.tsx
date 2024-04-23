@@ -14,6 +14,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import CHPNaviBar from '../../Account/CHP/CHPNaviBar';
+import { Toaster} from 'react-hot-toast'
+import { useFormik } from 'formik'
+import { emailValidate ,passwordValidate } from '../../helper/validate'
 
 
 function Copyright(props: any) {
@@ -42,6 +45,22 @@ export default function LoginForm() {
     });
   };
 
+   const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate:emailValidate,
+    validateOnBlur: false,
+    validateOnChange: false,
+    
+    onSubmit: async (values) => {
+      console.log(values);
+    },
+   })
+
+
+
   return (
     <>
     <CHPNaviBar/>
@@ -62,16 +81,18 @@ export default function LoginForm() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={ formik.handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Toaster position='top-center' reverseOrder ={false}></Toaster>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
+              // name="email"
               autoComplete="email"
               autoFocus
+              {...formik.getFieldProps('email')}
             />
             <TextField
               margin="normal"
