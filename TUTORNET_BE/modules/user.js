@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-export const UserSchema = mongoose.Schema({
+ const UserSchema = mongoose.Schema({
     name:{
         type:String,
         required:true

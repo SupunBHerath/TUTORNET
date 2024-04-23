@@ -7,6 +7,8 @@ const dotenv = require('dotenv');
 require("dotenv").config();
 const app = express();
 const router = require('./router/router')
+const teacher = require('./router/teacher')
+
 
 
 
@@ -16,7 +18,7 @@ app.use(cors());
 app.use(morgan('try'));
 app.disable('x-powerd-by') // less hackers know about our stack
 
-const PORT = 3000;
+const PORT = 8080;
 
 /** HTTP GET  Request*/
 app.get('/', (req, res) => {
@@ -28,6 +30,7 @@ app.get('/', (req, res) => {
 
 /** api routers  */
 app.use('/api',router)
+app.use('/teacher',teacher)
 
 
 /** start server only when we have valid connection */
