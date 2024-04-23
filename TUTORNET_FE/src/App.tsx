@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/register" element={<RegistrationForm />} />
 
         {/* ----------student  route -------------------------*/}
-        <Route path="/student/home" element={<StudentHome />} />
+        <Route path="/sudent" element={<StudentHome />} />
 
         {/* ----------admin  route -------------------------*/}
         <Route path="/admin" element={<ADashboard />} />
