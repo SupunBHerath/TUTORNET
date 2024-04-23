@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './CHP.css'
 import SideShow from './SideShow';
-import  {ColorCode} from '../../Components/Color/ColorCode'
+import  {ColorCode} from '../../Components/CSS/CSS'
 import { Link, useNavigate } from 'react-router-dom';
 
 

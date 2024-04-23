@@ -18,12 +18,19 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import AOS from 'aos' 
+import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'aos/dist/aos.js'
+import TreeLink from './LinkList';
+import { Color, Font } from '../../../Components/CSS/CSS';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import LinkList from './LinkList';
+import DarkBtn from '../../../Components/DarkBtn/DarkBtn';
+import ToggleColorMode from '../../../Components/DarkBtn/DarkBtn';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
 
 
-const Check: React.FC = () => {
+const SideBar: React.FC = () => {
     const [sidebarVisible, setSidebarVisible] = useState<boolean>(false);
     const [mainleft, setMainLeft] = useState(210)
 
@@ -50,27 +57,19 @@ const Check: React.FC = () => {
     };
 
     return (
-        <div className="w3-main">
+        <div className="w3-main ">
 
             <div className="position-fixed  w-100  ">
-                {/* <button className="w3-button w3-teal w3-xlarge w3-hide-large" onClick={toggleSidebar}>&#9776;</button> */}
                 <PrimarySearchAppBar open={toggleSidebar} />
             </div>
             <br />
             <div className={`mt-5 w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left ${sidebarVisible ? 'w3-show' : ''}     `} style={{ width: '200px', }}>
-                {/* <button className="w3-bar-item w3-button w3-large w3-hide-large" onClick={toggleSidebar}>Close &times;</button> */}
-                <a href="#" className="w3-bar-item w3-button text-center mt-4 mb-4 active ">Link 1</a>
-                <a href="#" className="w3-bar-item w3-button text-center mb-4">Link 2</a>
-                <a href="#" className="w3-bar-item w3-button text-center mb-4 ">Link 3</a>
+                <LinkList />
+
             </div>
             <main style={{ marginLeft: `${mainleft}px` }}>
-
                 <div className="w3-container">
-
                 </div>
-           
-              
-
             </main>
 
         </div>
@@ -78,45 +77,6 @@ const Check: React.FC = () => {
 };
 
 
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-    },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-}));
 
 function PrimarySearchAppBar(prop: any) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -218,15 +178,15 @@ function PrimarySearchAppBar(prop: any) {
     );
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
+        <Box sx={{ flexGrow: 1 }} >
+            <AppBar position="static" style={{ backgroundColor: Color.PrimaryColor, fontFamily: Font.PrimaryFont }}>
+                <Toolbar >
                     <IconButton
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        sx={{ display: { xs: 'block', sm: 'none' }}}
+                        sx={{ display: { xs: 'block', sm: 'none' } }}
                     >
                         <MenuIcon onClick={prop.open} />
                     </IconButton>
@@ -235,18 +195,30 @@ function PrimarySearchAppBar(prop: any) {
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'block', sm: 'block' } }}
-                    >
-                    TUTOR<span style={{ color: "gold" }}>NET</span>
+                        style={{ fontFamily: Font.PrimaryFont }}  >
+                        TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
                     </Typography>
-                   
+
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
                                 <MailIcon />
                             </Badge>
+                        </IconButton> */}
+                        <IconButton
+                            size="large"
+                            aria-label="show 17 new notifications"
+                            color="inherit"
+                        >
                         </IconButton>
                         <IconButton
+                            size="large"
+                            color="inherit"
+                        >
+                            <Brightness4Icon />
+                        </IconButton>
+                        {/* <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
@@ -254,7 +226,7 @@ function PrimarySearchAppBar(prop: any) {
                             <Badge badgeContent={17} color="error">
                                 <NotificationsIcon />
                             </Badge>
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton
                             size="large"
                             edge="end"
@@ -287,4 +259,4 @@ function PrimarySearchAppBar(prop: any) {
     );
 }
 
-export default Check;
+export default SideBar;
