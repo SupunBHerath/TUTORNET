@@ -19,6 +19,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Font } from '../../../Components/CSS/CSS';
 import Badge from '@mui/material/Badge';
 import '../css/Admin.css'
+import { Link } from 'react-router-dom';
 
 export default function LinkList() {
   const [open, setOpen] = React.useState(true);
@@ -40,9 +41,9 @@ export default function LinkList() {
     >
       <ListItemButton className='active' >
         <ListItemIcon>
-          <Dashboard/>
+          <Dashboard />
         </ListItemIcon>
-        <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>Dashboard</span>}/>
+        <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Dashboard</span>} />
       </ListItemButton>
       <br />
 
@@ -50,7 +51,7 @@ export default function LinkList() {
         <ListItemIcon>
           <ManageAccountsIcon />
         </ListItemIcon>
-        <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>Users</span>}/>
+        <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Users</span>} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
 
@@ -60,7 +61,7 @@ export default function LinkList() {
             <ListItemIcon>
               <GroupIcon />
             </ListItemIcon>
-            <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>View</span>}/>
+            <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>View</span>} />
           </ListItemButton>
         </List>
       </Collapse>
@@ -70,36 +71,36 @@ export default function LinkList() {
             <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
-            <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>Add</span>}/>
+            <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Add</span>} />
           </ListItemButton>
         </List>
       </Collapse>
       <br />
       <ListItemButton onClick={handleClick}>
         <ListItemIcon>
-        <Badge badgeContent={1} color="success">
-        <PaymentIcon />
-          
+          <Badge badgeContent={1} color="success">
+            <PaymentIcon />
+
           </Badge>
         </ListItemIcon>
-        <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>Payment</span>}/>
+        <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Payment</span>} />
       </ListItemButton>
       <br />
       <ListItemButton>
         <ListItemIcon>
-        <Badge badgeContent={4} color="error">
-          <InboxIcon />
-        </Badge>
+          <Badge badgeContent={4} color="error">
+            <InboxIcon />
+          </Badge>
         </ListItemIcon>
-        <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>Inbox</span>}/>
+        <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Inbox</span>} />
       </ListItemButton>
-     
+
       <br />
       <ListItemButton>
         <ListItemIcon>
           <AddBoxIcon />
         </ListItemIcon>
-        <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>ADS Mange</span>}/>
+        <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>ADS Mange</span>} />
       </ListItemButton>
       <br />
 
@@ -107,16 +108,16 @@ export default function LinkList() {
         <ListItemIcon>
           <AddAlertIcon />
         </ListItemIcon>
-        <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>Notification</span>}/>
+        <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Notification</span>} />
       </ListItemButton>
       <br />
 
-      <ListItemButton>
+      <Link to='/' >  <ListItemButton>
         <ListItemIcon>
           <LogoutIcon />
         </ListItemIcon>
-        <ListItemText  primary={<span style={{fontFamily:Font.PrimaryFont}}>Logout</span>}/>
-      </ListItemButton>
+        <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Logout</span>} />
+      </ListItemButton></Link>
 
     </List>
   );

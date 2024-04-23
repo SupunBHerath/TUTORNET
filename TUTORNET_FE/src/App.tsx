@@ -13,15 +13,21 @@ import ADashboard from './Account/Admin/ADashboard';
 const App = () => {
   return (
     <div>
-      {/* <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/login" element={<LoginForm/>} />
-        <Route path="/register" element={<RegistrationForm/>} />
-        <Route path="/student/home" element={<StudentHome/>} />
-      </Routes> */}
-      
-    {/* <StudentHome/> */}
-      <ADashboard/>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegistrationForm />} />
+
+        {/* ----------student  route -------------------------*/}
+        <Route path="/student/home" element={<StudentHome />} />
+
+        {/* ----------admin  route -------------------------*/}
+        <Route path="/admin" element={<ADashboard />} />
+      </Routes>
+           {/* <Home/> */}
+
+      {/* <StudentHome/> */}
+      {/* <ADashboard /> */}
 
     </div>
 

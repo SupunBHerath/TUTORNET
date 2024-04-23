@@ -12,11 +12,9 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './CHP.css'
-import SideShow from './SideShow';
-import  {ColorCode} from '../../Components/CSS/CSS'
+import  {Color} from '../../Components/CSS/CSS'
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -66,12 +64,15 @@ export default function CHPNaviBar(props: Props) {
   const registerBtnClick = () => {
     navigate('/register');
   };
+  const loginBtn = () => {
+    navigate('/login');
+  };
 
   return (
 
     <Box sx={{ display: 'flex' }} className="CHPNaviBar "  >
       <CssBaseline />
-      <AppBar component="nav" className="CHPNaviBar "style={{ backgroundColor: ColorCode.PrimaryColor }} >
+      <AppBar component="nav" className="CHPNaviBar "style={{ backgroundColor: Color.PrimaryColor }} >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -88,14 +89,14 @@ export default function CHPNaviBar(props: Props) {
             sx={{ flexGrow: 1, display: { xs: 'block', sm: 'block' } }}
             className='logo'
           >
-            TUTOR<span style={{ color: ColorCode.SecondaryColor}}>NET</span>
+            TUTOR<span style={{ color: Color.SecondaryColor}}>NET</span>
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }} className="NaviBarLink" >
             <Link to="/"> Home</Link>
-            <Link to="about"> About</Link>
-            <Link to="register"> Contact</Link>
-            <button className='btn  mx-2 '  style={{backgroundColor:ColorCode.SecondaryColor,color:'white'} } onClick={registerBtnClick}>Register</button>
-            <button className='btn ' style={{color:ColorCode.SecondaryColor,borderStyle:'solid' ,borderColor:'white'}}> Login</button>
+            <Link to="sudent"> Sudent</Link>
+            <Link to="admin"> Admin</Link>
+            <button className='btn  mx-2 '  style={{backgroundColor:Color.SecondaryColor,color:'white'} } onClick={registerBtnClick}>Register</button>
+            <button className='btn ' style={{color:Color.SecondaryColor,borderStyle:'solid' ,borderColor:'white'}} onClick={loginBtn}> Login</button>
 
           </Box>
         </Toolbar>

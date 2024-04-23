@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
-import SideShow from './SideShow'
 import CHPNaviBar from './CHPNaviBar'
 import CHPCard from './CHPCard'
-import Logo from '../../../public/logo/Logo_t.png'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'aos/dist/aos.js'
 import './CHP.css'
 import Supun from '../../../public/i.jpg'
-import Conterner from './Conterner'
-import Login from '../../Login_Signup/Login'
+
 // CHP  common home page 
 
 const Home = () => {
