@@ -1,16 +1,23 @@
-import React from 'react'
-import SideBar from './Sidebar/Sidebar'
 import './css/Admin.css'
-import Card2 from '../../Components/Card2/Card2'
+import Sidebar from './Components/Sidebar/Sidebar'
+import HeaderCard from './Components/Card/HeaderCard'
+import teacherIcon from '../../../public/Icon/teacher.png'
+import studentIcon from '../../../public/Icon/students.png'
+import postIcon from '../../../public/Icon/social.png'
 
 const ADashboard = () => {
   return (
     <div className=''>
-      <SideBar/>
-      <div className="ADashboard">
-        <h1>Admin Dashboark</h1>
-        <Card2/>
+      <Sidebar />
+      <div className="ADashboard" >
+      <div className="d-flex justify-content-evenly " >
+        <HeaderCard icon={teacherIcon} title="Teachers" count="1500" />
+        <HeaderCard icon={studentIcon} title="Students" count="5000" />
+        <HeaderCard icon={postIcon} title="Post" count="1500" />
       </div>
+
+      </div>
+
     </div>
   )
 }
