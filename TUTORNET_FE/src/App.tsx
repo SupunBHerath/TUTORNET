@@ -9,6 +9,7 @@ import StudentPost from './Account/Student/StudentPost';
 import LoginForm from './Components/Login Form/LoginForm';
 import ADashboard from './Account/Admin/ADashboard';
 import UserManage from './Account/Admin/Pages/UserManage';
+import Landing from './Account/Landing_page/Landing';
 
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/Landing" element={<Landing />} />
 
         {/* ----------student  route -------------------------*/}
         <Route path="/sudent" element={<StudentHome />} />
