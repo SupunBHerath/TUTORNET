@@ -1,0 +1,21 @@
+.HeaderCard{
+    display: flex;
+    width: 300px;
+    height: 150px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 10px;
+}
+.HeaderCard__left{
+    float: left;
+    
+}
+.HeaderCard__left img{
+   width: auto;
+   height: 100%;
+
+}
+.HeaderCard__right{
+    text-align: center;
+    font-family: "Oswald";
+}

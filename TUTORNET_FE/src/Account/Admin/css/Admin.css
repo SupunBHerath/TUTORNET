@@ -59,10 +59,7 @@
 
 /* admin dashboard  */
 
-.ADashboard {
-  color: red;
-  margin-left: 200px;
-  margin-top: 50px;
-  background-color: bisque;
-  min-height: 100vh;
+.ADashboard{
+  margin-left: 220px;
+  margin-top: -30px;
 }
