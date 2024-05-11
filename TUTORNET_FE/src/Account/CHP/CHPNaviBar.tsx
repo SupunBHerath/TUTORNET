@@ -93,6 +93,7 @@ export default function CHPNaviBar(props: Props) {
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }} className="NaviBarLink" >
             <Link to="/"> Home</Link>
+            <Link to="/landing"> Landing</Link>
             <Link to="sudent"> Sudent</Link>
             <Link to="admin"> Admin</Link>
             <button className='btn  mx-2 '  style={{backgroundColor:Color.SecondaryColor,color:'white'} } onClick={registerBtnClick}>Register</button>
