@@ -134,18 +134,7 @@ export default function RegisteredForm() {
                                 )}
                             />
                         </Grid>
-                        {/* <Grid item xs={12}>
-                            <TextField
-                                fullWidth
-                                type="password"
-                                label="Password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                            />
-                        </Grid> */}
-
-                        <Grid item xs={12} style={{ display: 'block' }}>
+                            <Grid item xs={12} style={{ display: 'block' }}>
                             <Button id="registerButton" type="submit" variant="contained" className='w-100' startIcon={<HowToRegIcon/>} style={{backgroundColor:Color.PrimaryColor,padding:'10px'}} >
                                 Register
                             </Button>

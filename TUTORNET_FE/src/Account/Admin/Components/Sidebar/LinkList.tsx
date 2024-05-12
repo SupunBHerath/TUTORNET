@@ -21,7 +21,10 @@ export default function LinkList() {
   const navigate = useNavigate();
 
   const user = () => {
-    navigate('user');
+    navigate('/admin/user');
+  };
+  const payment = () => {
+    navigate('/admin/payment');
   };
   const dashboard = () => {
     navigate('/admin');
@@ -57,7 +60,7 @@ export default function LinkList() {
 
    
       <br />
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton onClick={payment}>
         <ListItemIcon>
           <Badge badgeContent={1} color="success">
             <PaymentIcon />
