@@ -15,10 +15,11 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '50%',
+    width: 'max-content',
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    border: '4px solid #f6921e',
     boxShadow: 24,
+    borderRadius: 3,
     p: 4,
 };
 
@@ -51,7 +52,7 @@ export default function AddUser() {
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                    <RegisteredForm/>
+                        <RegisteredForm />
                     </Box>
                 </Fade>
             </Modal>
