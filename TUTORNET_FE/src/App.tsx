@@ -5,7 +5,6 @@ import StudentHome from './Account/Student/StudentHome';
 import Check from './Account/Admin/Components/Sidebar/Sidebar';
 import Home from './Account/CHP/Home';
 import RegistrationForm from './Components/Registration Form/RegistrationForm';
-import StudentPost from './Account/Student/StudentPost';
 import LoginForm from './Components/Login Form/LoginForm';
 import ADashboard from './Account/Admin/ADashboard';
 import UserManage from './Account/Admin/Pages/UserManage';
