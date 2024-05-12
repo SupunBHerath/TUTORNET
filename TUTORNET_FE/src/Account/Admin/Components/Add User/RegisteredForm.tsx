@@ -4,6 +4,7 @@ import { TextField, Button, Container, Grid, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../../../../Components/CSS/CSS';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 export default function RegisteredForm() {
     const navigate = useNavigate();
@@ -53,17 +54,28 @@ export default function RegisteredForm() {
 
     return (
         <>
-            <Container maxWidth="xs" className=' border  p-3 '>
+            <Container maxWidth="xs" className=' border  p-3 rounded-4 '>
+                <Typography
+                    variant="h4"
+                    noWrap
+                    component="div"
+                    sx={{ display: { xs: 'block', sm: 'block' } }}
+                    style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}  >
+                    TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
+
+                </Typography>
                 <Typography
                     variant="h6"
                     noWrap
                     component="div"
                     sx={{ display: { xs: 'block', sm: 'block' } }}
                     style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}  >
-                    TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
+                    Teacher's Register <span style={{ color: Color.SecondaryColor }}>Form</span>
+
                 </Typography>
+<br />
                 <form onSubmit={handleSubmit}>
-                    <Grid container spacing={1}>
+                    <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
@@ -122,7 +134,7 @@ export default function RegisteredForm() {
                                 )}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        {/* <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 type="password"
@@ -131,10 +143,10 @@ export default function RegisteredForm() {
                                 value={formData.password}
                                 onChange={handleInputChange}
                             />
-                        </Grid>
+                        </Grid> */}
 
                         <Grid item xs={12} style={{ display: 'block' }}>
-                            <Button id="registerButton" type="submit" variant="contained" color="primary" className='w-100'>
+                            <Button id="registerButton" type="submit" variant="contained" className='w-100' startIcon={<HowToRegIcon/>} style={{backgroundColor:Color.PrimaryColor,padding:'10px'}} >
                                 Register
                             </Button>
 
