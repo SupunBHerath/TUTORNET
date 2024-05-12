@@ -118,22 +118,20 @@ export default function UserTable() {
 
   return (
     <>
-      <div className="Tablebtn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <AddUser />
+
+      <div className="Tablebtn mb-2 mt-3" style={{ display: 'flex', alignItems: 'center', gap:'10px' }}>
+        {BasicModal()}
         <Button
-          variant="contained"
           onClick={downloadPdf}
-          style={{ marginBottom: '10px' }}
+          
           startIcon={<DownloadIcon />}
         >
           PDF
         </Button>
       </div>
-      {BasicModal()}
-      {/* <div style={{ marginBottom: '10px' ,width:'100%',backgroundColor:'red'}}>
-        <Button onClick={() => handleFilter('Teacher')}>Filter Teachers</Button>
-        <Button onClick={() => handleFilter('Student')}>Filter Students</Button>
-      </div> */}
+      {/* filter function  */}
+    
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
