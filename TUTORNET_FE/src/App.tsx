@@ -9,6 +9,7 @@ import LoginForm from './Components/Login Form/LoginForm';
 import ADashboard from './Account/Admin/ADashboard';
 import UserManage from './Account/Admin/Pages/UserManage';
 import Landing from './Account/Landing_page/Landing';
+import PaymentManage from './Account/Admin/Pages/PaymentManage';
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
         {/* ----------admin  route -------------------------*/}
         <Route path="/admin" element={<ADashboard />} />
         <Route path="/admin/user" element={<UserManage />} />
+        <Route path="/admin/payment" element={<PaymentManage />} />
       </Routes>
            {/* <Home/> */}
 
