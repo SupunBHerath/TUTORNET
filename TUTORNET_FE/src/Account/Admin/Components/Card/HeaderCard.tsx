@@ -9,7 +9,6 @@ const HeaderCard = (prop:any) => {
       </div>
       <div className='HeaderCard__right  w-100 mt-2 '>
      <h2 style={{color:Color.PrimaryColor}}>{prop.title}</h2>
-     <br />
      <h3 style={{color:Color.SecondaryColor}}>{prop.count}</h3>
       </div>
     </div>
