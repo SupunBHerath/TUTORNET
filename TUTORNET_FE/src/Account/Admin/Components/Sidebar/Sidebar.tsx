@@ -20,7 +20,7 @@ import { Font, Color } from'../../../../Components/CSS/CSS';
 import HeaderCard from '../Card/HeaderCard';
 
 
-const drawerWidth = 240;
+const drawerWidth = 255;
 
 interface Props {
  
@@ -58,7 +58,7 @@ export default function Sidebar(props: Props) {
             <AppBar
                 position="fixed"
                 sx={{
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    width: { lg: `calc(100% - ${drawerWidth}px)`,sm:`calc(100%)` },
                     ml: { sm: `${drawerWidth}px` },
                 }} style={{backgroundColor:Color.PrimaryColor}}
             >
@@ -68,7 +68,7 @@ export default function Sidebar(props: Props) {
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
+                        sx={{ mr: 2, display: { sm: 'block',md:'none' } }}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -93,7 +93,7 @@ export default function Sidebar(props: Props) {
                         keepMounted: true, // Better open performance on mobile.
                     }}
                     sx={{
-                        display: { xs: 'block', sm: 'none' },
+                        display: { md: 'none', lg: 'block',ms:'none' },
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     }}
                 >
@@ -103,7 +103,7 @@ export default function Sidebar(props: Props) {
                 <Drawer
                     variant="permanent"
                     sx={{
-                        display: { xs: 'none', sm: 'block' },
+                        display: { md: 'block', sm: 'none' },
                         '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     }}
                     open>

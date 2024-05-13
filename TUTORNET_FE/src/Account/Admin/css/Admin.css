@@ -22,3 +22,14 @@
   margin-right: 50px;
 }
 
+@media   (max-width: 900px ){
+  .ADashboard{
+    margin-left: 0;
+ 
+  }
+  .UserManage{
+    margin-left: 50px;
+ 
+  }
+  
+}
