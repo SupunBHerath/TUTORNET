@@ -4,17 +4,36 @@ import UserTable from '../Components/Table/Table'
 import '../css/Admin.css'
 import teacherIcon from '../../../../public/Icon/teacher.png'
 import studentIcon from '../../../../public/Icon/students.png'
+import { useState } from 'react'
 
 const UserManage = () => {
+  const [rows, setRows] = useState([]);
+  // teachers count
+  fetch('http://localhost:8080/teacher/user')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Assuming the API response is an array of user objects
+    setRows(data);
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
+  
   return (
     <div>
       <Sidebar/>
       <div className="UserManage" >
       <div className="d-flex justify-content-evenly " >
-        <HeaderCard icon={teacherIcon} title="Teachers" count="1500" />
+        <HeaderCard icon={teacherIcon} title="Teachers" count={rows.length} />
         <HeaderCard icon={studentIcon} title="Students" count="5000" />
       </div>
-      <br /><br />
+      {/* <br /><br /> */}
           <UserTable/>
       </div>
     </div>

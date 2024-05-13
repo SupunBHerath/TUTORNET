@@ -6,9 +6,24 @@ import axios from 'axios';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 
-export default function RegisteredForm() {
+export default function RegisteredForm( prop:any) {
     const navigate = useNavigate();
-    const [selectedDistrict, setSelectedDistrict] = useState({ districts: '' });
+    const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [nameError, setNameError] = useState(false);
+    const [nicknameError, setNickNameError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [subjectError, setSubjectError] = useState(false);
+   ; // State to hold the selected district value
+
+    const handleDistrictChange = (event: React.ChangeEvent<{}>, newValue: string | null) => {
+        if (newValue !== null) {
+            setSelectedDistrict(newValue)
+            setFormData(prevState => ({
+                ...prevState,
+                district: newValue
+            }));     
+        }
+    };
     const [formData, setFormData] = useState({
 
         username: '',
@@ -16,6 +31,7 @@ export default function RegisteredForm() {
         password: '12345678',
         nickname: '',
         subject: '',
+        district: '',
 
     });
 
@@ -27,28 +43,71 @@ export default function RegisteredForm() {
         });
     };
 
-    const handleDistrictChange = (value: any) => {
-        setSelectedDistrict({
-            ...selectedDistrict,
-            districts: value
-        });
+   
+
+    // error handling for text inputs
+
+    const handleNameChange = (e: any) => {
+        handleInputChange(e)
+        if (e.target.validity.valid) {
+            setNameError(false);
+        } else {
+            setNameError(true);
+        }
     };
+
+    const handleNickNameChange = (e: any) => {
+        handleInputChange(e)
+        if (e.target.validity.valid) {
+            setNickNameError(false);
+        } else {
+            setNickNameError(true);
+        }
+    };
+
+    const handleEmailChange = (e: any) => {
+        handleInputChange(e)
+        if (e.target.validity.valid) {
+            setEmailError(false);
+        } else {
+            setEmailError(true);
+        }
+    };
+    const handleSubjectChange = (e: any) => {
+        handleInputChange(e)
+        if (e.target.validity.valid) {
+            setSubjectError(false);
+        } else {
+            setSubjectError(true);
+        }
+    };
+  
+
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-
+        console.log(formData)
         try {
-            const response = await axios.post('http://localhost:3000/teacher/add', { ...formData, ...selectedDistrict });
+            const response = await axios.post('http://localhost:8080/teacher/register', { ...formData });
             if (response.status === 200) {
+                navigate('/admin/user');
+               {prop.function()}
                 console.log('Registration successful');
-                navigate('/student/home');
-            } else {
-                console.error('Registration failed');
+                alert('Registration successful');
+            }else if(response.status === 400){
+                setEmailError(true)
+            }else {
+                // alert('Registration failed');
+                setEmailError(true)
                 console.log(response.data);
-
             }
         } catch (error) {
-            console.error('Error during registration:', error);
+            // console.error('Error during registration:', error);
+            console.log(error)
+            alert('error');
+            setEmailError(true)
+
+
         }
     };
 
@@ -73,16 +132,25 @@ export default function RegisteredForm() {
                     Teacher's Register <span style={{ color: Color.SecondaryColor }}>Form</span>
 
                 </Typography>
-<br />
+              
+                <br />
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
-                                label="Name* "
+                                label="Name"
                                 name="username"
                                 value={formData.username}
-                                onChange={handleInputChange}
+                                required
+                                onChange={handleNameChange}
+                                error={nameError}
+                                helperText={
+                                    nameError ? "Please enter your name (letters and spaces only)" : ""
+                                }
+                                inputProps={{
+                                    pattern: "[A-Za-z ]+",
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -91,17 +159,29 @@ export default function RegisteredForm() {
                                 label="Nick Name "
                                 name="nickname"
                                 value={formData.nickname}
-                                onChange={handleInputChange}
+                                required
+                                onChange={handleNickNameChange}
+                                error={nicknameError}
+                                helperText={
+                                    nicknameError ? "Please enter your name (letters and spaces only)" : ""
+                                }
+                                inputProps={{
+                                    pattern: "[A-Za-z ]+",
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 fullWidth
-                                type="email"
                                 label="Email*"
                                 name="email"
                                 value={formData.email}
-                                onChange={handleInputChange}
+                                onChange={handleEmailChange}
+                                error={emailError}
+                                helperText={emailError ? "Please enter a valid & uniqe email" : ""}
+                                inputProps={{
+                                    type: "email",
+                                }}
                             />
                         </Grid>
 
@@ -111,7 +191,15 @@ export default function RegisteredForm() {
                                 label="Subject"
                                 name="subject"
                                 value={formData.subject}
-                                onChange={handleInputChange}
+                                onChange={handleSubjectChange}
+                                required
+                                error={subjectError}
+                                helperText={
+                                    subjectError ? "Please enter subject (letters and spaces only)" : ""
+                                }
+                                inputProps={{
+                                    pattern: "[A-Za-z ]+",
+                                }}
                             />
                         </Grid>
 
@@ -120,12 +208,14 @@ export default function RegisteredForm() {
                                 freeSolo
                                 id="free-solo-2-demo"
                                 disableClearable
-                                options={districts.map((option) => option.title)}
-                                onChange={handleDistrictChange}
+                                options={district.map((option) => option.title)}
+                                value={selectedDistrict} // Set the value prop to the selectedDistrict state
+                                onChange={handleDistrictChange} // Call handleInputChange when a value is selected
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}
                                         label="District"
+                                        name="district"
                                         InputProps={{
                                             ...params.InputProps,
                                             type: 'search',
@@ -134,8 +224,8 @@ export default function RegisteredForm() {
                                 )}
                             />
                         </Grid>
-                            <Grid item xs={12} style={{ display: 'block' }}>
-                            <Button id="registerButton" type="submit" variant="contained" className='w-100' startIcon={<HowToRegIcon/>} style={{backgroundColor:Color.PrimaryColor,padding:'10px'}} >
+                        <Grid item xs={12} style={{ display: 'block' }}>
+                            <Button id="registerButton" type="submit" variant="contained" className='w-100' startIcon={<HowToRegIcon />} style={{ backgroundColor: Color.PrimaryColor, padding: '10px' }} >
                                 Register
                             </Button>
 
@@ -150,7 +240,7 @@ export default function RegisteredForm() {
     );
 }
 
-const districts = [
+const district = [
     { title: 'Ampara' },
     { title: 'Anuradhapura' },
     { title: 'Badulla' },

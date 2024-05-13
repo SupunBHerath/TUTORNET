@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RegisterForm from '../../../../Components/Registration Form/RegistrationForm';
 import RegisteredForm from './RegisteredForm';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const style = {
@@ -51,8 +53,15 @@ export default function AddUser() {
                 }}
             >
                 <Fade in={open}>
+
                     <Box sx={style}>
-                        <RegisteredForm />
+                        <Button
+                            style={{ float: 'right', marginTop:"-30px",marginRight:'-30px',color:"red" }}
+                            onClick={handleClose}
+                            startIcon={<CloseIcon />}>
+                                
+                        </Button>
+                        <RegisteredForm function={handleClose} />
                     </Box>
                 </Fade>
             </Modal>
