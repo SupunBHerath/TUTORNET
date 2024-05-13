@@ -12,6 +12,7 @@ const teacherSchema = new Schema({
     },
     email:{
         type:String,
+        required:[true,'please provide a unique email address'],
         required:true
     },
     password:{
@@ -25,11 +26,15 @@ const teacherSchema = new Schema({
     subject : {
         type:String,
         required:true
+    },
+    role : {
+        type:String,
+        required:true
     }
 
  
    
 })
 
-const user =mongoose.model('Teacher',teacherSchema);
-module.exports = user;
+const Teacher =mongoose.model('Teacher',teacherSchema);
+module.exports = Teacher;

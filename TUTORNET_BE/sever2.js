@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 require("dotenv").config();
 const app = express();
 const router = require('./router/router')
-const teacher = require('./router/teacher')
+const teacher = require('./router/teacherRouter')
 
 
 

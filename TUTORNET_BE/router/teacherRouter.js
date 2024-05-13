@@ -2,37 +2,40 @@ const router = require('express').Router();
 const { status } = require('init');
 const Teacher = require('../modules/teacher');
 let teacher = require("../modules/teacher");
+const controller = require('../controller/teacherController');
 
-router.route('/add').post((req, res) => {
-    const name = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    const district = req.body.district;
-    const nickname = req.body.nickname;
-    const subject = req.body.subject;
-    const newTeacher = new Teacher({
-        name,
-        email,
-        password,
-        district,
-        subject,
-        nickname
-    });
+// router.route('/add').post((req, res) => {
+//     const name = req.body.username;
+//     const email = req.body.email;
+//     const password = req.body.password;
+//     const district = req.body.district;
+//     const nickname = req.body.nickname;
+//     const subject = req.body.subject;
+//     const newTeacher = new Teacher({
+//         name,
+//         email,
+//         password,
+//         district,
+//         subject,
+//         nickname
+//     });
 
-    newTeacher.save().then(() => {
-        res.json({
-            message: "Register Sucess",
-            status: "200"
-        })
-    }).catch(err => {
-        res.json({
-            message: err.message,
-            status: "400"
-        })
-    });
+//     newTeacher.save().then(() => {
+//         res.json({
+//             message: "Register Sucess",
+//             status: "200"
+//         })
+//     }).catch(err => {
+//         res.json({
+//             message: err.message,
+//             status: "400"
+//         })
+//     });
 
 
-});
+// });
+router.post('/register', controller.register);
+router.get('/user', controller.all);
 router.route('/').get((req, res) => {
     Teacher.find().then(teachers => {
         res.json(teachers);
@@ -40,6 +43,7 @@ router.route('/').get((req, res) => {
         console.log(err);
     });
 })
+
 router.route('/update/:id').put(async (req, res) => {
     let userId = req.params.id;
     const { name, gender, age } = req.body;
