@@ -33,13 +33,22 @@ type User = {
   role: string;
 };
 
-// Sample data for the table
-const rows: User[] = [
-  { id: 1, name: 'John Doe', role: 'Teacher', email: 'johndoe@example.com' },
-  { id: 2, name: 'Jane Smith', role: 'Student', email: 'janesmith@example.com' },
-  // Add more users here
-];
-
+// Sample data for the table   http://localhost:8080/teacher/user
+const rows: User[] = [];
+fetch('http://localhost:8080/teacher/user')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Assuming the API response is an array of user objects
+    rows.push(...data);
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
 // Extend the jsPDF interface to include the autoTable method
 interface jsPDFWithAutoTable extends jsPDF {
   autoTable: (options: any) => jsPDF;
@@ -100,12 +109,15 @@ export default function UserTable() {
     doc.addImage(Logo, 'JPEG', 14, 30, 10, 10); // Adjust dimensions as needed
 
     // Ensure the table does not overlap with the logo by adjusting the startY position
+    var count = 1;
     doc.autoTable({
       head: [['No', 'Name', 'Email', 'Role']],
-      body: filteredRows.map(row => [row.id, row.name, row.email, row.role]),
-      startY: 50, // Adjust this value based on the height of your logo
-    });
-
+      body: filteredRows.map(row => [count++, row.name, row.email, row.role]),
+      startY: 50,
+      
+    }
+    );
+   
     doc.save('Tutornet_User_Details.pdf');
   };
 
@@ -114,24 +126,37 @@ export default function UserTable() {
     const filteredUsers = role === 'all' ? rows : rows.filter(user => user.role === role);
     setFilteredRows(filteredUsers);
   };
-  
 
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(8);
+  const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = filteredRows.slice(startIndex, endIndex);
+
+
+
+  var countData = 1;
   return (
     <>
-        <AddUser />
+      <AddUser />
 
-      <div className="Tablebtn mb-2 mt-3" style={{ display: 'flex', alignItems: 'center', gap:'10px' }}>
+      <div className="Tablebtn mb-2 mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         {BasicModal()}
         <Button
           onClick={downloadPdf}
-          
+
           startIcon={<DownloadIcon />}
         >
           PDF
         </Button>
       </div>
       {/* filter function  */}
-    
+
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -145,18 +170,14 @@ export default function UserTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredRows.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
+            
+            {currentItems.map((row) => (
+             
+              <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCell component="th" scope="row">{countData++}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.role}</TableCell>
-
                 <TableCell>
                   <IconButton onClick={() => handleDelete(row.id)} aria-label="delete">
                     <DeleteIcon />
@@ -167,6 +188,21 @@ export default function UserTable() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Pagination */}
+      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Button
+            key={index}
+            style={{ marginRight: '5px' }}
+            variant={currentPage === index + 1 ? "contained" : "outlined"}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </Button>
+        ))}
+        <br /><br />
+      </div>
     </>
   );
 }

@@ -24,7 +24,7 @@ module.exports.verifyUser = async (req, res, next) => {
 
 module.exports.register = async (req, res) => {
     try {
-        const { name, nickname, email, password, district, subject } = req.body;
+        const { name, nickname, email, subject,district } = req.body;
 
         // Check for existing email
         const existingUser = await UserModel.findOne({ email });
