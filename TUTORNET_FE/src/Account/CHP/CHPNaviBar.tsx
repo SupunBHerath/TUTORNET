@@ -27,7 +27,7 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
+
 
 export default function CHPNaviBar(props: Props) {
   const { window } = props;
@@ -44,15 +44,7 @@ export default function CHPNaviBar(props: Props) {
       </Typography>
       <Divider />
       <List className='justify-content-center '>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-    
-
+       
       </List>
     </Box>
   );
@@ -86,16 +78,21 @@ export default function CHPNaviBar(props: Props) {
           <Typography
             variant="h5"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'block', sm: 'block' } }}
+            sx={{  display: { xs: 'block', sm: 'block' } }}
             className='logo'
           >
             TUTOR<span style={{ color: Color.SecondaryColor}}>NET</span>
+           
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }} className="NaviBarLink" >
+          <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1}} className="NaviBarLink  " >
             <Link to="/"> Home</Link>
             <Link to="/landing"> Landing</Link>
             <Link to="sudent"> Sudent</Link>
             <Link to="admin"> Admin</Link>
+
+          </Box>
+          <Box sx={{ display: { xs: 'none', sm: 'block' }  }} className="NaviBarLink" >
+          
             <button className='btn  mx-2 '  style={{backgroundColor:Color.SecondaryColor,color:'white'} } onClick={registerBtnClick}>Register</button>
             <button className='btn ' style={{color:Color.SecondaryColor,borderStyle:'solid' ,borderColor:'white'}} onClick={loginBtn}> Login</button>
 
@@ -119,7 +116,7 @@ export default function CHPNaviBar(props: Props) {
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ p: 3 }} className=' w-100 '>
+      <Box component="main" sx={{ p: 0 }} className=' w-100 '>
         <Toolbar />
         <Typography >
         {/* <SideShow /> */}
