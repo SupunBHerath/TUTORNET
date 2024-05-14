@@ -11,7 +11,6 @@ const PaymentManage = () => {
     <div>
       <Sidebar/>
       <div className="UserManage" >
-      
       <br /><br />
           <PaymentTable/>
       </div>

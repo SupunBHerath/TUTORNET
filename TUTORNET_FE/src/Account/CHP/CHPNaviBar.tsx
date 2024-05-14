@@ -16,6 +16,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './CHP.css'
 import  {Color} from '../../Components/CSS/CSS'
 import { Link, useNavigate } from 'react-router-dom';
+import Register from '../../Components/Modal/Register';
+import LoginForm from '../../Components/Modal/LoginForm';
+import RegisterFormTeacher from '../../Components/Modal/RegisterFormTeacher';
 
 
 
@@ -91,10 +94,16 @@ export default function CHPNaviBar(props: Props) {
             <Link to="admin"> Admin</Link>
 
           </Box>
-          <Box sx={{ display: { xs: 'none', sm: 'block' }  }} className="NaviBarLink" >
-          
-            <button className='btn  mx-2 '  style={{backgroundColor:Color.SecondaryColor,color:'white'} } onClick={registerBtnClick}>Register</button>
-            <button className='btn ' style={{color:Color.SecondaryColor,borderStyle:'solid' ,borderColor:'white'}} onClick={loginBtn}> Login</button>
+          <Box sx={{ display: { xs: 'none', sm: 'block' ,} }} className="NaviBarLink d-flex " >
+            <div className="btn">
+            <LoginForm/>
+            </div>
+            <div className="btn">
+            <Register/>
+         
+            </div>
+           
+            {/* <button className='btn ' style={{color:Color.SecondaryColor,borderStyle:'solid' ,borderColor:'white'}} onClick={loginBtn}> Login</button> */}
 
           </Box>
         </Toolbar>

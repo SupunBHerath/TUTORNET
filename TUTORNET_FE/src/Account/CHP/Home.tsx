@@ -44,7 +44,7 @@ const Home = () => {
         <div className=''>
             <CHPNaviBar />
             <div className="container-fluid  ">
-                <div className="headerSesion bg-dark w-100 text-center  " style={{ height: "100vh", backgroundImage: `url(${HederImg1})` }}>
+                <div className="headerSesion bg-dark w-100 text-center  " style={{ height: "100vh", backgroundImage: `url(${HederImg1})` }} data-aos="zoom-in-down">
                     <div className="sapces h-25"></div>
                     <div className="header-text">
                         <h1 className="display-1 p-4" style={{ fontFamily: Font.PrimaryFont, color: "white" }}> Welcome to TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span></h1>
