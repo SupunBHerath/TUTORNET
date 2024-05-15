@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, TextField, MenuItem } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, TextField, MenuItem, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
@@ -10,7 +10,8 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import AddAds from '../AddAds/AddAds';
-
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 // Define the user type
 type Ad = {
     id: number;
@@ -41,6 +42,11 @@ export default function AdsTable() {
     const [ads, setAds] = useState<Ad[]>(rows);
     const [filteredAds, setFilteredAds] = useState<Ad[]>(ads);
     const [locationFilter, setLocationFilter] = useState<string>('');
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [id, setId] = React.useState('');
+    const [change, setChange] = React.useState(false);
+    const [iconColor, setIconColor] = useState('inherit');
 
     const handleLocationFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocationFilter(event.target.value);
@@ -58,15 +64,42 @@ export default function AdsTable() {
 
     const deleteAd = (id: string) => {
         const updatedAds = ads.filter(ad => ad._id !== id);
+        setId(id)
         setAds(updatedAds);
-        filterAds(locationFilter); // Reapply filters after deletion
+        filterAds(locationFilter);
+        setChange(true)
+        setIconColor('red');
+        // Reapply filters after deletion
+    };
+    const dontSaveChanges = () => {
+        window.location.reload();
+        // Reapply filters after deletion
     };
 
 
 
     const saveChanges = () => {
-        // Implement logic to save changes to the server or local storage
-        console.log('Changes saved:', ads);
+        fetch(`http://localhost:8080/ads/delete/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                    setSuccess(true)
+                    console.log('Advertisement deleted successfully');
+                } else {
+                    console.error('Failed to delete advertisement');
+                    setError(true)
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting advertisement:', error);
+                setError(true)
+
+            });
+
     };
 
     return (
@@ -89,11 +122,14 @@ export default function AdsTable() {
                     {/* Add more locations if needed */}
                 </TextField>
             </Box>
-            <Button variant="contained" onClick={saveChanges}>Save Changes</Button>
+
 
         </div>
-            <br />
-
+<br />
+            <div className="spacesDiv h-25 " style={{ minHeight: '70px' }}>
+                {success && <Alert severity="success">Advertisement deleted successfully</Alert>}
+                {error && <Alert severity="error">Failed to delete advertisement </Alert>}
+            </div>
 
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -103,19 +139,39 @@ export default function AdsTable() {
                             <TableCell>Ads Id</TableCell>
                             <TableCell>Location</TableCell>
                             <TableCell>Day</TableCell>
-                            <TableCell>Delete</TableCell> {/* New column for delete button */}
+                            <TableCell>Delete
+                            </TableCell> {/* New column for delete button */}
+                            <TableCell >              
+                                   <Button
+                                variant="contained"
+                                onClick={saveChanges}
+                                disabled={!change}
+                                startIcon= {<DoneAllIcon/>}
+                                >
+                               
+                                </Button>
+                            </TableCell> 
+                            <TableCell >              
+                                   <Button
+                                variant="contained"
+                                onClick={dontSaveChanges}
+                                disabled={!change}
+                                startIcon= {<HighlightOffIcon/>}>
+                             
+                                </Button>
+                            </TableCell> 
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {filteredAds.map((row, index) => (
-                       
+
                             <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>{row._id}</TableCell>
                                 <TableCell>{row.location}</TableCell>
                                 <TableCell>{row.uploadedDay.split("T")[0]}</TableCell>
                                 <TableCell>
-                                    <IconButton onClick={() => deleteAd(row._id)} aria-label="delete">
+                                    <IconButton onClick={() => deleteAd(row._id)} aria-label="delete" style={{ color: iconColor }}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </TableCell>

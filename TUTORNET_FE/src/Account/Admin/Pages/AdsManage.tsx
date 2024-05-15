@@ -42,7 +42,7 @@ const AdsManage: React.FC = () => {
           <HeaderCard icon={search} title="Searcher" count={rows.filter(ad => ad.location === 'Search Page').length} />
         </div>
         <br /><br />
-        <div className="container">
+        <div className="container " style={{maxWidth:'1200px'}}>
           <AdsTable />
         </div>
       </div>

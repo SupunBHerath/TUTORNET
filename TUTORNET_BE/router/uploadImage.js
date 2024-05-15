@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const Ads = require('../modules/ads.js');
 const router = express.Router();
+const fs = require('fs');
 
 // Define storage for the uploaded images
 const storage = multer.diskStorage({
@@ -51,5 +52,29 @@ router.route('/all').get((req, res) => {
     });
 })
 
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const adId = req.params.id;
+        const ad = await Ads.findById(adId);
+        
+        if (!ad) {
+            return res.status(404).send('Advertisement not found.');
+        }
+
+        // Delete the image file associated with the advertisement
+        if (fs.existsSync(ad.image)) {
+            fs.unlinkSync(ad.image);
+        }
+
+        // Delete the ad from the database
+        await ad.deleteOne();
+
+        // Respond with a success message
+        res.send('Advertisement deleted successfully.');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 module.exports = router;
