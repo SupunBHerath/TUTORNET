@@ -14,14 +14,11 @@ const studentSchema = new Schema({
         type:String,
         required:true
     },
-    grade:{
+    role:{
         type:String,
         required:true
     },
-    subject : {
-        type:String,
-        required:true
-    }
+  
 });
 
 const Student = mongoose.model('StudentDetails',studentSchema);

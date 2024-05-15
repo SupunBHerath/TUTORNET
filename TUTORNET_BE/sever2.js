@@ -7,7 +7,8 @@ const dotenv = require('dotenv');
 require("dotenv").config();
 const app = express();
 const router = require('./router/router')
-const teacher = require('./router/teacherRouter')
+const teacher = require('./router/teacherRouter');
+const Student = require('./router/student');
 
 
 
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 /** api routers  */
 app.use('/api',router)
 app.use('/teacher',teacher)
+app.use('/student',Student)
 
 
 /** start server only when we have valid connection */

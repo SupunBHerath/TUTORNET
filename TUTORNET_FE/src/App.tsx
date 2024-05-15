@@ -20,8 +20,6 @@ const App = () => {
   axios.defaults.baseURL ='http://localhost:8080'
   return (
     <div>
-      <CHPNaviBar/>
-     
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login/>} />

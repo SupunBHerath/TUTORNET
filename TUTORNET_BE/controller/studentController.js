@@ -1,4 +1,4 @@
-const Teacher = require('../modules/teacher.js');
+const Student = require('../modules/student.js');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
@@ -8,15 +8,15 @@ dotenv.config();
 
 module.exports.register = async (req, res) => {
     try {
-        const { username, email, password, district, nickname, subject } = req.body;
+        const { username, email, password} = req.body;
 
         // Check for missing fields
-        if (!username || !email || !password || !district || !nickname || !subject) {
+        if (!username || !email || !password ) {
             return res.status(400).send({ error: "All fields are required." });
         }
 
         // Check for existing email
-        const existingUser = await Teacher.findOne({ email });
+        const existingUser = await Student.findOne({ email });
         if (existingUser) {
             return res.status(400).send({ error: "Please use a unique email." });
         }
@@ -25,14 +25,11 @@ module.exports.register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new user
-        const user = new Teacher({
+        const user = new Student({
             name: username,
-            nickname,
             email,
             password: hashedPassword,
-            district,
-            subject,
-            role:'Teacher'
+            role:'Student'
         });
 
         // Save the user to the database

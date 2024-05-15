@@ -7,32 +7,17 @@ import { Color, Font } from '../CSS/CSS';
 
 export default function RegistrationStudent(prop: any) {
   const navigate = useNavigate();
-  const [selectedDistrict, setSelectedDistrict] = useState('');
   const [nameError, setNameError] = useState(false);
-  const [nicknameError, setNickNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [subjectError, setSubjectError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [cpasswordError, setCPasswordError] = useState(false);
-  ; // State to hold the selected district value
 
-  const handleDistrictChange = (event: React.ChangeEvent<{}>, newValue: string | null) => {
-    if (newValue !== null) {
-      setSelectedDistrict(newValue)
-      setFormData(prevState => ({
-        ...prevState,
-        district: newValue
-      }));
-    }
-  };
+  
   const [formData, setFormData] = useState({
 
     username: '',
     email: '',
     password: '',
-    nickname: '',
-    subject: '',
-    district: '',
 
   });
 
@@ -57,15 +42,7 @@ export default function RegistrationStudent(prop: any) {
     }
   };
 
-  const handleNickNameChange = (e: any) => {
-    handleInputChange(e)
-    if (e.target.validity.valid) {
-      setNickNameError(false);
-    } else {
-      setNickNameError(true);
-    }
-  };
-
+ 
   const handleEmailChange = (e: any) => {
     handleInputChange(e)
     if (e.target.validity.valid) {
@@ -74,14 +51,7 @@ export default function RegistrationStudent(prop: any) {
       setEmailError(true);
     }
   };
-  const handleSubjectChange = (e: any) => {
-    handleInputChange(e)
-    if (e.target.validity.valid) {
-      setSubjectError(false);
-    } else {
-      setSubjectError(true);
-    }
-  };
+
   const handlePasswordChange = (e: any) => {
     handleInputChange(e)
     if (e.target.validity.valid) {
@@ -188,28 +158,8 @@ export default function RegistrationStudent(prop: any) {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
-              <Autocomplete
-                freeSolo
-                id="free-solo-2-demo"
-                disableClearable
-                options={district.map((option) => option.title)}
-                value={selectedDistrict} // Set the value prop to the selectedDistrict state
-                onChange={handleDistrictChange} // Call handleInputChange when a value is selected
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="District"
-                    name="district"
-                    required
-                    InputProps={{
-                      ...params.InputProps,
-                      type: 'search',
-                    }}
-                  />
-                )}
-              />
-            </Grid>
+     
+ 
             <Grid item xs={12}>
               <TextField
                 fullWidth

@@ -26,7 +26,7 @@ const Home = () => {
         })
     })
     const [rows, setRows] = useState([]);
-    fetch('http://localhost:8080/teacher/user')
+    fetch('http://localhost:8080/teacher/use1')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -42,8 +42,10 @@ const Home = () => {
         });
     return (
         <div className=''>
-            {/* <CHPNaviBar /> */}
+              <CHPNaviBar />
             <div className="container-fluid  ">
+          
+
                 <div className="headerSesion bg-dark w-100 text-center  " style={{ height: "100vh", backgroundImage: `url(${HederImg1})` }} data-aos="zoom-in-down">
                     <div className="sapces h-25"></div>
                     <div className="header-text">
@@ -98,12 +100,8 @@ const Home = () => {
 
                 <div className="text-center mt-5  " data-aos="zoom-in-down">
                     <h1 id='PT' className='display-2 '>[ User Comment ]</h1>
-                </div>
-                {/* <Slideshow/> */}
-
+                </div>       
                 <br /><br />
-
-
                 <div className="commentSession" data-aos="flip-right">
                     <div id="carouselExampleInterval" className="carousel slide  " data-bs-ride="carousel">
                         <div className="carousel-inner">

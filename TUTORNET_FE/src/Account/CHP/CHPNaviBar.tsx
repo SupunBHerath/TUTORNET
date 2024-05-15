@@ -65,9 +65,9 @@ export default function CHPNaviBar(props: Props) {
 
   return (
 
-    <Box sx={{ display: 'flex' }} className="CHPNaviBar "  >
+    <Box sx={{ display: 'flex' }} className="CHPNaviBar  "  >
       <CssBaseline />
-      <AppBar component="nav" className="CHPNaviBar "style={{ backgroundColor: Color.PrimaryColor }} >
+      <AppBar component="nav" className="CHPNaviBar  "style={{ backgroundColor: Color.PrimaryColor }} >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -128,7 +128,7 @@ export default function CHPNaviBar(props: Props) {
       <Box component="main" sx={{ p: 0 }} className=' w-100 '>
         <Toolbar />
         <Typography >
-        {/* <SideShow /> */}
+     
 
         </Typography>
       </Box>
