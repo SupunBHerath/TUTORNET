@@ -14,6 +14,7 @@ import TeacherRegister from './Pages/TeacherRegister';
 import StudentRegister from './Pages/StudentRegister';
 import Login from './Pages/Login';
 import CHPNaviBar from './Account/CHP/CHPNaviBar';
+import TecherHome from './Account/Teacher/Pages/TecherHome';
 
 
 const App = () => {
@@ -31,8 +32,11 @@ const App = () => {
         {/* ----------student  route -------------------------*/}
         <Route path="/student" element={<StudentHome />} />
 
+        {/* ----------teacher  route -------------------------*/}
+        <Route path="/teacher" element={<TecherHome />} />
+
         {/* ----------admin  route -------------------------*/}
-     
+        
         <Route path="admin" element={<ADashboard />} />
         <Route path="admin/user" element={<UserManage />} />
         <Route path="admin/payment" element={<PaymentManage />} />
