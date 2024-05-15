@@ -10,7 +10,7 @@ export const Feedback = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="container-fluid ">
+      <div className="container">
         <div
           className="row align-items-center rounded-3  p-3 shadow-lg "
           data-aos="fade-in"

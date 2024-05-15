@@ -1,60 +1,70 @@
-const UserModel = require('../modules/user.js');
+const Teacher = require('../modules/teacher.js');
+const Student = require('../modules/student.js');
+const Admin = require('../modules/admin.js');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 // const otpGenerator = require('otp-generator');
 
 /** middleware for verify user */
+
 module.exports.verifyUser = async (req, res, next) => {
     try {
+        const { email } = req.method === "GET" ? req.query : req.body;
 
-        const { username } = req.method == "GET" ? req.query : req.body;
+        // Check the user existence in both Teacher and Student collections
+        let teacherExist = await Teacher.findOne({ email });
+        let studentExist = await Student.findOne({ email });
+        let adminExist = await Admin.findOne({ email });
 
-        // check the user existance
-        let exist = await UserModel.findOne({ username });
-        if (!exist) return res.status(404).send({ error: "Can't find User!" });
-        next();
-
-    } catch (error) {
-        return res.status(404).send({ error: "Authentication Error" });
-    }
-}
-
-
-
-module.exports.register = async (req, res) => {
-    try {
-        const { name, nickname, email, subject,district } = req.body;
-
-        // Check for existing email
-        const existingUser = await UserModel.findOne({ email });
-        if (existingUser) {
-            return res.status(400).send({ error: "Please use a unique email." });
+        if (!teacherExist && !studentExist && !adminExist) {
+            return res.status(404).send({ error: "Can't find User!" });
         }
 
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
+        next(); // Proceed to the next middleware if user exists
 
-        // Create a new user
-        const user = new UserModel({
-            name,
-            nickname,
-            email,
-            password: hashedPassword,
-            district,
-            subject
-        });
-
-        // Save the user to the database
-        await user.save();
-
-        // Send success response
-        return res.status(201).send({ msg: "User registered successfully." });
     } catch (error) {
-        // Handle errors
-        return res.status(500).send({ error: "Internal server error." });
+        console.error(error);
+        return res.status(500).send({ error: "Authentication Error" }); // Handle other errors with a 500 status code
     }
 };
+
+
+
+
+// module.exports.register = async (req, res) => {
+//     try {
+//         const { name, nickname, email, subject, district } = req.body;
+
+//         // Check for existing email
+//         const existingUser = await UserModel.findOne({ email });
+//         if (existingUser) {
+//             return res.status(400).send({ error: "Please use a unique email." });
+//         }
+
+//         // Hash the password
+//         const hashedPassword = await bcrypt.hash(password, 10);
+
+//         // Create a new user
+//         const user = new UserModel({
+//             name,
+//             nickname,
+//             email,
+//             password: hashedPassword,
+//             district,
+//             subject
+//         });
+
+//         // Save the user to the database
+//         await user.save();
+
+//         // Send success response
+//         return res.status(201).send({ msg: "User registered successfully." });
+//     } catch (error) {
+//         // Handle errors
+//         return res.status(500).send({ error: "Internal server error." });
+//     }
+// };
 
 
 /** POST: http://localhost:8080/api/login 
@@ -68,7 +78,19 @@ module.exports.login = async (req, res) => {
 
     try {
         // Find the user by email
-        const user = await UserModel.findOne({ email });
+        let user;
+        let userType;
+        user = await Teacher.findOne({ email });
+        userType = 'teacher';
+        if (!user) {
+            user = await Student.findOne({ email });
+            userType = 'student';
+        }
+        if (!user) {
+            user = await Admin.findOne({ email });
+            userType = 'admin';
+        }
+
         if (!user) {
             return res.status(404).send({ error: "User not found." });
         }
@@ -82,22 +104,24 @@ module.exports.login = async (req, res) => {
         // Create JWT token
         const token = jwt.sign({
             userId: user._id,
-            username: user.email
+            username: user.email,
+            userType
         }, process.env.JWT_SECRET || 'ssgdmmsjmjfjsmgfh,jsfv,', { expiresIn: "24h" });
 
         // Send success response with token and username
         return res.status(200).send({
-            msg: "Login successful.",
-            username: user.name,
+            ok: "Login successful.",
+            username: user.name || user.email, // If name doesn't exist, fall back to email
+            role: user.role || userType, // Use user.role if available, otherwise use userType
+            id: user._id,
             token
         });
     } catch (error) {
-        // Handle errors
+        // Handle specific errors
         console.error(error);
         return res.status(500).send({ error: "Internal server error." });
     }
 };
-
 
 
 /** GET: http://localhost:8080/api/user/example@gmail.com */
@@ -105,23 +129,23 @@ module.exports.getUser = async (req, res) => {
     const { email } = req.params; // Use req.query for query parameters
     console.log(req.params);
     try {
-      if (!email) return res.status(400).send({ error: "Invalid email." });
- 
-      const user = await UserModel.findOne({ email }); // Use await to wait for the result
-      if (!user) return res.status(404).send({ error: "User not found." });
- 
-      return res.status(200).send(user);
+        if (!email) return res.status(400).send({ error: "Invalid email." });
+
+        const user = await UserModel.findOne({ email }); // Use await to wait for the result
+        if (!user) return res.status(404).send({ error: "User not found." });
+
+        return res.status(200).send(user);
     } catch (error) {
-     console.error(error); // Log the error for debugging
-     return res.status(500).send({ error: "Internal server error." });
+        console.error(error); // Log the error for debugging
+        return res.status(500).send({ error: "Internal server error." });
     }
- };
+};
 
 
 
- 
 
- module.exports.getUserById = async (req, res) => {
+
+module.exports.getUserById = async (req, res) => {
     const { id } = req.params; // Assuming the parameter is named 'id' in the URL
     if (!id) return res.status(400).send({ error: "Invalid user ID." });
 

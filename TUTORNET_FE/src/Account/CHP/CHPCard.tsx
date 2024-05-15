@@ -17,6 +17,7 @@ export default function CHPCard(prop: any) {
           sx={{ height: 270 }}
           image={prop.image}
           title="green iguana"
+          style={{backgroundPosition:'top'}}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div" className='text-center '>
