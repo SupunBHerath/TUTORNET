@@ -10,10 +10,13 @@ import UserManage from './Account/Admin/Pages/UserManage';
 import Landing from './Account/Landing_page/Landing';
 import PaymentManage from './Account/Admin/Pages/PaymentManage';
 import axios from 'axios';
+
 import TeacherRegister from './Pages/TeacherRegister';
 import StudentRegister from './Pages/StudentRegister';
 import Login from './Pages/Login';
 import CHPNaviBar from './Account/CHP/CHPNaviBar';
+import TecherHome from './Account/Teacher/Pages/TecherHome';
+
 
 
 const App = () => {
@@ -27,6 +30,9 @@ const App = () => {
 
         {/* ----------student  route -------------------------*/}
         <Route path="/student" element={<StudentHome />} />
+
+        {/* ----------teacher  route -------------------------*/}
+        <Route path="/teacher" element={<TecherHome />} />
 
         {/* ----------admin  route -------------------------*/}
      
