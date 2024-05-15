@@ -45,7 +45,7 @@ export default function LinkList() {
         <ListSubheader component="div" id="nested-list-subheader">
         </ListSubheader>
       }
-    >
+    ><br />
       <ListItemButton className='active' onClick={dashboard} >
         <ListItemIcon>
           <Dashboard />
@@ -53,15 +53,15 @@ export default function LinkList() {
         <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Dashboard</span>} />
       </ListItemButton>
       <br />
-      <ListItemButton   onClick={user}>
+      <br />
+      <ListItemButton onClick={user}>
         <ListItemIcon>
-          <ManageAccountsIcon/>
+          <ManageAccountsIcon />
         </ListItemIcon>
         <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Users</span>} />
       </ListItemButton>
-   
 
-   
+      <br />
       <br />
       <ListItemButton onClick={payment}>
         <ListItemIcon>
@@ -72,7 +72,7 @@ export default function LinkList() {
         </ListItemIcon>
         <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Payment</span>} />
       </ListItemButton>
-      <br />
+      {/* <br />
       <ListItemButton>
         <ListItemIcon>
           <Badge badgeContent={4} color="error">
@@ -80,8 +80,9 @@ export default function LinkList() {
           </Badge>
         </ListItemIcon>
         <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Inbox</span>} />
-      </ListItemButton>
+      </ListItemButton> */}
 
+      <br />
       <br />
       <ListItemButton onClick={AdsManage}>
         <ListItemIcon>
@@ -90,6 +91,7 @@ export default function LinkList() {
         <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>ADS Mange</span>} />
       </ListItemButton>
       <br />
+      <br />
 
       <ListItemButton>
         <ListItemIcon>
@@ -97,6 +99,7 @@ export default function LinkList() {
         </ListItemIcon>
         <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Notification</span>} />
       </ListItemButton>
+      <br />
       <br />
 
       <Link to='/' >  <ListItemButton>
