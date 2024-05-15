@@ -90,8 +90,8 @@ export default function CHPNaviBar(props: Props) {
           <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1}} className="NaviBarLink  " >
             <Link to="/"> Home</Link>
             <Link to="/landing"> Landing</Link>
-            <Link to="sudent"> Sudent</Link>
-            <Link to="admin"> Admin</Link>
+            <Link to="/sudent"> Sudent</Link>
+            <Link to="/admin"> Admin</Link>
 
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' ,} }} className="NaviBarLink d-flex " >

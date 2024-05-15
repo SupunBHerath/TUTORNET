@@ -29,6 +29,9 @@ export default function LinkList() {
   const dashboard = () => {
     navigate('/admin');
   };
+  const AdsManage = () => {
+    navigate('/admin/ads');
+  };
   const handleClick = () => {
     setOpen(!open);
   };
@@ -80,7 +83,7 @@ export default function LinkList() {
       </ListItemButton>
 
       <br />
-      <ListItemButton>
+      <ListItemButton onClick={AdsManage}>
         <ListItemIcon>
           <AddBoxIcon />
         </ListItemIcon>

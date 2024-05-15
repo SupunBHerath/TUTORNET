@@ -14,6 +14,7 @@ import TeacherRegister from './Pages/TeacherRegister';
 import StudentRegister from './Pages/StudentRegister';
 import Login from './Pages/Login';
 import CHPNaviBar from './Account/CHP/CHPNaviBar';
+import AdsManage from './Account/Admin/Pages/AdsManage';
 
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="admin" element={<ADashboard />} />
         <Route path="admin/user" element={<UserManage />} />
         <Route path="admin/payment" element={<PaymentManage />} />
+        <Route path="admin/ads" element={<AdsManage />} />
       </Routes>
            {/* <Home/> */}
 
