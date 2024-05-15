@@ -4,7 +4,6 @@ import StudentHome from './Account/Student/StudentHome';
 // import Signup from './Login_Signup/Signup';
 import Check from './Account/Admin/Components/Sidebar/Sidebar';
 import Home from './Account/CHP/Home';
-import RegistrationForm from './Components/Registration Form/RegistrationForm';
 import LoginForm from './Components/Login Form/LoginForm';
 import ADashboard from './Account/Admin/ADashboard';
 import UserManage from './Account/Admin/Pages/UserManage';
@@ -24,7 +23,6 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegistrationForm />} />
         <Route path="/Landing" element={<Landing />} />
 
         {/* ----------student  route -------------------------*/}
