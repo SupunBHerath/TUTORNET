@@ -10,6 +10,7 @@ import RegisterForm from '../../../../Components/Registration Form/RegistrationS
 
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import CloseIcon from '@mui/icons-material/Close';
+import AddAdsForm from './AddAdsForm';
 
 
 const style = {
@@ -61,7 +62,7 @@ export default function AddAds() {
                             startIcon={<CloseIcon />}>
                                 
                         </Button>
-                   
+                        <AddAdsForm/>
                     </Box>
                 </Fade>
             </Modal>
