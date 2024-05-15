@@ -17,8 +17,8 @@ import './CHP.css'
 import  {Color} from '../../Components/CSS/CSS'
 import { Link, useNavigate } from 'react-router-dom';
 import Register from '../../Components/Modal/Register';
-import LoginForm from '../../Components/Modal/LoginForm';
-import RegisterFormTeacher from '../../Components/Modal/RegisterFormTeacher';
+import LoginForm from '../../Components/Modal/LoginModal';
+
 
 
 

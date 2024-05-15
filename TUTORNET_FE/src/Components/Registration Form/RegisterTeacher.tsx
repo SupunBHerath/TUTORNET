@@ -283,7 +283,7 @@ export default function RegisteredForm(prop: any) {
               <Grid container justifyContent="flex-end">
               <Grid item>
                 <br />
-                Already have an account?  <Link to="/login" >Sign in </Link>
+                Already have an account?  <Link to="/login" >Login </Link>
               </Grid>
             </Grid>
             </Grid>

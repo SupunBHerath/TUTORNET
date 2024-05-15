@@ -19,7 +19,7 @@ export const CHPAboutUS = () => {
           >
             <div className="youtube-iframe embed-responsive embed-responsive-1by1 ">
               <iframe
-                src="https://www.youtube.com/embed/1uUKMnj5a3I?rel=0&autoplay=1&controls=0&disablekb=1&iv_load_policy=3&fs=0"
+                src=""
                 allowFullScreen
               />
             </div>

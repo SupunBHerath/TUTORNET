@@ -7,8 +7,7 @@ import { Color, Font } from '../CSS/CSS';
 import { IconButton } from '@mui/material';
 import teacher from '../../../public/Icon/teacher.png'
 import student from '../../../public/Icon/student.png'
-import RegisterFormTeacher from './RegisterFormTeacher';
-import RegisterFormStudent from './RegisterFormStudent';
+import { useNavigate } from 'react-router-dom';
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -26,6 +25,16 @@ export default function Register() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
+
+  const teacherPath = () => {
+    handleClose();
+    navigate('/reg/teacher');
+  };
+  const studentPath = () => {
+    handleClose();
+    navigate('/reg/student');
+  };
 
   return (
     <div>
@@ -42,11 +51,15 @@ export default function Register() {
           </Typography>
           <Typography id="modal-modal-description " className='text-center d-flex justify-content-evenly  ' sx={{ mt: 2 }}>
             <div className="icon">
-              <RegisterFormTeacher function={handleOpen} />
+              <IconButton onClick={teacherPath}>
+                <img src={teacher} alt="" style={{ width: '100px', height: 'auto' }} />
+              </IconButton>
 
             </div>
             <div className="icon">
-              <RegisterFormStudent />
+              <IconButton onClick={studentPath}>
+                <img src={student} alt="" style={{ width: '100px', height: 'auto' }} />
+              </IconButton>
             </div>
 
           </Typography>

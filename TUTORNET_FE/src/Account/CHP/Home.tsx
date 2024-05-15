@@ -42,7 +42,7 @@ const Home = () => {
         });
     return (
         <div className=''>
-            <CHPNaviBar />
+            {/* <CHPNaviBar /> */}
             <div className="container-fluid  ">
                 <div className="headerSesion bg-dark w-100 text-center  " style={{ height: "100vh", backgroundImage: `url(${HederImg1})` }} data-aos="zoom-in-down">
                     <div className="sapces h-25"></div>
