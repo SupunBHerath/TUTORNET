@@ -9,6 +9,8 @@ const app = express();
 const router = require('./router/router')
 const teacher = require('./router/teacherRouter');
 const Student = require('./router/student');
+const admin = require('./router/admin.js');
+
 
 
 
@@ -33,6 +35,7 @@ app.get('/', (req, res) => {
 app.use('/api',router)
 app.use('/teacher',teacher)
 app.use('/student',Student)
+app.use('/admin',admin)
 
 
 /** start server only when we have valid connection */

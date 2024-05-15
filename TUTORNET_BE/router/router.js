@@ -3,7 +3,6 @@ const router = express.Router();
 const controller = require('../controller/appControllers.js');
 
 // POST Methods
-router.post('/register', controller.register); // register user
 router.post('/authenticate', controller.verifyUser, (req, res) => res.end()); // authenticate user
 router.post('/login', controller.verifyUser, controller.login); // login in app
 

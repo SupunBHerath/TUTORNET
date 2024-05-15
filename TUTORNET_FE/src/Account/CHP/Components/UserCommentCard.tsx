@@ -15,7 +15,7 @@ import RatingSize from '../../../Components/Rating/Raating';
           <CardMedia
             component="img"
             height="150px"
-            image="../../../../public/i.jpg"
+            image={prop.img}
             alt="green iguana"
             style={{borderRadius:"100%",width:"150px"}}
           />

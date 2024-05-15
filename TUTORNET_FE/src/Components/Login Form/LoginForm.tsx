@@ -43,6 +43,7 @@ export default function LoginForm() {
   const [error, setError] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -67,18 +68,44 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-        navigate('/dashboard');
+
+        setSuccess(true);
+        setTimeout(() => {
+          // Access the role property from the data object
+          const userRole = data.role;
+          console.log(userRole);
+          // Perform actions based on the user's role
+          switch (userRole) {
+              case 'Teacher':
+                navigate('/teacher');
+                  break;
+              case 'Student':
+                navigate('/student');
+                  break;
+              case 'Admin':
+                navigate('/admin');
+                  break;
+              default:
+                navigate('/');
+                  break;
+          }
+
+        
+      }, 1000);
       } else {
+
         setError(data.error); // Set the error message
       }
     } catch (error) {
       console.error('Error:', error);
+      setError("connection error");
     }
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setEmailError(false);
+    setSuccess(false)
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +116,8 @@ export default function LoginForm() {
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
+        {success && <Alert severity="success">Login Successful</Alert>}
+
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
-import { TextField, Button, Container, Grid, Typography } from '@mui/material';
+import { TextField, Button, Container, Grid, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../CSS/CSS';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function RegistrationStudent(prop: any) {
   const navigate = useNavigate();
@@ -11,8 +12,10 @@ export default function RegistrationStudent(prop: any) {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [cpasswordError, setCPasswordError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState(false);
 
-  
+
   const [formData, setFormData] = useState({
 
     username: '',
@@ -42,7 +45,7 @@ export default function RegistrationStudent(prop: any) {
     }
   };
 
- 
+
   const handleEmailChange = (e: any) => {
     handleInputChange(e)
     if (e.target.validity.valid) {
@@ -53,6 +56,8 @@ export default function RegistrationStudent(prop: any) {
   };
 
   const handlePasswordChange = (e: any) => {
+
+
     handleInputChange(e)
     if (e.target.validity.valid) {
       setPasswordError(false);
@@ -78,24 +83,22 @@ export default function RegistrationStudent(prop: any) {
     event.preventDefault();
     console.log(formData)
     try {
-      const response = await axios.post('http://localhost:8080/teacher/register', { ...formData });
+      const response = await axios.post('http://localhost:8080/student/register', { ...formData });
       if (response.status === 200) {
-        navigate('/admin/user');
-        { prop.function() }
-        console.log('Registration successful');
-        alert('Registration successful');
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+
       } else if (response.status === 400) {
         setEmailError(true)
       } else {
-        // alert('Registration failed');
         setEmailError(true)
         console.log(response.data);
       }
     } catch (error) {
-      // console.error('Error during registration:', error);
       console.log(error)
-      alert('error');
-      setEmailError(true)
+      setFail(true)
 
 
     }
@@ -103,7 +106,10 @@ export default function RegistrationStudent(prop: any) {
 
   return (
     <>
+      <ToastContainer />
       <Container maxWidth="xs" className=' border  p-3 rounded-4 '>
+        {success && <Alert severity="success">Registration successful</Alert>} {/* Render error if exists */}
+        {fail && <Alert severity="error">Registration fail</Alert>} {/* Render error if exists */}
         <Typography
           variant="h4"
           noWrap
@@ -143,7 +149,7 @@ export default function RegistrationStudent(prop: any) {
                 }}
               />
             </Grid>
-       
+
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -158,8 +164,8 @@ export default function RegistrationStudent(prop: any) {
                 }}
               />
             </Grid>
-     
- 
+
+
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -196,11 +202,11 @@ export default function RegistrationStudent(prop: any) {
                 Register
               </Button>
               <Grid container justifyContent="flex-end">
-              <Grid item>
-                <br />
-                Already have an account?  <Link to="/login" >Sign in </Link>
+                <Grid item>
+                  <br />
+                  Already have an account?  <Link to="/login" >Sign in </Link>
+                </Grid>
               </Grid>
-            </Grid>
             </Grid>
           </Grid>
         </form>
