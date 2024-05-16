@@ -108,4 +108,45 @@ text-decoration-color: goldenrod;
   .slide:not(.active) {
     transform: translateX(-100%);
   } */
+  /* CSS file */
+  /* .carousel {
+    position: relative;
+  }
+  
+  .carousel-content {
+    display: flex;
+    overflow-x: hidden;
+  }
+  
+  .slide {
+    display: none;
+    flex: 0 0 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .slide.active {
+    display: flex;
+  }
+  
+  .prev,
+  .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1;
+  }
+  
+  .prev {
+    left: 10px;
+  }
+  
+  .next {
+    right: 10px;
+  } */
   

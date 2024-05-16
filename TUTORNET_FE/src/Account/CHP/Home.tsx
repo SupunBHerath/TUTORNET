@@ -24,6 +24,8 @@ import u2 from '../../../public/Users/u2.jpg'
 import u3 from '../../../public/Users/u3.jpg'
 import u4 from '../../../public/Users/u4.jpg'
 import u5 from '../../../public/Users/u5.jpg'
+import Ads from './Components/AdsSession'
+import { AdsCarousel } from './Components/AdsCarousel'
 
 // CHP  common home page 
 
@@ -105,6 +107,8 @@ const Home = () => {
                     <CHPCard image={t4} name=" Herath Abeysinghe " description="Maths Lecturer in Sri Lanka" rating={4} />
                 </div>
 
+                <div className="space" style={{ height: "150px" }}></div>
+                <AdsCarousel/>
                 <div className="space" style={{ height: "150px" }}></div>
 
                 <div className="text-center mt-5  " data-aos="zoom-in-down">

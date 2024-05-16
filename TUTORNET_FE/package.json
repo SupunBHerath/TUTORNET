@@ -32,13 +32,17 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.22.3",
+    "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.8",
     "w3-css": "^4.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@types/react-swipeable-views": "^0.13.5",
+    "@types/react-swipeable-views-utils": "^0.13.7",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
