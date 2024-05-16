@@ -2,9 +2,11 @@ import React from 'react';
 import { Grid, Typography, Button, Avatar } from '@mui/material';
 import coverphoto from '../../../../public/Teacher/image_22690a2b8a.jpg';
 import ProfilePicture from '../../../../public/Teacher/WhatsApp Image 2024-03-23 at 10.01.09_126679a9.jpg';
+import ColorTabs from './Tabs/Tabs';
 
 const Profile: React.FC = () => {
   return (
+    <>
     <Grid container direction="column" alignItems="center" className='container'>
       {/* Cover Photo */}
       <Grid item xs={12} style={{ position: 'relative', width: '85%', marginTop: 40 }}>
@@ -34,8 +36,11 @@ const Profile: React.FC = () => {
       <Grid item xs={12} alignItems="center" style={{ textAlign: 'center', marginTop: 30, marginLeft: 130 }}>
         <Typography variant="h4">Dr. Amith Pussella</Typography>
         <Typography variant="subtitle1">(Physics Teacher)</Typography>
+        
       </Grid>
     </Grid>
+
+    </>
   );
 };
 
