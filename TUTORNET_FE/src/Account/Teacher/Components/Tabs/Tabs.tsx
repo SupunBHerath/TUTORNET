@@ -4,6 +4,9 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Post from '../../../../Components/Post/Post';
 import PostPage from '../Post/Postpage';
+import Introduction from '../Intro/Intro';
+import Tabs1 from './Tabs1';
+import Tabs2 from './Tabs2';
 
 export default function ColorTabs() {
     const [value, setValue] = React.useState('Post'); // Set default value to 'Post'
@@ -22,13 +25,14 @@ export default function ColorTabs() {
                 aria-label="secondary tabs example"
             >
                 <Tab value="Post" label="Post" />
+           
                 <Tab value="About" label="About" />
                 <Tab value="Results" label="Results" />
                 <Tab value="Time Tables" label="Time Tables" />
             </Tabs>
             {/* Render content based on selected tab */}
-            {value === 'Post' && <PostPage />}
-            {value === 'About' && <Post />}
+            {value === 'Post' && <Tabs1 />}
+            {value === 'About' && <Tabs2/>}
             {value === 'Results' && <Post />}
             {value === 'Time Tables' && <Post />}
         </Box>

@@ -15,8 +15,7 @@ const TecherHome = () => {
       <div className="container  mt-5" style={{ width: "1000px", justifyContent: "start" }}>
         <hr />
 
-        {/* <ColorTabs /> */}
-        <Introduction bio='h' livesIn='bjkjjjj' from='kkk' location='nnn' education='hbbjnb'/>
+         <ColorTabs /> 
       </div>
     </div>
   )
