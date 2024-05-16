@@ -1,0 +1,18 @@
+.tabs-container {
+    display: flex;
+    height: 100vh; /* Adjust as needed */
+}
+
+.intro-container {
+    max-width: 500px;
+    flex: 1;
+    padding: 20px;
+   /* Example background color */
+}
+
+.post-container {
+    width: 500px; /* Adjust width as needed */
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #ffffff; /* Example background color */
+}

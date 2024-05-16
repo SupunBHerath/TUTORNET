@@ -39,7 +39,7 @@ export default function Post(props:any) {
   };
   
   return (
-    <Card sx={{ maxWidth: 345 }} style={{margin:'20px auto' }}>
+    <Card sx={{ maxWidth: 345 }} style={{margin:' auto' }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blue[100] }} aria-label="recipe">
