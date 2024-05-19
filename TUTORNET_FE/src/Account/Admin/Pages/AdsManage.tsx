@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../Components/Sidebar/Sidebar';
 import HeaderCard from '../Components/Card/HeaderCard';
 import '../css/Admin.css';
 import landingIcon from '../../../../public/Icon/landing-page.png';
@@ -34,14 +33,13 @@ const AdsManage: React.FC = () => {
 
   return (
     <div>
-      <Sidebar />
       <div className="AdsManage">
         <div className="d-flex AdsCountCard justify-content-evenly ">
           <HeaderCard icon={landingIcon} title="Landing" count={rows.filter(ad => ad.location === 'Landing Page').length} />
           <HeaderCard icon={Wall} title="Wall" count={rows.filter(ad => ad.location === 'Wall Page').length} />
           <HeaderCard icon={search} title="Searcher" count={rows.filter(ad => ad.location === 'Search Page').length} />
         </div>
-        <br /><br />
+        <br />
         <div className="container " style={{maxWidth:'1200px'}}>
           <AdsTable />
         </div>

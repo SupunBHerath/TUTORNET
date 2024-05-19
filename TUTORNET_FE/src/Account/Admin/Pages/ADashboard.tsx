@@ -1,9 +1,8 @@
-import './css/Admin.css'
-import Sidebar from './Components/Sidebar/Sidebar'
-import HeaderCard from './Components/Card/HeaderCard'
-import teacherIcon from '../../../public/Icon/teacher.png'
-import studentIcon from '../../../public/Icon/students.png'
-import postIcon from '../../../public/Icon/social.png'
+import '../css/Admin.css'
+import HeaderCard from '../Components/Card/HeaderCard'
+import teacherIcon from '../../../../public/Icon/teacher.png'
+import studentIcon from '../../../../public/Icon/students.png'
+import postIcon from '../../../../public/Icon/social.png'
 import { useState } from 'react'
 
 const ADashboard = () => {
@@ -24,16 +23,11 @@ const ADashboard = () => {
   });
   return (
     <div className=''>
-      <Sidebar />
-      <div className="ADashboard" >
       <div className="d-flex justify-content-evenly " >
         <HeaderCard icon={teacherIcon} title="Teachers" count={rows.length} />
         <HeaderCard icon={studentIcon} title="Students" count="5000" />
         <HeaderCard icon={postIcon} title="Post" count="1500" />
       </div>
-
-      </div>
-
     </div>
   )
 }
