@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.14",
     "@mui/joy": "^5.0.0-beta.32",
-    "@mui/material": "^5.15.15",
+    "@mui/material": "^5.15.18",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@mui/x-tree-view": "^7.3.0",
     "@pdfme/common": "^4.0.1",
@@ -25,6 +25,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "formik": "^2.4.5",
+    "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "react": "^18.2.0",
@@ -34,7 +35,8 @@
     "react-router-dom": "^6.22.3",
     "react-toastify": "^10.0.5",
     "styled-components": "^6.1.8",
-    "w3-css": "^4.1.0"
+    "w3-css": "^4.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
