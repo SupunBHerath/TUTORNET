@@ -1,0 +1,7 @@
+.Filter{
+    width: 400px;
+    min-height: 100vh;
+    background-color: rgb(88, 86, 86);
+    box-shadow: 0 0 10px rgb(100, 98, 98);
+    position: fixed;
+}
