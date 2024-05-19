@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
-import { TextField, Button, Container, Grid, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { TextField, Button, Container, Grid, Typography, Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-
-export default function RegisteredForm(prop: any) {
+var count = 0;
+export default function RegisteredForm() {
     const navigate = useNavigate();
     const [nameError, setNameError] = useState(false);
     const [emailError, setEmailError] = useState(false);
-    const [showReEnterPassword, setShowReEnterPassword] = useState(false);
+    const [confPasswordError, setConfPasswordError] = useState(false);
     const [hide, setHide] = useState(true);
-    const [reEnteredPassword, setReEnteredPassword] = useState('');
+    const [confPassword, setConfPassword] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [fail, setFail] = useState(false);
+
 
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        password: '12345678',
+        password: 'admin',
     });
 
     const handleInputChange = (event: any) => {
@@ -29,169 +32,183 @@ export default function RegisteredForm(prop: any) {
     };
 
     const handleNameChange = (e: any) => {
-        handleInputChange(e)
-        if (e.target.validity.valid) {
-            setNameError(false);
-        } else {
-            setNameError(true);
-        }
+        handleInputChange(e);
+        setNameError(!e.target.validity.valid);
     };
 
     const handleEmailChange = (e: any) => {
-        handleInputChange(e)
-        if (e.target.validity.valid) {
-            setEmailError(false);
-        } else {
-            setEmailError(true);
+        handleInputChange(e);
+        setEmailError(!e.target.validity.valid);
+    };
+
+    const handleConfPasswordChange = (e: any) => {
+        setConfPassword(e.target.value);
+    };
+
+    const handleSubmitDetails = (e: any) => {
+        e.preventDefault();
+        if (!nameError && !emailError) {
+            setHide(false);
         }
     };
 
-    const handleReEnterPasswordChange = (e: any) => {
-        setReEnteredPassword(e.target.value);
-    };
+    const handleSubmitPassword = async (e: any) => {
+        e.preventDefault();
+        count++;
+        const email = "admin@gmail.com";
+        const password = confPassword;
+        if (count < 3) {
+            try {
+                const response = await fetch('http://localhost:8080/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
 
-    const registerAdmin = async (event: any) => {
-        event.preventDefault();
+                const data = await response.json();
 
-        try {
-            const response = await axios.post('http://localhost:8080/admin/register', { ...formData });
+                if (data.ok) {
+                    try {
+                        const response = await axios.post('http://localhost:8080/admin/register', { ...formData });
+                        if (response.status === 200) {
+                            setSuccess(true);
+                            setTimeout(() => {
+                                window.location.href
+                                navigate('/admin');
+                            }, 2000);
 
-            if (response.status === 200) {
-                navigate('/admin/user');
-                { prop.function() }
-                console.log('Registration successful');
-                alert('Registration successful');
-            } else if (response.status === 400) {
-                setEmailError(true);
-            } else {
-                setEmailError(true);
-                console.log(response.data);
+                        } else {
+                            console.log(response.data);
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        setFail(true)
+                    }
+                } else {
+                    setConfPasswordError(true)
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
             }
-        } catch (error) {
-            console.log(error);
-            alert('error');
-            setEmailError(true);
+        } else {
+            navigate('/');
         }
     }
 
-    const handleSubmit = () => {
-        setShowReEnterPassword(true)
-        setHide(false);
-    };
 
     return (
-        <>
-            <Container maxWidth="xs" className=' border  p-3 rounded-4 '>
-                <Typography
-                    variant="h4"
-                    noWrap
-                    component="div"
-                    sx={{ display: { xs: 'block', sm: 'block' } }}
-                    style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}  >
-                    TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
-
-                </Typography>
-                {hide ? (
+        <Container maxWidth="xs" className="border p-3 rounded-4">
+            {success && <Alert severity="success">Registration successful</Alert>} {/* Render error if exists */}
+            {fail && <Alert severity="error">Registration fail</Alert>} {/* Render error if exists */}
+            {confPasswordError && <Alert severity="error"> password Incorrect  *{count}/3</Alert>} {/* Render error if exists */}
+            <Typography
+                variant="h4"
+                component="div"
+                style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}
+            >
+                TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
+            </Typography>
+            {hide ? (
+                <>
                     <Typography
                         variant="h6"
-                        noWrap
                         component="div"
-                        sx={{ display: { xs: 'block', sm: 'block' } }}
-                        style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}  >
+                        style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}
+                    >
                         Admin's Register <span style={{ color: Color.SecondaryColor }}>Form</span>
-                    </Typography>
-                ) : (
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'block', sm: 'block' } }}
-                        style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}  >
-                        Enter <span style={{ color: 'red' }}>Your</span>  password
 
                     </Typography>
-                )}
-                <br />
-                <form onSubmit={handleSubmit}>
-                    <Grid container spacing={3}>
-                        {hide && (
-                            <>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        label="Name"
-                                        name="username"
-                                        value={formData.username}
-                                        required
-                                        onChange={handleNameChange}
-                                        error={nameError}
-                                        helperText={
-                                            nameError ? "Please enter your name (letters and spaces only)" : ""
-                                        }
-                                        inputProps={{
-                                            pattern: "[A-Za-z ]+",
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        label="Email*"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleEmailChange}
-                                        error={emailError}
-                                        helperText={emailError ? "Please enter a valid & unique email" : ""}
-                                        inputProps={{
-                                            type: "email",
-                                        }}
-                                    />
-                                </Grid>
-                            </>
-                        )}
-                        {showReEnterPassword && (
+
+                    <form onSubmit={handleSubmitDetails}>
+                        <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
-                                    label="Re-enter Password"
-                                    name="reEnteredPassword"
-                                    value={reEnteredPassword}
-                                    type="password"
-                                    onChange={handleReEnterPasswordChange}
+                                    label="Name"
+                                    name="username"
+                                    value={formData.username}
+                                    required
+                                    onChange={handleNameChange}
+                                    error={nameError}
+                                    helperText={
+                                        nameError ? "Please enter your name (letters and spaces only)" : ""
+                                    }
+                                    inputProps={{
+                                        pattern: "[A-Za-z ]+",
+                                    }}
                                 />
                             </Grid>
-                        )}
-                        <Grid item xs={12} style={{ display: 'block' }}>
-
-                            {hide ? (
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Email*"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleEmailChange}
+                                    error={emailError}
+                                    helperText={emailError ? "Please enter a valid & unique email" : ""}
+                                    inputProps={{
+                                        type: "email",
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
                                 <Button
-                                    id="registerButton"
                                     type="submit"
                                     variant="contained"
-                                    className='w-100'
+                                    fullWidth
                                     startIcon={<HowToRegIcon />}
                                     style={{ backgroundColor: Color.PrimaryColor, padding: '10px' }}
-
                                 >
                                     Register
                                 </Button>
-                            ) : (
+                            </Grid>
+                        </Grid>
+                    </form>
+                </>
+            ) : (
+                <>
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}
+                    >
+                        Re-enter <span style={{ color: 'red' }}>Your</span> password
+                    </Typography>
+                    <br />
+                    <form onSubmit={handleSubmitPassword}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Enter your Password"
+                                    name="confPassword"
+                                    value={confPassword}
+                                    type="password"
+                                    required
+                                    onChange={handleConfPasswordChange}
+                                    error={confPasswordError}
+                                    helperText={confPasswordError ? "Please enter your password" : ""}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
                                 <Button
-                                    id="registerButton"
                                     type="submit"
                                     variant="contained"
-                                    className='w-100'
+                                    fullWidth
                                     startIcon={<CheckIcon />}
                                     style={{ backgroundColor: Color.PrimaryColor, padding: '10px' }}
                                 >
                                     Confirm
                                 </Button>
-
-                            )}
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </form>
-            </Container>
-        </>
+                    </form>
+                </>
+            )}
+        </Container>
     );
 }

@@ -81,7 +81,7 @@ export default function RegistrationStudent(prop: any) {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    console.log(formData)
+  
     try {
       const response = await axios.post('http://localhost:8080/student/register', { ...formData });
       if (response.status === 200) {
