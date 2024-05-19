@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable'; // Import 'jspdf-autotable' to add the autoTable functionality
-import Logo from '../../../../../public/logo/Tutor logo _ t.png'
+import 'jspdf-autotable';
+import Logo from '../../../../../public/logo/Tutor logo _ t.png';
 import DownloadIcon from '@mui/icons-material/Download';
 import AddUser from '../Add User/AddUser';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { render } from 'react-dom';
+
 const style = {
   position: 'absolute' as 'absolute',
   top: '15%',
@@ -25,7 +25,6 @@ const style = {
   p: 3,
 };
 
-
 // Define the user type
 type User = {
   id: number;
@@ -34,35 +33,15 @@ type User = {
   day: string;
   location: string;
   payment: number;
+  paymentImage: string;
+  status: string;
 };
 
 // Sample data for the table
 const rows: User[] = [
-  { id: 1, name: 'John Doe', email: 'johndoe@example.com', day: '2024/06/13', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'supun', email: 'johndoe@example.com', day: '2024/06/12', location: 'student-1', payment: 1000 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-2', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-2', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-2', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-2', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  { id: 1, name: 'Bandara', email: 'johndoe@example.com', day: '2024/06/12', location: 'landing-1', payment: 1500 },
-  // Add more users here
+  { id: 1, name: 'John Doe', email: 'johndoe@example.com', day: '2024/06/13', location: 'landing-1', payment: 1500, paymentImage: '../../../../../public/Ads/ads2.jpg', status: 'Pending' },
+  // Add more sample data here
 ];
-
-// Extend the jsPDF interface to include the autoTable method
-interface jsPDFWithAutoTable extends jsPDF {
-  autoTable: (options: any) => jsPDF;
-}
 
 export default function PaymentTable() {
   const [filteredRows, setFilteredRows] = useState<User[]>(rows);
@@ -74,7 +53,7 @@ export default function PaymentTable() {
   };
 
   const locationBtn = () => {
-   return (
+    return (
       <FormControl fullWidth style={{width:'250px'}}>
         <InputLabel id="demo-simple-select-label">Landing</InputLabel>
         <Select
@@ -90,7 +69,7 @@ export default function PaymentTable() {
           <MenuItem value={'student-1'}>Student 1</MenuItem>
         </Select>
       </FormControl>)
-     }
+  }
 
   const BasicModal = () => {
     const [open, setOpen] = React.useState(false);
@@ -109,20 +88,15 @@ export default function PaymentTable() {
           <Box sx={style}>
 
             <Grid container spacing={3}>
-              {/* <Grid item xs={6}>
-                <Button onClick={() => handleFilter('all')} variant="outlined" startIcon={<FilterListIcon />} >All</Button>
-              </Grid> */}
               <Grid item xs={12}>
-              {locationBtn()}
+                {locationBtn()}
               </Grid>
-              {/* Add more filter buttons if needed */}
             </Grid>
           </Box>
         </Modal>
       </div>
     );
   }
-
 
   // Function to handle the delete action
   const handleDelete = (id: number) => {
@@ -132,23 +106,18 @@ export default function PaymentTable() {
 
   // Function to download the table as a PDF
   const downloadPdf = () => {
-    const doc = new jsPDF() as jsPDFWithAutoTable; // Cast jsPDF to jsPDFWithAutoTable to use autoTable
+    const doc = new jsPDF() as any;
 
-    // Add company name at the top
     doc.setFontSize(20);
     doc.setFont('Oswald');
     doc.setTextColor('#004aad')
-  
     doc.text('TUTORNET Payment Details', 60, 30);
+    doc.addImage(Logo, 'JPEG', 0, 0, 50, 50);
 
-    // Add company logo
-    doc.addImage(Logo, 'JPEG', 0, 0, 50, 50); // Adjust dimensions as needed
-
-    // Ensure the table does not overlap with the logo by adjusting the startY position
     doc.autoTable({
       head: [['No', 'Name', 'Email', 'Day ','Location','Payment']],
       body: filteredRows.map(row => [row.id, row.name, row.email, row.day, row.location, row.payment]),
-      startY: 50, // Adjust this value based on the height of your logo
+      startY: 50,
     });
 
     doc.save('Tutornet_Payment_Details.pdf');
@@ -160,6 +129,29 @@ export default function PaymentTable() {
     setFilteredRows(filteredLocation);
   };
 
+  // Function to handle zooming of payment image
+  const handleImageZoom = (imageUrl: string) => {
+    console.log('Zooming image:', imageUrl);
+    // Implement image zoom logic here
+  };
+
+  // Function to toggle status from Pending to Done or Reject
+  const toggleStatus = (id: number) => {
+    const updatedRows = filteredRows.map(row => {
+      if (row.id === id) {
+        // Toggle the status
+        if (row.status === 'Pending') {
+          return { ...row, status: 'Done' };
+        } else if (row.status === 'Done') {
+          return { ...row, status: 'Reject' };
+        } else {
+          return { ...row, status: 'Pending' };
+        }
+      }
+      return row;
+    });
+    setFilteredRows(updatedRows);
+  };
 
   return (
     <>
@@ -175,8 +167,6 @@ export default function PaymentTable() {
         </Button>
       </div>
 
-
-
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -187,6 +177,8 @@ export default function PaymentTable() {
               <TableCell>Payment Day</TableCell>
               <TableCell>Location</TableCell>
               <TableCell>Payment</TableCell>
+              <TableCell>Payment Image</TableCell>
+              <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -196,15 +188,16 @@ export default function PaymentTable() {
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
+                <TableCell>{row.id}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.day}</TableCell>
                 <TableCell>{row.location}</TableCell>
                 <TableCell>{row.payment}</TableCell>
-
+                <TableCell>
+                  <img src={row.paymentImage} alt="Payment" onClick={() => handleImageZoom(row.paymentImage)} style={{ cursor: 'pointer', maxWidth: '100px' }} />
+                </TableCell>
+                <TableCell onClick={() => toggleStatus(row.id)} style={{ cursor: 'pointer', color: row.status === 'Pending' ? 'blue' : row.status === 'Done' ? 'green' : 'red' }}>{row.status}</TableCell>
                 <TableCell>
                   <IconButton onClick={() => handleDelete(row.id)} aria-label="delete">
                     <DeleteIcon />
