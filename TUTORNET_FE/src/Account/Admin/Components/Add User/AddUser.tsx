@@ -61,7 +61,7 @@ export default function AddUser() {
                             startIcon={<CloseIcon />}>
                                 
                         </Button>
-                        <RegisteredForm function={handleClose} />
+                        <RegisteredForm />
                     </Box>
                 </Fade>
             </Modal>

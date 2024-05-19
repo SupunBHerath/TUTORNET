@@ -5,7 +5,7 @@ import StudentHome from './Account/Student/StudentHome';
 import Check from './Account/Admin/Components/Sidebar/Sidebar';
 import Home from './Account/CHP/Home';
 import RegistrationForm from './Components/Registration Form/RegistrationStudent';
-import ADashboard from './Account/Admin/ADashboard';
+import ADashboard from './Account/Admin/Pages/ADashboard';
 import UserManage from './Account/Admin/Pages/UserManage';
 import Landing from './Account/Landing_page/Landing';
 import PaymentManage from './Account/Admin/Pages/PaymentManage';
@@ -16,6 +16,7 @@ import Login from './Pages/Login';
 import CHPNaviBar from './Account/CHP/CHPNaviBar';
 import AdsManage from './Account/Admin/Pages/AdsManage';
 import TecherHome from './Account/Teacher/Pages/TecherHome';
+import AdminNavbar from './Account/Admin/Components/Sidebar/AdminNavbar';
 
 
 
@@ -39,7 +40,7 @@ const App = () => {
 
         {/* ----------admin  route -------------------------*/}
         
-        <Route path="admin" element={<ADashboard />} />
+        <Route path="admin" element={<AdminNavbar />} />
         <Route path="admin/user" element={<UserManage />} />
         <Route path="admin/payment" element={<PaymentManage />} />
         <Route path="admin/ads" element={<AdsManage />} />
