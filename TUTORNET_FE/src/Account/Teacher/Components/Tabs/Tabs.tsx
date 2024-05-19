@@ -8,6 +8,7 @@ import Introduction from '../Intro/Intro';
 import Tabs1 from './Tabs1';
 import Tabs2 from './Tabs2';
 import Tabs4 from './Tabs4';
+import Tabs3 from './Tabs3';
 
 export default function ColorTabs() {
     const [value, setValue] = React.useState('Post'); // Set default value to 'Post'
@@ -34,7 +35,7 @@ export default function ColorTabs() {
             {/* Render content based on selected tab */}
             {value === 'Post' && <Tabs1 />}
             {value === 'About' && <Tabs2/>}
-            {value === 'Results' && <Post />}
+            {value === 'Results' && <Tabs3/>}
             {value === 'Time Tables' && <Tabs4 />}
         </Box>
     );
