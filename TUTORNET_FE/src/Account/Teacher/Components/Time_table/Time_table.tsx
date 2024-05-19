@@ -84,7 +84,7 @@ const PostWallPage: React.FC = () => {
     return (
         <Box sx={{ padding: '20px', position: 'relative' }}>
             <Typography variant="h4" gutterBottom>TIME TABLE</Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '20px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '20px', marginTop: '-10px' }}>
                 <Button variant="contained" startIcon={<Add />} onClick={handleAddPost} sx={{ marginTop: '-10px' }}>Add</Button>
             </Box>
             {isAddingPost && (
@@ -93,11 +93,8 @@ const PostWallPage: React.FC = () => {
                     padding: '10px', 
                     borderRadius: '5px', 
                     maxWidth: '300px',
-                    position: 'absolute',
-                    top: '50px',
-                    right: '20px',
-                    zIndex: 1,
-                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    marginBottom: '20px',
+                    position: 'relative'
                 }}>
                     <TextField
                         label="Description"
@@ -113,7 +110,7 @@ const PostWallPage: React.FC = () => {
                     </Box>
                 </Box>
             )}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: '20px' }}>
                 {posts.map((post, index) => (
                     <Box 
                         key={post.id} 
@@ -121,36 +118,18 @@ const PostWallPage: React.FC = () => {
                             backgroundColor: '#ffffff', 
                             padding: '10px', 
                             borderRadius: '5px', 
-                            position: 'relative', 
                             maxWidth: '300px', 
-                            margin: '0 auto', 
+                            flex: '1 1 calc(33.333% - 20px)', 
+                            boxSizing: 'border-box',
                             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
                             border: '1px solid #e0e0e0', 
                             transition: 'transform 0.2s', 
                             '&:hover': { 
                                 transform: 'scale(1.02)',
-                            }
+                            },
+                            position: 'relative'
                         }}
                     >
-                        <img 
-                            src={post.photo} 
-                            alt="Post" 
-                            style={{ 
-                                maxWidth: '100%', 
-                                height: 'auto', 
-                                borderRadius: '5px' 
-                            }} 
-                        />
-                        <Typography 
-                            variant="body2" 
-                            sx={{ 
-                                marginTop: '5px', 
-                                fontSize: '0.8rem', 
-                                wordWrap: 'break-word' 
-                            }}
-                        >
-                            {post.description}
-                        </Typography>
                         <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>
                             <IconButton onClick={(e) => handleMenuOpen(e, post.id)}>
                                 <MoreVert />
@@ -164,6 +143,26 @@ const PostWallPage: React.FC = () => {
                                 <MenuItem onClick={() => handleDeletePost(post.id)}>Delete</MenuItem>
                             </Menu>
                         </Box>
+                        <Typography 
+                            variant="body2" 
+                            sx={{ 
+                                marginTop: '5px', 
+                                fontSize: '0.8rem', 
+                                wordWrap: 'break-word' 
+                            }}
+                        >
+                            {post.description}
+                        </Typography>
+                        <img 
+                            src={post.photo} 
+                            alt="Post" 
+                            style={{ 
+                                maxWidth: '100%', 
+                                height: 'auto', 
+                                borderRadius: '5px',
+                                marginTop: '10px'
+                            }} 
+                        />
                     </Box>
                 ))}
             </Box>
