@@ -54,7 +54,7 @@ export default function PaymentTable() {
 
   const locationBtn = () => {
     return (
-      <FormControl fullWidth style={{width:'250px'}}>
+      <FormControl fullWidth style={{ width: '250px' }}>
         <InputLabel id="demo-simple-select-label">Landing</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -78,7 +78,7 @@ export default function PaymentTable() {
 
     return (
       <div>
-        <Button onClick={handleOpen} variant='outlined' startIcon={<FilterListIcon />}>Filter</Button>
+        <Button onClick={handleOpen} startIcon={<FilterListIcon />}>Filter</Button>
         <Modal
           open={open}
           onClose={handleClose}
@@ -115,7 +115,7 @@ export default function PaymentTable() {
     doc.addImage(Logo, 'JPEG', 0, 0, 50, 50);
 
     doc.autoTable({
-      head: [['No', 'Name', 'Email', 'Day ','Location','Payment']],
+      head: [['No', 'Name', 'Email', 'Day ', 'Location', 'Payment']],
       body: filteredRows.map(row => [row.id, row.name, row.email, row.day, row.location, row.payment]),
       startY: 50,
     });
@@ -155,29 +155,30 @@ export default function PaymentTable() {
 
   return (
     <>
-      <div className="Tablebtn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+
+      <div className="Tablebtn mb-2 mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         {BasicModal()}
         <Button
-          variant="contained"
           onClick={downloadPdf}
-          style={{ marginBottom: '10px' }}
+
           startIcon={<DownloadIcon />}
         >
           PDF
         </Button>
       </div>
 
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Payment ID</TableCell>
-              <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Payment Day</TableCell>
               <TableCell>Location</TableCell>
               <TableCell>Payment</TableCell>
               <TableCell>Payment Image</TableCell>
+              <TableCell>Ads</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
@@ -189,11 +190,13 @@ export default function PaymentTable() {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.name}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.day}</TableCell>
                 <TableCell>{row.location}</TableCell>
                 <TableCell>{row.payment}</TableCell>
+                <TableCell>
+                  <img src={row.paymentImage} alt="Payment" onClick={() => handleImageZoom(row.paymentImage)} style={{ cursor: 'pointer', maxWidth: '100px' }} />
+                </TableCell>
                 <TableCell>
                   <img src={row.paymentImage} alt="Payment" onClick={() => handleImageZoom(row.paymentImage)} style={{ cursor: 'pointer', maxWidth: '100px' }} />
                 </TableCell>
