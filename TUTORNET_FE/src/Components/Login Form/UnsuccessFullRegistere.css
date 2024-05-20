@@ -1,0 +1,101 @@
+body {
+    font-family: oswald;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  .container {
+    position: relative;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; 
+    max-width: 500px; 
+  }
+  
+  .image-container {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .image-container img {
+    width: 100px; 
+  height: 100px; 
+  display: block; 
+  margin: 0 auto; 
+}
+.close-icon-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.close-icon:hover {
+  color: #f73f3f;
+}
+  
+  .message-container {
+    margin-bottom: 30px;
+  }
+  
+  .message-container h1 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .message-container {
+    color: #b12121;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .back-to-home {
+    background-color: #004aad; 
+    /* Adjust color as needed */
+  }
+  
+  .try-again {
+    background-color: #e74c3c; /* Adjust color as needed */
+  }
+  
+  .button i {
+    margin-right: 5px;
+  }
+  @media (max-width: 768px) {
+    .container {
+      max-width: 80%; /* Adjust maximum width for smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      max-width: 100%; /* Allow full width on very small screens */
+    }
+    .button-container {
+      flex-direction: column; /* Stack buttons vertically on small screens */
+      gap: 10px; /* Adjust gap for vertical stacking */
+    }
+  }
