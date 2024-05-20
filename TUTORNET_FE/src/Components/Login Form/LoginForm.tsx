@@ -68,7 +68,6 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-
         setSuccess(true);
         setTimeout(() => {
           // Access the role property from the data object

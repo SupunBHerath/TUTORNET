@@ -5,8 +5,8 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RegisteredForm from './RegisteredForm';
 import CloseIcon from '@mui/icons-material/Close';
+import AddAdsForm from './AddAdsForm';
 
 
 const style = {
@@ -22,20 +22,24 @@ const style = {
     p: 4,
 };
 
-export default function AddUser() {
+export default function AdsBtnTeacher() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
         <div>
+            <div className="rightBtn justify-content-end  d-flex  w-100  ">
             <Button
-                variant="contained"
+                variant="outlined"
                 style={{ marginBottom: '10px' }}
                 onClick={handleOpen}
+                className=''
                 startIcon={<AddCircleIcon />}>
-                Add
+              Publish Your  ADS
             </Button>
+            </div>
+           
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -58,7 +62,7 @@ export default function AddUser() {
                             startIcon={<CloseIcon />}>
                                 
                         </Button>
-                        <RegisteredForm />
+                        <AddAdsForm/>
                     </Box>
                 </Fade>
             </Modal>

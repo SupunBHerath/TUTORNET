@@ -3,9 +3,9 @@ import HeaderCard from '../Components/Card/HeaderCard'
 import teacherIcon from '../../../../public/Icon/teacher.png'
 import studentIcon from '../../../../public/Icon/students.png'
 import postIcon from '../../../../public/Icon/social.png'
+import AdsIcon from '../../../../public/Icon/ads.png'
 import { useEffect, useState } from 'react'
 import UserChart from '../Components/Charts/UserChart'
-import { Podcasts } from '@mui/icons-material'
 import PostChart from '../Components/Charts/PostChart'
 import { Color } from '../../../Components/CSS/CSS'
 
@@ -36,6 +36,7 @@ const ADashboard = () => {
         <HeaderCard icon={teacherIcon} title="Teachers" count={row}  />
         <HeaderCard icon={studentIcon} title="Students" count="5000" />
         <HeaderCard icon={postIcon} title="Post" count="1500" />
+        <HeaderCard icon={AdsIcon} title="Ads" count="10" />
       </div>
       <br /><br />
       <br /><br />
@@ -61,6 +62,7 @@ const ADashboard = () => {
           </div>
         </div>
       </div>
+   
     </div>
   )
 }
