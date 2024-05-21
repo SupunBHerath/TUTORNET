@@ -4,6 +4,7 @@ import UserTable from '../Components/Table/Table'
 import '../css/Admin.css'
 import teacherIcon from '../../../../public/Icon/teacher.png'
 import studentIcon from '../../../../public/Icon/students.png'
+import Admin from '../../../../public/Icon/admin.png'
 import { useState } from 'react'
 
 const UserManage = () => {
@@ -27,13 +28,12 @@ const UserManage = () => {
   
   return (
     <div>
-      <Sidebar/>
       <div className="UserManage" >
       <div className="d-flex justify-content-evenly " >
         <HeaderCard icon={teacherIcon} title="Teachers" count={rows.length} />
         <HeaderCard icon={studentIcon} title="Students" count="5000" />
+        <HeaderCard icon={Admin} title="Admin" count="2" />
       </div>
-      {/* <br /><br /> */}
           <UserTable/>
       </div>
     </div>

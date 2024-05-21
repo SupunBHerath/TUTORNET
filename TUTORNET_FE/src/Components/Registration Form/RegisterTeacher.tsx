@@ -111,7 +111,7 @@ export default function RegisteredForm(prop: any) {
     try {
       const response = await axios.post('http://localhost:8080/teacher/register', { ...formData });
       if (response.status === 200) {
-        navigate('/admin/user');
+        // navigate('/admin/user');
         setSuccess(true);
         setTimeout(() => {
           navigate('/');

@@ -10,6 +10,7 @@ const router = require('./router/router')
 const teacher = require('./router/teacherRouter');
 const Student = require('./router/student');
 const admin = require('./router/admin.js');
+const ads = require('./router/uploadImage.js');
 
 
 
@@ -36,6 +37,7 @@ app.use('/api',router)
 app.use('/teacher',teacher)
 app.use('/student',Student)
 app.use('/admin',admin)
+app.use('/ads',ads)
 
 
 /** start server only when we have valid connection */

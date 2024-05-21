@@ -2,15 +2,14 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import StudentHome from './Account/Student/StudentHome';
 // import Signup from './Login_Signup/Signup';
-import Check from './Account/Admin/Components/Sidebar/Sidebar';
 import Home from './Account/CHP/Home';
 import LoginForm from './Components/Login Form/LoginForm';
-import ADashboard from './Account/Admin/ADashboard';
 import UserManage from './Account/Admin/Pages/UserManage';
 import Landing from './Account/Landing_page/Landing';
 import PaymentManage from './Account/Admin/Pages/PaymentManage';
 import axios from 'axios';
 import TecherHome from './Account/Teacher/Pages/TecherHome';
+import AdminNavbar from './Account/Admin/Components/Sidebar/AdminNavbar';
 
 
 
@@ -34,9 +33,15 @@ const App = () => {
        
 
         {/* ----------admin  route -------------------------*/}
-        <Route path="/admin" element={<ADashboard />} />
-        <Route path="/admin/user" element={<UserManage />} />
-        <Route path="/admin/payment" element={<PaymentManage />} />
+
+       
+
+        
+        <Route path="admin" element={<AdminNavbar />} />
+        <Route path="admin/user" element={<UserManage />} />
+        <Route path="admin/payment" element={<PaymentManage />} />
+       
+
       </Routes>
            {/* <Home/> */}
 
