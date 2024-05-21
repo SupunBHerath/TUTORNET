@@ -68,7 +68,6 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-
         setSuccess(true);
         setTimeout(() => {
           // Access the role property from the data object
@@ -187,6 +186,7 @@ export default function LoginForm() {
                 <Grid item>
                   <Link to="">
                     {"Don't have an account? Sign Up"}
+                    
                   </Link>
                 </Grid>
               </Grid>

@@ -17,6 +17,8 @@ import CHPNaviBar from './Account/CHP/CHPNaviBar';
 import AdsManage from './Account/Admin/Pages/AdsManage';
 import TecherHome from './Account/Teacher/Pages/TecherHome';
 import AdminNavbar from './Account/Admin/Components/Sidebar/AdminNavbar';
+import Ads from './Account/Teacher/Pages/Ads';
+import SearchPage from './Account/Student/SearchPage';
 
 
 
@@ -34,9 +36,11 @@ const App = () => {
       
         {/* ----------student  route -------------------------*/}
         <Route path="/student" element={<StudentHome />} />
+        <Route path="/search" element={<SearchPage/>} />
 
         {/* ----------teacher  route -------------------------*/}
         <Route path="/teacher" element={<TecherHome />} />
+        <Route path="/ads" element={<Ads/>} />
 
         {/* ----------admin  route -------------------------*/}
         

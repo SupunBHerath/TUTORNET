@@ -11,7 +11,7 @@ interface Ad {
   // Add other properties as per your ad object structure
 }
 
-const AdsManage: React.FC = () => {
+const AdsManagePage: React.FC = () => {
   const [rows, setRows] = useState<Ad[]>([]);
 
   useEffect(() => {
@@ -40,12 +40,14 @@ const AdsManage: React.FC = () => {
           <HeaderCard icon={search} title="Searcher" count={rows.filter(ad => ad.location === 'Search Page').length} />
         </div>
         <br />
-        <div className="container " style={{maxWidth:'1200px'}}>
+        <div className="" >
           <AdsTable />
+        
         </div>
+        
       </div>
     </div>
   );
 };
 
-export default AdsManage;
+export default AdsManagePage;

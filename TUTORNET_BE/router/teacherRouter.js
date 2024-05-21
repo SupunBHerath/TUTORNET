@@ -6,13 +6,9 @@ const controller = require('../controller/teacherController');
 
 
 router.post('/register', controller.register);
-
-
-
-
-
-
 router.get('/user', controller.all);
+
+
 router.route('/').get((req, res) => {
     Teacher.find().then(teachers => {
         res.json(teachers);

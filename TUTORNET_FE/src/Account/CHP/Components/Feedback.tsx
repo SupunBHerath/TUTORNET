@@ -15,9 +15,9 @@ export const Feedback = () => {
           className="row align-items-center rounded-3  p-3 shadow-lg "
           data-aos="fade-in"
         >
-          <div className="col-lg-6 p-3 p-lg-5 pt-lg-3 " data-aos="fade-in">
+          <div className="col-lg-6 p-3 p-lg-5 pt-lg-3 " >
             <div>
-              <h3 className="  container  text-center  "  data-aos="zoom-in-up">
+              <h3 className="  container  text-center  " >
                 [ Send your feedback for TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span> ]
               </h3>
             </div>

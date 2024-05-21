@@ -4,11 +4,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RegisterForm from '../../../../Components/Registration Form/RegistrationStudent';
-
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import CloseIcon from '@mui/icons-material/Close';
 import AddAdsForm from './AddAdsForm';
 
@@ -26,20 +22,24 @@ const style = {
     p: 4,
 };
 
-export default function AddAds() {
+export default function AdsBtnAdmin() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
         <div>
+            <div className="rightBtn justify-content-end  d-flex  w-100  ">
             <Button
                 variant="contained"
                 style={{ marginBottom: '10px' }}
                 onClick={handleOpen}
+                className=''
                 startIcon={<AddCircleIcon />}>
-                Add
+               ADS
             </Button>
+            </div>
+           
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

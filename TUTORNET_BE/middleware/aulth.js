@@ -1,30 +1,19 @@
 const jwt = require ('jsonwebtoken');
-import ENV from '../config.js'
+
 
 /** auth middleware */
-export default async function Auth(req, res, next){
+module.exports.authMiddleware = (req, res, next) => {
     try {
-        
-        // access authorize header to validate request
-        const token = req.headers.authorization.split(" ")[1];
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).json({ error: 'No token provided' });
+        }
 
-        // retrive the user details fo the logged in user
-        const decodedToken = await jwt.verify(token, ENV.JWT_SECRET);
-
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET || 'ssgdmmsjmjfjsmgfh,jsfv,');
         req.user = decodedToken;
-
-        next()
-
+        next();
     } catch (error) {
-        res.status(401).json({ error : "Authentication Failed!"})
+        console.error(error);
+        return res.status(401).json({ error: 'Authentication failed!' });
     }
-}
-
-
-export function localVariables(req, res, next){
-    req.app.locals = {
-        OTP : null,
-        resetSession : false
-    }
-    next()
-}
+};
