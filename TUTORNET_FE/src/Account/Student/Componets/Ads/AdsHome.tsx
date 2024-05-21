@@ -24,7 +24,7 @@ const images = [
   },
 ];
 
-function Ads() {
+function AdsHome() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = images.length;
@@ -94,7 +94,7 @@ function Ads() {
             onClick={handleNext}
             disabled={activeStep === maxSteps - 1}
           >
-            Next
+        
             {theme.direction === 'rtl' ? (
               <KeyboardArrowLeft />
             ) : (
@@ -109,7 +109,7 @@ function Ads() {
             ) : (
               <KeyboardArrowLeft />
             )}
-            Back
+        
           </Button>
         }
       />
@@ -117,4 +117,4 @@ function Ads() {
   );
 }
 
-export default Ads;
+export default AdsHome;

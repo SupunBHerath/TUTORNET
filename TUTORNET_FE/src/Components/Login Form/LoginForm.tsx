@@ -186,6 +186,7 @@ export default function LoginForm() {
                 <Grid item>
                   <Link to="">
                     {"Don't have an account? Sign Up"}
+                    
                   </Link>
                 </Grid>
               </Grid>

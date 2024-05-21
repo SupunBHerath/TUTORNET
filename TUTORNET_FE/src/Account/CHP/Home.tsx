@@ -137,14 +137,7 @@ const Home = () => {
                                     <UserCommentCard img={u1} userName="Shiwantha Prasad " comment="good" rating={5} />
                                 </div>
                             </div>
-                            {/* <div className="carousel-item">
-                                <div className="UserComment justify-content-evenly  d-flex ">
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                </div>
-                            </div> */}
+                          
                         </div>
                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
                             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
