@@ -16,15 +16,15 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 
 const pages = [
-  { name: 'Home', path: '/' },
-  { name: 'About us', path: '/about' },
-  { name: 'Contact Us', path: '/contact' },
-  { name: 'Ads', path: '/Ads' }
+  { name: 'Home', path: '/student' },
+  { name: 'Search', path: '/search' }
+
+ 
 ];
 
 const settings = [
   { name: 'Profile', path: '/profile' },
-  { name: 'Logout', path: '/logout' }
+  { name: 'Logout', path: '/' }
 ];
 
 function Navi_Bar() {
@@ -48,7 +48,7 @@ function Navi_Bar() {
   };
 
   return (
-    <AppBar position="static" style={{backgroundColor:Color.PrimaryColor}}>
+    <AppBar position="fixed" style={{backgroundColor:Color.PrimaryColor}}>
       <Container maxWidth="xl" >
         <Toolbar disableGutters>
         
@@ -108,7 +108,7 @@ function Navi_Bar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+       
           <Typography
             variant="h5"
             noWrap
@@ -125,7 +125,7 @@ function Navi_Bar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+                 TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

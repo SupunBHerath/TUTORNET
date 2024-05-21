@@ -10,6 +10,8 @@ import PaymentManage from './Account/Admin/Pages/PaymentManage';
 import axios from 'axios';
 import TecherHome from './Account/Teacher/Pages/TecherHome';
 import AdminNavbar from './Account/Admin/Components/Sidebar/AdminNavbar';
+import Ads from './Account/Teacher/Pages/Ads';
+import SearchPage from './Account/Student/SearchPage';
 
 
 
@@ -22,13 +24,19 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/Landing" element={<Landing />} />
-        <Route path="/Landing" element={<Landing />} />
+    
 
         {/* ----------student  route -------------------------*/}
-        <Route path="/sudent" element={<StudentHome />} />
+
+     
+
+        <Route path="/student" element={<StudentHome />} />
+        <Route path="/search" element={<SearchPage/>} />
+
 
         {/* ----------teacher  route -------------------------*/}
         <Route path="/teacher" element={<TecherHome />} />
+        <Route path="/ads" element={<Ads/>} />
 
        
 
