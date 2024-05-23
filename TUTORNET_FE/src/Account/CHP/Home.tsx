@@ -26,11 +26,14 @@ import u4 from '../../../public/Users/u4.jpg'
 import u5 from '../../../public/Users/u5.jpg'
 import Ads from './Components/AdsSession'
 import { AdsCarousel } from './Components/AdsCarousel'
-
+import Cookies from 'js-cookie';
 // CHP  common home page 
 
 
 const Home = () => {
+    Cookies.remove('token');
+    const jwtToken = Cookies.get('token');
+    console.log(jwtToken);
     useEffect(() => {
         AOS.init({
             duration: 2000,

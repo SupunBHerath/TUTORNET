@@ -54,7 +54,7 @@ const AddAdsForm = () => {
                 setSuccess(true);
                 setError(false);
                 setTimeout(() => {
-                    window.location.reload();
+                  
                 }, 1000);
                 console.log('Image uploaded successfully.');
                 // Handle success response here, such as displaying a success message

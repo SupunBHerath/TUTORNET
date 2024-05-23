@@ -15,6 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Alert } from '@mui/material';
 import { Color, Font } from '../CSS/CSS';
+import Cookies from 'js-cookie';
 
 function Copyright(props: any) {
   return (
@@ -70,7 +71,8 @@ export default function LoginForm() {
       if (response.ok) {
         setSuccess(true);
         setTimeout(() => {
-          // Access the role property from the data object
+          Cookies.set('token',data.token);
+          console.log(data.token);
           const userRole = data.role;
           console.log(userRole);
           // Perform actions based on the user's role
