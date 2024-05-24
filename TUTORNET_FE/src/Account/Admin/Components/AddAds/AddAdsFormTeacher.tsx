@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Alert, Box, Button, Card, CardContent, Grid, MenuItem, TextField, Typography, InputAdornment } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-import { Font } from '../../../../Components/CSS/CSS';
+import { Color, Font } from '../../../../Components/CSS/CSS';
 import useCookie from '../../../../Hook/UserAuth';
 
 const AddAdsFormTeacher = () => {
     const { userData } = useCookie();
-    const emaildb = userData.email;
     const userId = userData.userId;
     const [locationFilter, setLocationFilter] = useState<string>('');
     const [uploadedRec, setUploadedRec] = useState<File | null>(null);
@@ -45,7 +44,7 @@ const AddAdsFormTeacher = () => {
                 setPayment(1500);
                 break;
             default:
-                setPayment('');
+                setPayment(0);
         }
     }, [locationFilter]);
 
@@ -93,7 +92,6 @@ const AddAdsFormTeacher = () => {
             formData.append('ads', uploadedAds!);
             formData.append('rec', uploadedRec!);
             formData.append('location', locationFilter);
-            formData.append('email', emaildb);
             formData.append('userId', userId);
             formData.append('payDay', payDay);
             formData.append('payment', payment.toString());
@@ -133,18 +131,22 @@ const AddAdsFormTeacher = () => {
     });
 
     return (
-        <Box className='' sx={{ display: 'flex', justifyContent: 'center', mt: 4, width: 'max-content ' }} >
+        <Box className='' sx={{ display: 'flex', justifyContent: 'center',  width: 'max-content ' }} >
             <Card sx={{ width: 'max-content ', maxWidth: 400, height: 'auto' }}>
                 <CardContent>
                     <Typography variant="h5" gutterBottom style={{ fontFamily: Font.PrimaryFont }} className='text-center '>
                         Add New Advertisement
+                        
                     </Typography>
+                    <div className="alet " style={{height:'58px'}}>
                     {success && <Alert severity="success">Form submitted successfully.</Alert>}
                     {error && <Alert severity="error">Failed to submit form.</Alert>}
+                    </div>
+                  
 
                     <Box component="form" noValidate autoComplete="off">
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={6}>
                                 <TextField
                                     required
                                     select
@@ -159,7 +161,20 @@ const AddAdsFormTeacher = () => {
                                     <MenuItem value="Search Page">Search Page</MenuItem>
                                 </TextField>
                             </Grid>
-                          
+                            <Grid item xs={6}>
+                                <TextField
+                                    required
+                                    label="Price"
+                                    type="number"
+                                    value={payment}
+                                    variant="outlined"
+                                    fullWidth
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start">Rs</InputAdornment>,
+                                        readOnly: true,
+                                    }}
+                                />
+                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     required
@@ -176,21 +191,8 @@ const AddAdsFormTeacher = () => {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    required
-                                    label="Price"
-                                    type="number"
-                                    value={payment}
-                                    variant="outlined"
-                                    fullWidth
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                                        readOnly: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
+                          
+                            <Grid item xs={6}>
                                 <div
                                     style={{
                                         border: '1px solid #ccc',
@@ -205,14 +207,14 @@ const AddAdsFormTeacher = () => {
                                         <img
                                             src={URL.createObjectURL(uploadedRec)}
                                             alt="Uploaded"
-                                            style={{ maxWidth: '100%', maxHeight: '150px' }}
+                                            style={{ maxWidth: '100%', maxHeight: '70px' }}
                                         />
                                     ) : (
                                         <>
                                             <CloudUploadIcon
                                                 style={{ fontSize: 48, marginBottom: '8px' }}
                                             />
-                                            <p>Click to upload Receipt</p>
+                                            <p>Upload <span style={{color:Color.PrimaryColor}}>Receipt</span></p>
                                         </>
                                     )}
                                 </div>
@@ -222,7 +224,7 @@ const AddAdsFormTeacher = () => {
                                     onChange={handleReceipt}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <div
                                     style={{
                                         border: '1px solid #ccc',
@@ -237,14 +239,14 @@ const AddAdsFormTeacher = () => {
                                         <img
                                             src={URL.createObjectURL(uploadedAds)}
                                             alt="Uploaded"
-                                            style={{ maxWidth: '100%', maxHeight: '150px' }}
+                                            style={{ maxWidth: '100%', maxHeight: '70px' }}
                                         />
                                     ) : (
                                         <>
                                             <CloudUploadIcon
                                                 style={{ fontSize: 48, marginBottom: '8px' }}
                                             />
-                                            <p>Click to upload Ads</p>
+                                                <p>Upload <span style={{color:Color.PrimaryColor}}>Ads</span></p>
                                         </>
                                     )}
                                 </div>

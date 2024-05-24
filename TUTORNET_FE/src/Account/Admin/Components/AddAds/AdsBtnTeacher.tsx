@@ -5,7 +5,6 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import CloseIcon from '@mui/icons-material/Close';
 import AddAdsFormTeacher from './AddAdsFormTeacher';
 
 
@@ -19,7 +18,7 @@ const style = {
     border: '4px solid #f6921e',
     boxShadow: 24,
     borderRadius: 3,
-    p: 4,
+    p: 2,
 };
 
 export default function AdsBtnTeacher() {
@@ -56,12 +55,12 @@ export default function AdsBtnTeacher() {
                 <Fade in={open}>
 
                     <Box sx={style}>
-                        <Button
-                            style={{ float: 'right', marginTop:"-30px",marginRight:'-30px',color:"red" }}
+                        {/* <Button
+                            style={{ float: 'right', marginTop:"-10px",marginRight:'-50px',color:"red" }}
                             onClick={handleClose}
                             startIcon={<CloseIcon />}>
                                 
-                        </Button>
+                        </Button> */}
                         <AddAdsFormTeacher/>
                     </Box>
                 </Fade>

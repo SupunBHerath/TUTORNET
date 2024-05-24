@@ -18,9 +18,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post('/', upload.fields([{ name: 'ads', maxCount: 1 }, { name: 'rec', maxCount: 1 }]), async (req, res) => {
-    const { email, payDay, location, payment } = req.body;
+    const { userId, payDay, location, payment } = req.body;
 
-    if (!email || !payDay || !location || !payment || !req.files['ads'] || !req.files['rec']) {
+    if (!userId || !payDay || !location || !payment || !req.files['ads'] || !req.files['rec']) {
         return res.status(400).send('Insufficient data or number of images.');
     }
 
@@ -32,7 +32,7 @@ router.post('/', upload.fields([{ name: 'ads', maxCount: 1 }, { name: 'rec', max
 
     try {
         const adsData = new Ads({
-            email: email,
+            userId: userId,
             payDay: payDay,
             location: location,
             payment: parseFloat(payment),
