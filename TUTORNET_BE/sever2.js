@@ -11,8 +11,9 @@ const teacher = require('./router/teacherRouter');
 const Student = require('./router/student');
 const admin = require('./router/admin.js');
 const ads = require('./router/uploadImage.js');
-
-
+const reqads = require('./controller/requestAdsController.js');
+const validate = require('./router/validate.js');
+const mail = require('./Mail/adsSubmit.js');
 
 
 
@@ -22,7 +23,7 @@ app.use(cors());
 app.use(morgan('try'));
 app.disable('x-powerd-by') // less hackers know about our stack
 
-const PORT = 8080;
+const PORT = 8080 || 3000;
 
 /** HTTP GET  Request*/
 app.get('/', (req, res) => {
@@ -38,7 +39,11 @@ app.use('/teacher',teacher)
 app.use('/student',Student)
 app.use('/admin',admin)
 app.use('/ads',ads)
+app.use('/reqads',reqads)
+app.use('/validate',validate)
 
+//mail
+app.use('/mail',mail)
 
 /** start server only when we have valid connection */
 const URL = process.env.MONGODB_URL
@@ -54,6 +59,6 @@ connection.once('open', ()=>{
     console.log('Connected to MongoDB');
 });
 /** start sever  */
-app.listen(PORT, () => {
+app.listen(PORT || 3000, () => {
     console.log(`Server is running on port ${PORT}`)
 })

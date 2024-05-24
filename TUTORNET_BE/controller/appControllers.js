@@ -57,26 +57,22 @@ module.exports.login = async (req, res) => {
             return res.status(400).send({ error: "Incorrect password." });
         }
 
-        // Create JWT token
-        const token = jwt.sign({
-            userId: user._id,
-            username: user.email,
-            userType
-        }, process.env.JWT_SECRET || 'ssgdmmsjmjfjsmgfh,jsfv,', { expiresIn: "5min" });
-
-        // Set the JWT as a cookie
-        res.cookie('token', token, {
-            httpOnly: true, // Helps prevent XSS attacks
-            secure: process.env.NODE_ENV === 'production', // Send the cookie only over HTTPS in production
-            sameSite: 'Strict', // Helps mitigate CSRF attacks
-            maxAge: 5 * 60 * 1000 // 5min hours in milliseconds
-        });
+        // Generate JWT token
+        const token = jwt.sign(
+            { 
+                userId: user._id,
+                email: user.email,
+                role: user.role || userType
+            },
+            process.env.JWT_SECRET, // Use a secret key for signing the token
+            { expiresIn: '1h' } // Token expiration time
+        );
 
         // Send success response with token and username
         return res.status(200).send({
             ok: "Login successful.",
-            username: user.name || user.email, // If name doesn't exist, fall back to email
-            role: user.role || userType, // Use user.role if available, otherwise use userType
+            username: user.name || user.email,
+            role: user.role || userType,
             id: user._id,
             token
         });
@@ -86,4 +82,3 @@ module.exports.login = async (req, res) => {
         return res.status(500).send({ error: "Internal server error." });
     }
 };
-

@@ -13,7 +13,7 @@ const AdminMain = () => {
        
   
         if (!jwtToken) {
-          navigate('/');
+          // navigate('/');
           return;
         }
   

@@ -6,7 +6,7 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
-import AddAdsForm from './AddAdsForm';
+import AddAdsFormTeacher from './AddAdsFormTeacher';
 
 
 const style = {
@@ -62,7 +62,7 @@ export default function AdsBtnTeacher() {
                             startIcon={<CloseIcon />}>
                                 
                         </Button>
-                        <AddAdsForm/>
+                        <AddAdsFormTeacher/>
                     </Box>
                 </Fade>
             </Modal>
