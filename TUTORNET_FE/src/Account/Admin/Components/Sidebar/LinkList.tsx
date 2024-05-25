@@ -4,7 +4,6 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { Dashboard } from '@mui/icons-material';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PaymentIcon from '@mui/icons-material/Payment';

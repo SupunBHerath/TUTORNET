@@ -15,6 +15,7 @@ export default function NotificationTable() {
   // Sample user data
   const [users, setUsers] = useState<User[]>([
     { id: 1, name: 'John Doe', email: 'john@example.com', message: 'Hello', status: 'unread' },
+    { id: 2, name: 'John Doe', email: 'john@example.com', message: 'Hello', status: 'unread' },
     // Other user data...
   ]);
 
@@ -53,7 +54,6 @@ export default function NotificationTable() {
   };
 
   const handleCancelChanges = () => {
-    // Reset the users to their initial state
     setUsers([...initialUsers]);
     setIsEditing(false);
   };

@@ -22,8 +22,8 @@ const StudentHome = () => {
                             <StudentPost />
                         </div>
                         <div className="ads mt-5  col-lg-4 d-flex justify-content-center  ">
-                            <TopTeachers/>
-                             
+                        <AdsHome />
+                            
                         </div>
                     </div>
                    

@@ -1,4 +1,3 @@
-import React from 'react'
 import './Card.css'
 import { Color } from '../../../../Components/CSS/CSS'
 const HeaderCard = (prop:any) => {
