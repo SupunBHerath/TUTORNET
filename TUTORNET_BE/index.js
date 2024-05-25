@@ -6,9 +6,9 @@ const bodyParser = require('body-parser'); // json format eken ena eka javascrip
 const dotenv = require('dotenv');
 require("dotenv").config();
 const app = express();
-const router = require('./router/router')
-const teacher = require('./router/teacherRouter');
-const Student = require('./router/student');
+const router = require('./router/router.js')
+const teacher = require('./router/teacherRouter.js');
+const Student = require('./router/student.js');
 const admin = require('./router/admin.js');
 const ads = require('./router/uploadImage.js');
 const reqads = require('./controller/requestAdsController.js');

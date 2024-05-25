@@ -19,8 +19,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node sever.js",
-    "dev": "nodemon sever2.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "supun",
   "license": "ISC",
