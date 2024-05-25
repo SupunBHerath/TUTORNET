@@ -14,8 +14,7 @@ const ads = require('./router/uploadImage.js');
 const reqads = require('./controller/requestAdsController.js');
 const validate = require('./router/validate.js');
 const mail = require('./Mail/adsSubmit.js');
-
-
+const path =    require('path');
 
 /** middlwares */
 app.use(express.json());
@@ -41,11 +40,10 @@ app.use('/admin',admin)
 app.use('/ads',ads)
 app.use('/reqads',reqads)
 app.use('/validate',validate)
-
 //mail
 app.use('/mail',mail)
 
-/** start server only when we have valid connection */
+app.use('/uploads', express.static(path.join(__dirname)));
 const URL = process.env.MONGODB_URL
 mongoose.connect(URL, {
     // useNewUrlParser: true,

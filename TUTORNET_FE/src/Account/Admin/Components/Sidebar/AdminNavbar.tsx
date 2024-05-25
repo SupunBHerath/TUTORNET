@@ -35,6 +35,8 @@ import Notification from '../../Pages/Notification';
 
 const drawerWidth = 240;
 
+
+
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -108,6 +110,25 @@ export default function AdminNavbar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [activeComponent, setActiveComponent] = React.useState('dashboard');
+  const [row, setRow] = React.useState(null);
+  React.useEffect(() => {
+    fetch('http://localhost:8080/reqads/pending')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+    
+        setRow(data.length)
+       
+        console.log(row)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  },[activeComponent])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -205,7 +226,7 @@ export default function AdminNavbar() {
           <br />
           <ListItemButton onClick={payment}>
             <ListItemIcon>
-              <Badge badgeContent={1} color="success">
+              <Badge badgeContent={row} color="success">
                 <PaymentIcon sx={activeComponent === 'payment' ? { color: Color.SecondaryColor } : {}} />
               </Badge>
             </ListItemIcon>
