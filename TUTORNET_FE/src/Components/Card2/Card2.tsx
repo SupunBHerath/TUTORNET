@@ -1,7 +1,5 @@
-import React from 'react'
 import './Card2.css'
 import 'bootstrap/dist/css/bootstrap-grid.min.css'
-import PersonIcon from '@mui/icons-material/Person';
 
 const Card2 = () => {
     return (

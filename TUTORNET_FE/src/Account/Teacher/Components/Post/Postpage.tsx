@@ -1,4 +1,3 @@
-import React from 'react'
 import Logo from '../../../../../public/logo/Logo_t.png'
 import Post from '../../../../Components/Post/Post'
 

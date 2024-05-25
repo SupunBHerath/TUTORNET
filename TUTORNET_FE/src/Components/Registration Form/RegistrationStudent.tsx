@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
+import  { useState } from 'react';
 import { TextField, Button, Container, Grid, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../CSS/CSS';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 
 export default function RegistrationStudent(prop: any) {
   const navigate = useNavigate();

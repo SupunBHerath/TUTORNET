@@ -1,4 +1,3 @@
-import React from 'react'
 import TopTeachers from './Componets/TopSir/TopTeacher'
 import Navi_Bar from './Componets/Nav_bar/Navi_Bar'
 

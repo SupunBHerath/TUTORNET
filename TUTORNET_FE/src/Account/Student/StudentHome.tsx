@@ -1,7 +1,6 @@
 import StudentPost from './StudentPost'
 import Navi_Bar from './Componets/Nav_bar/Navi_Bar'
 import AdsHome from './Componets/Ads/AdsHome';
-import TopTeachers from './Componets/TopSir/TopTeacher';
 
 
 

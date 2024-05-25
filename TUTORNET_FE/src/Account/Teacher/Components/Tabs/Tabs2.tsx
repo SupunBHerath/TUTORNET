@@ -1,4 +1,3 @@
-import React from 'react'
 import AboutPage from '../Teacher_About/Techer_About'
 
 const Tabs2 = () => {

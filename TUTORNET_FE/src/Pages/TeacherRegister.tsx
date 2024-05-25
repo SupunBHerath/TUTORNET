@@ -1,7 +1,5 @@
-import React from 'react'
 import RegisterTeacher from '../Components/Registration Form/RegisterTeacher'
 import CHPNaviBar from '../Account/CHP/CHPNaviBar'
-import image from '../../public/Lanading/Group 4.png'
 import logo from '../../public/logo/Tutor logo.png'
 import './RegisterForm.css'
 const TeacherRegister = () => {
