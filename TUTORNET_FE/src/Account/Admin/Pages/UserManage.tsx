@@ -1,5 +1,4 @@
 import HeaderCard from '../Components/Card/HeaderCard'
-import Sidebar from '../Components/Sidebar/Sidebar'
 import UserTable from '../Components/Table/Table'
 import '../css/Admin.css'
 import teacherIcon from '../../../../public/Icon/teacher.png'
