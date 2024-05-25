@@ -347,9 +347,10 @@ const PaymentTable: React.FC = () => {
     imagePath = imagePath.replace('uploads/', ''); // Remove the 'uploads/' part
 
     // Construct the full URL
-    const fullURL = 'http://localhost:8080/uploads/' + imagePath;
-    return fullURL;
+    const fullURL = 'https://tutornet-supunbheraths-projects.vercel.app/uploads/' + imagePath;
     console.log(fullURL);
+    
+    return fullURL;
     
   }
 
