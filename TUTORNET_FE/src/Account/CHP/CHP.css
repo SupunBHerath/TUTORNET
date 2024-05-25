@@ -28,34 +28,48 @@
 }
 
 
-/* CHPNaviBar */
-.CHPNaviBar .logo {
-    font-family: 'Oswald';
-    cursor: pointer;
+/* CHP.css */
+
+.CHPNaviBar {
+    font-family: 'Arial, sans-serif';
+  }
   
-}.CHPNaviBar  {
-    font-family: 'Oswald';
+  .logo {
+    font-weight: bold;
+    color: #fff;
+  }
   
-}
-.NaviHover{
-    font-family: 'Oswald';
-}
-.NaviHover:hover {
-    color: goldenrod;
-    border-style: solid;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.NaviBarLink a {
-padding: 0  20px;
-text-decoration: none;
-color: white;
-}
-.NaviBarLink a:hover {
-text-decoration: underline;
-text-underline-offset: 10px;
-text-decoration-color: goldenrod;
-}
+  .NaviBarLink a {
+    margin-right: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .NaviBarLink a:hover {
+    color: #ff9800; /* Example hover color */
+  }
+  
+  .btn {
+    margin-left: 10px;
+  }
+  
+  .btn .btn {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn .btn:hover {
+    background-color: #ff9800; /* Example hover color */
+    color: #fff;
+  }
+  
 /* SideShowDiv */
 .SideShowDiv{
     max-height: 100vh;
