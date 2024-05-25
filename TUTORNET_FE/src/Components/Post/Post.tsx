@@ -8,13 +8,10 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { blue, red } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddCommentRoundedIcon from '@mui/icons-material/AddCommentRounded';
-import Logo from '../../../public/logo/Logo_t.png'
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -39,7 +36,7 @@ export default function Post(props:any) {
   };
   
   return (
-    <Card sx={{ maxWidth: 345 }} style={{margin:' auto' }}>
+    <Card sx={{ minWidth: 345}} style={{margin:' auto' ,marginBottom:"40px",height:'auto'}}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blue[100] }} aria-label="recipe">
@@ -62,9 +59,9 @@ export default function Post(props:any) {
       />
       <CardMedia
         component="img"
-        height="194"
+        height="auto"
         image={props.img}
-        alt="Loading.."
+      
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">

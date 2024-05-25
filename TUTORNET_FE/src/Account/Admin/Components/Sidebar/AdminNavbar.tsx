@@ -27,12 +27,15 @@ import { Link } from 'react-router-dom';
 import UserManage from '../../Pages/UserManage';
 import ADashboard from '../../Pages/ADashboard';
 import PaymentManage from '../../Pages/PaymentManage';
-import AdsTable from '../Table/AdsTable';
 import { Color, Font } from '../../../../Components/CSS/CSS';
+import AdsManagePage from '../../Pages/AdsManage';
+import Notification from '../../Pages/Notification';
 
 // Define your custom font
 
 const drawerWidth = 240;
+
+
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -107,6 +110,25 @@ export default function AdminNavbar() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [activeComponent, setActiveComponent] = React.useState('dashboard');
+  const [row, setRow] = React.useState(null);
+  React.useEffect(() => {
+    fetch('http://localhost:8080/reqads/pending')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+    
+        setRow(data.length)
+       
+        console.log(row)
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  },[activeComponent])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -131,7 +153,7 @@ export default function AdminNavbar() {
   const AdsManage = () => {
     setActiveComponent('adsManage');
   };
-  const Notification = () => {
+  const notification = () => {
     setActiveComponent('notification');
   };
 
@@ -204,7 +226,7 @@ export default function AdminNavbar() {
           <br />
           <ListItemButton onClick={payment}>
             <ListItemIcon>
-              <Badge badgeContent={1} color="success">
+              <Badge badgeContent={row} color="success">
                 <PaymentIcon sx={activeComponent === 'payment' ? { color: Color.SecondaryColor } : {}} />
               </Badge>
             </ListItemIcon>
@@ -220,7 +242,7 @@ export default function AdminNavbar() {
           </ListItemButton>
           <br />
           <br />
-          <ListItemButton onClick={Notification}>
+          <ListItemButton onClick={notification}>
             <ListItemIcon>
               <AddAlertIcon sx={activeComponent === 'notification' ? { color: Color.SecondaryColor } : {}} />
 
@@ -245,7 +267,8 @@ export default function AdminNavbar() {
         {activeComponent === 'dashboard' && <ADashboard />}
         {activeComponent === 'userManage' && <UserManage />}
         {activeComponent === 'payment' && <PaymentManage />}
-        {activeComponent === 'adsManage' && <AdsTable />}
+        {activeComponent === 'adsManage' && <AdsManagePage />}
+        {activeComponent === 'notification' && <Notification />}
       </Box>
     </Box>
   );

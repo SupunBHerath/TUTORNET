@@ -11,15 +11,15 @@ import amith from '../../../../public/Ads/ads3.jpg'; // Unused import?
 
 const images = [
   {
-    label: 'fghdvd',
+  
     imgPath: '../../../../public/Ads/OIP.jpeg',
   },
   {
-    label: 'Bali, Indonesia',
+   
     imgPath: '../../../../public/Ads/ads3.jpg',
   },
   {
-    label: 'Goč, Serbia',
+   
     imgPath: '../../../../public/Ads/ads2.jpg',
   },
 ];
@@ -70,7 +70,7 @@ function Ads() {
           bgcolor: 'background.default',
         }}
       >
-        <Typography>{images[activeStep].label}</Typography>
+       
       </Paper>
       <Box
         component="img"
@@ -82,7 +82,7 @@ function Ads() {
           width: '100%',
         }}
         src={images[activeStep].imgPath}
-        alt={images[activeStep].label}
+        alt='loading'
       />
       <MobileStepper
         steps={maxSteps}

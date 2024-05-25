@@ -8,7 +8,7 @@ export default function UserChart() {
     
       series={[
         { label: 'Admin', data: [12, 6, 9] },    // Data for today, yesterday, and 2 days ago
-        { label: 'Student', data: [38, 18, 22] }, // Data for today, yesterday, and 2 days ago
+        { label: 'Student', data: [70, 18, 22] }, // Data for today, yesterday, and 2 days ago
         { label: 'Teacher', data: [11, 14, 13] }  // Data for today, yesterday, and 2 days ago
       ]}
       height={370}

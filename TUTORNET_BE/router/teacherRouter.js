@@ -3,23 +3,14 @@ const { status } = require('init');
 const Teacher = require('../modules/teacher');
 let teacher = require("../modules/teacher");
 const controller = require('../controller/teacherController');
+const { authMiddleware } = require('../middleware/aulth');
 
 
 router.post('/register', controller.register);
+router.get('/all', controller.all);
+router.get('/',authMiddleware , controller.validated)
 
 
-
-
-
-
-router.get('/user', controller.all);
-router.route('/').get((req, res) => {
-    Teacher.find().then(teachers => {
-        res.json(teachers);
-    }).catch(err => {
-        console.log(err);
-    });
-})
 
 router.route('/update/:id').put(async (req, res) => {
     let userId = req.params.id;

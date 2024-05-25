@@ -18,7 +18,8 @@ import { Color, Font } from '../../../../Components/CSS/CSS';
 const pages = [
   { name: 'Home', path: '/' },
   { name: 'About us', path: '/about' },
-  { name: 'Contact Us', path: '/contact' }
+  { name: 'Contact Us', path: '/contact' },
+  { name: 'Ads', path: '/Ads' }
 ];
 
 const settings = [
@@ -47,10 +48,10 @@ function Navi_Bar() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" style={{backgroundColor:Color.PrimaryColor}}>
+      <Container maxWidth="xl" >
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        
           <Typography
             variant="h6"
             noWrap
@@ -134,6 +135,7 @@ function Navi_Bar() {
                 sx={{ my: 2, color: 'white', display: 'block' }}
                 component={Link}
                 to={page.path}
+                style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}
               >
                 {page.name}
               </Button>

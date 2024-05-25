@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import CHPNaviBar from './CHPNaviBar'
 import CHPCard from './CHPCard'
@@ -6,13 +6,11 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'aos/dist/aos.js'
 import './CHP.css'
-import Supun from '../../../public/i.jpg'
 import HederImg1 from '../../../public/Lanading/image 5.png'
 import { Color, Font } from '../../Components/CSS/CSS'
 import Counter from './Count'
 import { CHPAboutUS } from './CHPAboutUS'
 import UserCommentCard from './Components/UserCommentCard'
-import Slideshow from './Slideshow'
 import Footer from './Components/Footer'
 import { Feedback } from './Components/Feedback'
 import t1 from '../../../public/Teacher/t1.jpg'
@@ -24,13 +22,15 @@ import u2 from '../../../public/Users/u2.jpg'
 import u3 from '../../../public/Users/u3.jpg'
 import u4 from '../../../public/Users/u4.jpg'
 import u5 from '../../../public/Users/u5.jpg'
-import Ads from './Components/AdsSession'
 import { AdsCarousel } from './Components/AdsCarousel'
-
+import Cookies from 'js-cookie';
 // CHP  common home page 
 
 
 const Home = () => {
+    Cookies.remove('token');
+    const jwtToken = Cookies.get('token');
+    console.log(jwtToken);
     useEffect(() => {
         AOS.init({
             duration: 2000,
@@ -137,14 +137,7 @@ const Home = () => {
                                     <UserCommentCard img={u1} userName="Shiwantha Prasad " comment="good" rating={5} />
                                 </div>
                             </div>
-                            {/* <div className="carousel-item">
-                                <div className="UserComment justify-content-evenly  d-flex ">
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                    <UserCommentCard userName="Supun" comment="good" rating={4} />
-                                </div>
-                            </div> */}
+                          
                         </div>
                         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
                             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
