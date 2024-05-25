@@ -86,7 +86,7 @@ export default function RegistrationStudent(prop: any) {
     event.preventDefault();
   
     try {
-      const response = await axios.post('http://localhost:8080/student/register', { ...formData });
+      const response = await axios.post('https://tutornet-5v7a-supunbheraths-projects.vercel.app/student/register', { ...formData });
       if (response.status === 200) {
         setSuccess(true);
         setTimeout(() => {

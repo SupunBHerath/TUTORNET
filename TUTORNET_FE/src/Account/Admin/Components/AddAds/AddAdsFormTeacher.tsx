@@ -96,7 +96,7 @@ const AddAdsFormTeacher = () => {
             formData.append('payDay', payDay);
             formData.append('payment', payment.toString());
 
-            const response = await fetch('http://localhost:8080/reqads', {
+            const response = await fetch('https://tutornet-5v7a-supunbheraths-projects.vercel.app/reqads', {
                 method: 'POST',
                 body: formData
             });

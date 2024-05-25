@@ -347,11 +347,14 @@ const PaymentTable: React.FC = () => {
     imagePath = imagePath.replace('uploads/', ''); // Remove the 'uploads/' part
 
     // Construct the full URL
+
     const fullURL = 'http://localhost:8080/uploads/' + imagePath;
     console.log(fullURL);
     
     return fullURL;
-    console.log(fullURL);
+
+    
+    return fullURL;
     
   }
 
