@@ -12,12 +12,10 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import LoginIcon from '@mui/icons-material/Login';
 import { Login } from '@mui/icons-material';
-import { Link } from 'react-router-dom'
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',

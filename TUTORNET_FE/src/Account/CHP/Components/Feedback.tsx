@@ -1,6 +1,4 @@
-import React from "react";
 import "../CHP.css";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { Color } from "../../../Components/CSS/CSS";
 import image from '../../../../public/Lanading/istockphoto-1410789354-612x612.jpg'
