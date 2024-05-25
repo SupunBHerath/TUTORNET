@@ -164,7 +164,7 @@ const PaymentTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8080/reqads/all');
+        const response = await fetch('https://tutornet-5v7a-supunbheraths-projects.vercel.app/reqads/all');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -351,6 +351,8 @@ const PaymentTable: React.FC = () => {
     console.log(fullURL);
     
     return fullURL;
+    console.log(fullURL);
+    
   }
 
   return (
