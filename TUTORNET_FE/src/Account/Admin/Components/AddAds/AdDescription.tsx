@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Color, Font } from '../../../../Components/CSS/CSS';
-import { Button } from '@mui/material';
-import AddAdsFormTeacher from './AddAdsFormTeacher';
 import AdsBtnTeacher from './AdsBtnTeacher';
 
 interface AdPlacement {

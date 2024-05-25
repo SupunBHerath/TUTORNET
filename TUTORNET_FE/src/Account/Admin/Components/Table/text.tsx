@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AcUnitIcon from "@mui/icons-material/AcUnit"; // Snow icon
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import MuiAlert from "@mui/material/Alert";
 
 interface User {
     id: number;
