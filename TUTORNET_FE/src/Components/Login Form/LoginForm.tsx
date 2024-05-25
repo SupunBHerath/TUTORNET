@@ -15,7 +15,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Alert } from '@mui/material';
 import { Color, Font } from '../CSS/CSS';
-import Cookies from 'js-cookie';
 
 function Copyright(props: any) {
   return (

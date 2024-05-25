@@ -348,6 +348,8 @@ const PaymentTable: React.FC = () => {
 
     // Construct the full URL
     const fullURL = 'http://localhost:8080/uploads/' + imagePath;
+    console.log(fullURL);
+    
     return fullURL;
     console.log(fullURL);
     
@@ -411,10 +413,10 @@ const PaymentTable: React.FC = () => {
                 <TableCell>{row.location}</TableCell>
                 <TableCell>{row.payment}</TableCell>
                 <TableCell>
-                  <img src={`${constructFullURL(row.rec)}`} alt="Payment" onClick={() => handleImageZoom(row.rec)} style={{ cursor: 'pointer', maxWidth: '70px' }} />
+                  <img src={row.rec} alt="Payment" onClick={() => handleImageZoom(row.rec)} style={{ cursor: 'pointer', maxWidth: '70px' }} />
                 </TableCell>
                 <TableCell>
-                  <img src={`${constructFullURL(row.ads)}`} alt="Payment" onClick={() => handleImageZoom(row.ads)} style={{ cursor: 'pointer', maxWidth: '70px' }} />
+                  <img src={row.ads} alt="Payment" onClick={() => handleImageZoom(row.ads)} style={{ cursor: 'pointer', maxWidth: '70px' }} />
                 </TableCell>
                 <TableCell style={{ cursor: 'pointer', color: row.status === 'Pending' ? 'blue' : row.status === 'Done' ? 'green' : 'red' }}>{row.status}</TableCell>
                 <TableCell>
