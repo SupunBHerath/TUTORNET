@@ -13,7 +13,7 @@ function getRandomInt(min, max) {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/images');
+        cb(null, 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/public/images');
     },
     filename: function (req, file, cb) {
         const randomNumber = getRandomInt(1000, 9999); // Generate a random number between 1000 and 9999
