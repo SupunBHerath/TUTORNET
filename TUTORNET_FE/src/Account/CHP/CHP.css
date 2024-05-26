@@ -107,3 +107,11 @@
   .text{
     line-height: 80px;
   }
+
+  .logoimage{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    
+  }
