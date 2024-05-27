@@ -13,6 +13,7 @@ const admin = require('./router/admin.js');
 const ads = require('./router/uploadImage.js');
 const reqads = require('./controller/requestAdsController.js');
 const validate = require('./router/validate.js');
+const post = require('./router/postRoute.js');
 const mail = require('./Mail/adsSubmit.js');
 const path =    require('path');
 
@@ -40,6 +41,7 @@ app.use('/admin',admin)
 app.use('/ads',ads)
 app.use('/reqads',reqads)
 app.use('/validate',validate)
+app.use('/post',post)
 //mail
 app.use('/mail',mail)
 

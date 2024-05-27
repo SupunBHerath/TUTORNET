@@ -5,6 +5,7 @@ import axios from 'axios';
 // Define a type for the user data
 interface UserData {
   userId: string;
+  username: string;
   email: string;
   role: string;
 }
@@ -14,6 +15,7 @@ const useCookie = () => {
   const [isValidToken, setIsValidToken] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     userId: '',
+    username: '',
     email: '',
     role: '',
   });
@@ -41,6 +43,7 @@ const useCookie = () => {
           userId: response.data.userId,
           email: response.data.email,
           role: response.data.role,
+          username: response.data.username,
         });
       } catch (error) {
         console.error('Error fetching data:', error);

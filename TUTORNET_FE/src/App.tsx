@@ -14,6 +14,7 @@ import TecherHome from './Account/Teacher/Pages/TecherHome';
 import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
 import AdminMain from './Account/Admin/Pages/AdminMain';
+import PostPage from './Account/Teacher/Pages/PostPage';
 
 
 
@@ -36,6 +37,7 @@ const App = () => {
         {/* ----------teacher  route -------------------------*/}
         <Route path="/teacher" element={<TecherHome />} />
         <Route path="/ads" element={<Ads/>} />
+        <Route path="/post" element={<PostPage/>} />
 
         {/* ----------admin  route -------------------------*/}
         

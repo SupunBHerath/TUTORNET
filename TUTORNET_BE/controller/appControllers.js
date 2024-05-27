@@ -61,6 +61,7 @@ module.exports.login = async (req, res) => {
         const token = jwt.sign(
             { 
                 userId: user._id,
+                username: user.name,
                 email: user.email,
                 role: user.role || userType
             },

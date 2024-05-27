@@ -32,7 +32,8 @@ const ADashboard = () => {
 
   return (
     <div className='pt-1'>
-      <div className="d-flex row justify-content-evenly " >
+      <div className="col d-lg-flex    justify-content-evenly  " >
+        
         <HeaderCard icon={teacherIcon} title="Teachers" count={row}  />
         <HeaderCard icon={studentIcon} title="Students" count="5000" />
         <HeaderCard icon={postIcon} title="Post" count="1500" />
