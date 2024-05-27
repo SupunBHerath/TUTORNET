@@ -8,10 +8,13 @@ import Profile from '../Components/Profile'
 
 const TecherHome = () => {
   return (
-    <div>
+    <div className='bg-body-tertiary '>
       <Navi_Bar />
+      <div className="headerP  container shadow-sm  " style={{height:'600px'}}>
       <Profile/>
-      <br /><br />
+
+      </div>
+      
 
       <div className="container  mt-5" style={{ width: "1000px", justifyContent: "start" }}>
         <hr />

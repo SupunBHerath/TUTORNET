@@ -2,13 +2,13 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import Post from '../../../../Components/Post/Post';
-import PostPage from '../Post/Postpage';
-import Introduction from '../Intro/Intro';
 import Tabs1 from './Tabs1';
 import Tabs2 from './Tabs2';
 import Tabs4 from './Tabs4';
 import Tabs3 from './Tabs3';
+
+
+
 
 export default function ColorTabs() {
     const [value, setValue] = React.useState('Post'); // Set default value to 'Post'

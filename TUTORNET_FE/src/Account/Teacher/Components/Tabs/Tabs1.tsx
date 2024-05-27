@@ -5,11 +5,11 @@ import './Tabs1.css'; // Import CSS file for styling
 
 const Tabs1: React.FC = () => {
     return (
-        <div className="tabs-container">
+        <div className="tabs-container ">
             <div className="intro-container">
                 <Introduction bio='h' livesIn='bjkjjjj' from='kkk' location='nnn' education='hbbjnb' />
             </div>
-            <div className="post-container">
+            <div className="post-container bg-body-tertiary ">
                 <PostPage />
             </div>
         </div>
