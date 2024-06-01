@@ -79,9 +79,6 @@ const PostPage: React.FC = () => {
     setPreview('');
   };
 
-import Logo from '../../../../../public/logo/Logo_t.png'
-import Post from '../../../../Components/Post/Post'
-
 
   return (
     <div style={{ position: 'relative', padding: '20px' }}>

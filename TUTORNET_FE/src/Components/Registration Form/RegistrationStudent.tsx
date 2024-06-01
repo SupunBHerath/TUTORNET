@@ -3,11 +3,9 @@ import { TextField, Button, Container, Grid, Typography, Alert } from '@mui/mate
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../CSS/CSS';
-<<<<<<< HEAD
+
 import { ToastContainer} from 'react-toastify';
-=======
-import { ToastContainer } from 'react-toastify';
->>>>>>> aa02b3861793ca34e5aada9797cae7b85198c5fa
+
 
 export default function RegistrationStudent(prop: any) {
   const navigate = useNavigate();

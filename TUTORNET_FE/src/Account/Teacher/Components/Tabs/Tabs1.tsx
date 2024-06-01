@@ -1,7 +1,7 @@
 import React from 'react';
 import Introduction from '../Intro/Intro';
 import PostPage from '../Post/Postpage';
-import './Tabs1.css'; // Import CSS file for styling
+import './Tabs1.css'; 
 
 const Tabs1: React.FC = () => {
     return (
