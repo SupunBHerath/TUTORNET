@@ -12,64 +12,158 @@ interface IntroductionProps {
 
 const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, location, education }) => {
     const [isEditing, setIsEditing] = useState(false);
+    const [bioText, setBioText] = useState(bio);
+    const [livesInText, setLivesInText] = useState(livesIn);
+    const [fromText, setFromText] = useState(from);
+    const [locationText, setLocationText] = useState(location);
+    const [educationText, setEducationText] = useState(education);
+
+    const handleSave = () => {
+        setIsEditing(false);
+    };
 
     return (
-        <Box sx={{ backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px', maxWidth: '400px', marginRight: 'auto' }}>
-            <header>
+        <Box
+            sx={{
+                backgroundColor: '#ffffff', // Change background color to white
+                padding: '20px',
+                borderRadius: '10px',
+                maxWidth: '400px',
+                margin: 'auto', // Center the box horizontally
+                fontFamily: 'Oswald', // Applying "Oswald" font family
+                boxShadow: '0px 0px 20px 0px rgba(0,0,0,0.2)', // Increase shadow intensity
+                border: '2px solid rgba(0, 0, 0, 0.1)', // Add border
+            }}
+        >
+            <Box sx={{ textAlign: 'center' }}>
                 <h2>Intro</h2>
-            </header>
-            <Divider />
+                <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
+            </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle /> {/* Icon */}
-                <h3>Bio</h3>
+                <AccountCircle sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Bio</h3>
             </Box>
             {isEditing ? (
-                <input type="text" defaultValue={bio} />
+                <input
+                    type="text"
+                    value={bioText}
+                    onChange={(e) => setBioText(e.target.value)}
+                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
+                />
             ) : (
-                <p>{bio}</p>
+                <p>{bioText}</p>
             )}
-            <Divider />
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <Home /> {/* Icon */}
-                <h3>Lives in</h3>
+                <Home sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Lives in</h3>
             </Box>
             {isEditing ? (
-                <input type="text" defaultValue={livesIn} />
+                <input
+                    type="text"
+                    value={livesInText}
+                    onChange={(e) => setLivesInText(e.target.value)}
+                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
+                />
             ) : (
-                <p>{livesIn}</p>
+                <p>{livesInText}</p>
             )}
-            <Divider />
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <LocationOn /> {/* Icon */}
-                <h3>From</h3>
+                <LocationOn sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>From</h3>
             </Box>
             {isEditing ? (
-                <input type="text" defaultValue={from} />
+                <input
+                    type="text"
+                    value={fromText}
+                    onChange={(e) => setFromText(e.target.value)}
+                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
+                />
             ) : (
-                <p>{from}</p>
+                <p>{fromText}</p>
             )}
-            <Divider />
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <LocationOn /> {/* Icon */}
-                <h3>Location</h3>
+                <LocationOn sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Location</h3>
             </Box>
             {isEditing ? (
-                <input type="text" defaultValue={location} />
+                <input
+                    type="text"
+                    value={locationText}
+                    onChange={(e) => setLocationText(e.target.value)}
+                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
+                />
             ) : (
-                <p>{location}</p>
+                <p>{locationText}</p>
             )}
-            <Divider />
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <School /> {/* Icon */}
-                <h3>Education</h3>
+                <School sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Education</h3>
             </Box>
             {isEditing ? (
-                <input type="text" defaultValue={education} />
+                <input
+                    type="text"
+                    value={educationText}
+                    onChange={(e) => setEducationText(e.target.value)}
+                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
+                />
             ) : (
-                <p>{education}</p>
+                <p>{educationText}</p>
             )}
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                {isEditing ? <button>Save</button> : <button onClick={() => setIsEditing(true)}>Edit Details</button>}
+            <Box sx={{ display: 'flex', justifyContent: isEditing ? 'space-between' : 'center', marginTop: '20px' }}>
+                {isEditing ? (
+                    <>
+                        <button
+                            onClick={() => setIsEditing(false)}
+                            style={{
+                                backgroundColor: '#004aad',
+                                color: 'white',
+                                borderRadius: '5px',
+                                padding: '10px 20px',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontWeight: 'normal', // Remove bold
+                            }}
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            onClick={handleSave}
+                            style={{
+                                backgroundColor: '#004aad',
+                                color: 'white',
+                                borderRadius: '5px',
+                                padding: '10px 20px',
+                                border: 'none',
+                                cursor: 'pointer',
+                                fontWeight: 'normal', // Remove bold
+                            }}
+                        >
+                            Save
+                        </button>
+                    </>
+                ) : (
+                    <button
+                        onClick={() => setIsEditing(true)}
+                        style={{
+                            backgroundColor: '#004aad',
+                            color: 'white',
+                            borderRadius: '5px',
+                            padding: '10px 20px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontWeight: 'normal', // Remove bold
+                        }}
+                    >
+                        Edit Details
+
+
+                    </button>
+                )}
             </Box>
         </Box>
     );
