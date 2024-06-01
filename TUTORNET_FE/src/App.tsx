@@ -3,16 +3,12 @@ import StudentHome from './Account/Student/StudentHome';
 
 import Home from './Account/CHP/Home';
 import LoginForm from './Components/Login Form/LoginForm';
-import RegistrationForm from './Components/Registration Form/RegistrationStudent';
 import UserManage from './Account/Admin/Pages/UserManage';
 import Landing from './Account/Landing_page/Pages/Landing';
 import PaymentManage from './Account/Admin/Pages/PaymentManage';
 import axios from 'axios';
 import TeacherRegister from './Pages/TeacherRegister';
 import StudentRegister from './Pages/StudentRegister';
-import Login from './Pages/Login';
-import AdsManage from './Account/Admin/Pages/AdsManage';
-
 import TecherHome from './Account/Teacher/Pages/TecherHome';
 import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
@@ -30,6 +26,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/Landing" element={<Landing />} />
+        <Route path="/reg/teacher" element={<TeacherRegister />} />
+        <Route path="/reg/student" element={<StudentRegister />} />
     
 
         {/* ----------student  route -------------------------*/}
