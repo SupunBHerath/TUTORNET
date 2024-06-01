@@ -1,3 +1,4 @@
+
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import Logo from '../../../../../public/logo/Logo_t.png';
 import Post from '../../../../Components/Post/Post';
@@ -77,6 +78,10 @@ const PostPage: React.FC = () => {
     setNewPost({ img: null, description: '' });
     setPreview('');
   };
+
+import Logo from '../../../../../public/logo/Logo_t.png'
+import Post from '../../../../Components/Post/Post'
+
 
   return (
     <div style={{ position: 'relative', padding: '20px' }}>

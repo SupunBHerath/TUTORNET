@@ -1,17 +1,22 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {  Route, Routes } from 'react-router-dom';
 import StudentHome from './Account/Student/StudentHome';
-// import Signup from './Login_Signup/Signup';
+
 import Home from './Account/CHP/Home';
 import LoginForm from './Components/Login Form/LoginForm';
+import RegistrationForm from './Components/Registration Form/RegistrationStudent';
 import UserManage from './Account/Admin/Pages/UserManage';
 import Landing from './Account/Landing_page/Landing';
 import PaymentManage from './Account/Admin/Pages/PaymentManage';
 import axios from 'axios';
+import TeacherRegister from './Pages/TeacherRegister';
+import StudentRegister from './Pages/StudentRegister';
+import Login from './Pages/Login';
+import AdsManage from './Account/Admin/Pages/AdsManage';
+
 import TecherHome from './Account/Teacher/Pages/TecherHome';
-import AdminNavbar from './Account/Admin/Components/Sidebar/AdminNavbar';
 import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
+import AdminMain from './Account/Admin/Pages/AdminMain';
 
 
 
@@ -45,7 +50,7 @@ const App = () => {
        
 
         
-        <Route path="admin" element={<AdminNavbar />} />
+        <Route path="admin" element={<AdminMain/>} />
         <Route path="admin/user" element={<UserManage />} />
         <Route path="admin/payment" element={<PaymentManage />} />
        

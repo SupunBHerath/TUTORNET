@@ -16,7 +16,7 @@ const AdsManagePage: React.FC = () => {
 
   useEffect(() => {
     // Fetch ads data
-    fetch('http://localhost:8080/ads/all')
+    fetch('https://tutornet-5v7a-supunbheraths-projects.vercel.app/ads/all')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

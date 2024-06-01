@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
+import  { useState } from 'react';
 import { TextField, Button, Container, Grid, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../CSS/CSS';
-import { ToastContainer, toast } from 'react-toastify';
+<<<<<<< HEAD
+import { ToastContainer} from 'react-toastify';
+=======
+import { ToastContainer } from 'react-toastify';
+>>>>>>> aa02b3861793ca34e5aada9797cae7b85198c5fa
 
 export default function RegistrationStudent(prop: any) {
   const navigate = useNavigate();
@@ -83,7 +86,7 @@ export default function RegistrationStudent(prop: any) {
     event.preventDefault();
   
     try {
-      const response = await axios.post('http://localhost:8080/student/register', { ...formData });
+      const response = await axios.post('https://tutornet-5v7a-supunbheraths-projects.vercel.app/student/register', { ...formData });
       if (response.status === 200) {
         setSuccess(true);
         setTimeout(() => {
@@ -218,31 +221,3 @@ export default function RegistrationStudent(prop: any) {
   );
 }
 
-
-const district = [
-  { title: 'Ampara' },
-  { title: 'Anuradhapura' },
-  { title: 'Badulla' },
-  { title: 'Batticaloa' },
-  { title: 'Colombo' },
-  { title: 'Galle' },
-  { title: 'Gampaha' },
-  { title: 'Hambantota' },
-  { title: 'Jaffna' },
-  { title: 'Kalutara' },
-  { title: 'Kandy' },
-  { title: 'Kegalle' },
-  { title: 'Kilinochchi' },
-  { title: 'Kurunegala' },
-  { title: 'Mannar' },
-  { title: 'Matale' },
-  { title: 'Matara' },
-  { title: 'Monaragala' },
-  { title: 'Mullaitivu' },
-  { title: 'Nuwara Eliya' },
-  { title: 'Polonnaruwa' },
-  { title: 'Puttalam' },
-  { title: 'Ratnapura' },
-  { title: 'Trincomalee' },
-  { title: 'Vavuniya' }
-];

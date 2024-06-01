@@ -1,8 +1,6 @@
-import React from 'react'
 import Navi_Bar from '../Components/Navi_Bar/Navi_Bar'
 
 import ColorTabs from '../Components/Tabs/Tabs'
-import Introduction from '../Components/Intro/Intro'
 import Profile from '../Components/Profile'
 
 

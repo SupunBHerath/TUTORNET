@@ -1,7 +1,5 @@
-import React from 'react'
 import Post from '../../Components/Post/Post'
 import Logo from '../../../public/logo/Logo_t.png'
-import ads from '../../../public/Ads/ads3.jpg'
 import t from '../../../public/Teacher/t2.jpeg'
 import ads3 from '../../../public/Ads/ads2.jpg'
 

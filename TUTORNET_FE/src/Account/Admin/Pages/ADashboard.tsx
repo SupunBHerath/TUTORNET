@@ -12,7 +12,7 @@ import { Color } from '../../../Components/CSS/CSS'
 const ADashboard = () => {
   const [row, setRow] = useState(null);
   useEffect(() => {
-    fetch('http://localhost:8080/teacher/user')
+    fetch('http://localhost:8080/teacher/all')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
