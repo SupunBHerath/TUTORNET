@@ -50,7 +50,7 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <Grid container direction="column" alignItems="center" className='container'>
+      <Grid container direction="column" alignItems="center" className='container  '>
         {/* Cover Photo */}
         <Grid item xs={12} style={{ position: 'relative', width: isSmallScreen ? '100%' : '85%', marginTop: 40 }}>
           <img src={coverPhoto} alt="Cover" style={{ width: '100%', maxHeight: '350px', overflow: 'hidden', borderRadius: 20 }} />
@@ -60,8 +60,8 @@ const Profile: React.FC = () => {
             alt="Profile Picture"
             src={profilePicture}
             sx={{
-              width: isSmallScreen ? 200 : 320,
-              height: isSmallScreen ? 200 : 320,
+              width: isSmallScreen ? 200 : 250,
+              height: isSmallScreen ? 200 : 250,
               position: 'absolute',
               bottom: isSmallScreen ? -100 : -180,
               left: isSmallScreen ? 'calc(50% - 100px)' : 60,

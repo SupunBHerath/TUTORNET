@@ -48,7 +48,7 @@ function Navi_Bar() {
   };
 
   return (
-    <AppBar position="static" style={{backgroundColor:Color.PrimaryColor}}>
+    <AppBar position="fixed" style={{backgroundColor:Color.PrimaryColor}}>
       <Container maxWidth="xl" >
         <Toolbar disableGutters>
         

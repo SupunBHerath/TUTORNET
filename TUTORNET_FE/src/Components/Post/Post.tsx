@@ -77,14 +77,7 @@ export default function Post(props:any) {
         <IconButton aria-label="share">
           <AddCommentRoundedIcon />
         </IconButton>
-        {/* <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore> */}
+       
       </CardActions>
       
     </Card>
