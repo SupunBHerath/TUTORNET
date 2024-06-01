@@ -1,38 +1,70 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Box, Divider } from '@mui/material';
-import { AccountCircle, LocationOn, Home, School } from '@mui/icons-material'; // Import icons
+import { AccountCircle, LocationOn, Home, School } from '@mui/icons-material';
+import useCookie from '../../../../Hook/UserAuth';
 
-interface IntroductionProps {
-    bio: string;
-    livesIn: string;
-    from: string;
-    location: string;
-    education: string;
-}
 
-const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, location, education }) => {
+
+const Introduction = () => {
     const [isEditing, setIsEditing] = useState(false);
-    const [bioText, setBioText] = useState(bio);
-    const [livesInText, setLivesInText] = useState(livesIn);
-    const [fromText, setFromText] = useState(from);
-    const [locationText, setLocationText] = useState(location);
-    const [educationText, setEducationText] = useState(education);
+    const [bioText, setBioText] = useState("bio");
+    const [livesInText, setLivesInText] = useState("livesIn");
+    const [fromText, setFromText] = useState("from");
+    const [Classlocations, setClasslocations] = useState("location");
+    const [educationText, setEducationText] = useState("education");
 
-    const handleSave = () => {
-        setIsEditing(false);
+
+    const { isValidToken, userData } = useCookie();
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const response = await axios.get(`teacher/${userData.userId}`);
+                const fetchedData = response.data;
+                setBioText(fetchedData.bio);
+                setLivesInText(fetchedData.livesIn);
+                setFromText(fetchedData.from);
+                setClasslocations(fetchedData.classlocations);
+                setEducationText(fetchedData.education);
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (isValidToken && userData.role === 'Teacher') {
+            getData();
+        }
+    }, [isValidToken, userData]);
+
+
+    const handleSave = async () => {
+        try {
+            const response = await axios.put(`/teacher/up-bio/${userData.userId}`, {
+                bio: bioText,
+                livesIn: livesInText,
+                location: Classlocations,
+                education: educationText,
+            });
+            console.log('Data updated successfully:', response.data);
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Error updating data:', error);
+        }
     };
 
     return (
         <Box
             sx={{
-                backgroundColor: '#ffffff', // Change background color to white
+                backgroundColor: '#ffffff',
                 padding: '20px',
                 borderRadius: '10px',
                 maxWidth: '400px',
-                margin: 'auto', // Center the box horizontally
-                fontFamily: 'Oswald', // Applying "Oswald" font family
-                boxShadow: '0px 0px 20px 0px rgba(0,0,0,0.2)', // Increase shadow intensity
-                border: '2px solid rgba(0, 0, 0, 0.1)', // Add border
+                margin: 'auto',
+                fontFamily: 'Oswald',
+                boxShadow: '0px 0px 20px 0px rgba(0,0,0,0.2)',
+                border: '2px solid rgba(0, 0, 0, 0.1)',
             }}
         >
             <Box sx={{ textAlign: 'center' }}>
@@ -40,7 +72,7 @@ const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, locatio
                 <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <AccountCircle sx={{ color: '#004aad', marginRight: '10px' }} />
                 <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Bio</h3>
             </Box>
             {isEditing ? (
@@ -55,7 +87,7 @@ const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, locatio
             )}
             <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <Home sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <Home sx={{ color: '#004aad', marginRight: '10px' }} />
                 <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Lives in</h3>
             </Box>
             {isEditing ? (
@@ -70,37 +102,7 @@ const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, locatio
             )}
             <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <LocationOn sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
-                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>From</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    value={fromText}
-                    onChange={(e) => setFromText(e.target.value)}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{fromText}</p>
-            )}
-            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <LocationOn sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
-                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Location</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    value={locationText}
-                    onChange={(e) => setLocationText(e.target.value)}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{locationText}</p>
-            )}
-            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <School sx={{ color: '#004aad', marginRight: '10px' }} /> {/* Icon */}
+                <School sx={{ color: '#004aad', marginRight: '10px' }} />
                 <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Education</h3>
             </Box>
             {isEditing ? (
@@ -113,7 +115,23 @@ const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, locatio
             ) : (
                 <p>{educationText}</p>
             )}
-            <Box sx={{ display: 'flex', justifyContent: isEditing ? 'space-between' : 'center', marginTop: '20px' }}>
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                <LocationOn sx={{ color: '#004aad', marginRight: '10px' }} />
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Class locations</h3>
+            </Box>
+            {isEditing ? (
+                <input
+                    type="text"
+                    value={Classlocations}
+                    onChange={(e) => setClasslocations(e.target.value)}
+                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
+                />
+            ) : (
+                <p>{Classlocations}</p>
+            )}
+
+            {/* <Box sx={{ display: 'flex', justifyContent: isEditing ? 'space-between' : 'center', marginTop: '20px' }}>
                 {isEditing ? (
                     <>
                         <button
@@ -125,7 +143,7 @@ const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, locatio
                                 padding: '10px 20px',
                                 border: 'none',
                                 cursor: 'pointer',
-                                fontWeight: 'normal', // Remove bold
+                                fontWeight: 'normal',
                             }}
                         >
                             Cancel
@@ -140,7 +158,7 @@ const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, locatio
                                 padding: '10px 20px',
                                 border: 'none',
                                 cursor: 'pointer',
-                                fontWeight: 'normal', // Remove bold
+                                fontWeight: 'normal',
                             }}
                         >
                             Save
@@ -156,17 +174,15 @@ const Introduction: React.FC<IntroductionProps> = ({ bio, livesIn, from, locatio
                             padding: '10px 20px',
                             border: 'none',
                             cursor: 'pointer',
-                            fontWeight: 'normal', // Remove bold
+                            fontWeight: 'normal',
                         }}
                     >
                         Edit Details
-
-
                     </button>
                 )}
-            </Box>
+            </Box> */}
         </Box>
     );
-}
+};
 
 export default Introduction;

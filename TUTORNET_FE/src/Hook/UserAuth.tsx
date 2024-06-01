@@ -26,7 +26,7 @@ const useCookie = () => {
 
       console.log('User token:', token);
       if (!token) {
-        navigate('/'); // Redirect to login page if token is not found
+        navigate('/'); 
         return;
       }
 
@@ -38,7 +38,7 @@ const useCookie = () => {
         });
 
         console.log(response.data);
-        setIsValidToken(true); // Token is valid
+        setIsValidToken(true); 
         setUserData({
           userId: response.data.userId,
           email: response.data.email,
@@ -47,14 +47,15 @@ const useCookie = () => {
         });
       } catch (error) {
         console.error('Error fetching data:', error);
-        setIsValidToken(false); // Token is not valid
+        setIsValidToken(false); 
+        navigate('/');
       }
     };
 
     validateToken();
-  }, [navigate]); // Added 'navigate' as a dependency to avoid warning
+  }, [navigate]); 
 
-  // Return isValidToken and userData
+ 
   return { isValidToken, userData };
 };
 

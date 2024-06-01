@@ -15,7 +15,7 @@ function getRandomInt(min, max) {
 }
 
 
-// const storage = multer.diskStorage({
+
 //     destination: function (req, file, cb) {
 //         cb(null, 'public/images');
 //     },
@@ -65,7 +65,7 @@ const storage = new CloudinaryStorage({
     params: {
         folder: 'ADS', // Optional, specify the folder in Cloudinary to upload files to
         allowed_formats: ['jpg', 'jpeg', 'png'], // Optional, specify allowed formats
-        // Other Cloudinary parameters can be added as needed
+       
     }
 });
 

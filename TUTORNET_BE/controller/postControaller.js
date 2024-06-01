@@ -20,7 +20,7 @@ const storage = new CloudinaryStorage({
   }
 });
 
-const upload = multer({ storage: storage }).single('image'); // Change here
+const upload = multer({ storage: storage }).single('image'); 
 
 // Define the post upload method
 

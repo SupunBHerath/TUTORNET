@@ -25,7 +25,6 @@ const style = {
 };
 
 
-// Define the user type
 type User = {
   id: number;
   name: string;
@@ -33,7 +32,6 @@ type User = {
   role: string;
 };
 
-// Sample data for the table   http://localhost:8080/teacher/user
 const rows: User[] = [];
 fetch('http://localhost:8080/teacher/user')
   .then(response => {

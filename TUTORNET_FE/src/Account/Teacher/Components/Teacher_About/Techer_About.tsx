@@ -1,159 +1,162 @@
-import React, { useState } from 'react';
-import { Box, Divider } from '@mui/material';
-import { AccountCircle, LocationOn, School } from '@mui/icons-material';
+import React, { useEffect, useState } from 'react';
+import { Box, Divider, CircularProgress, Button, TextField, Typography } from '@mui/material';
+import { AccountCircle, LocationOn, School, Home } from '@mui/icons-material';
+import axios from 'axios';
+import useCookie from '../../../../Hook/UserAuth';
 
-interface AboutProps {
-    name: string;
-    job: string;
-    location: string;
-    education: string;
-    mobile: string;
-    landline: string;
-    email: string;
+interface FormValues {
+  name: string;
+  subject: string;
+  location: string;
+  education: string;
+  mobile: string;
+  landline: string;
+  bio: string;
+  livesIn: string;
+ 
 }
 
-const AboutPage: React.FC<AboutProps> = ({ name, job, location, education, mobile, landline, email }) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [formValues, setFormValues] = useState({ name, job, location, education, mobile, landline, email });
+const fieldOrder = [
+  { key: 'name', label: 'Name', icon: <AccountCircle /> },
+  { key: 'bio', label: 'Bio', icon: <AccountCircle /> },
+  { key: 'livesIn', label: 'Lives in', icon: <Home /> },
+  { key: 'education', label: 'Education', icon: <School /> },
+  { key: 'subject', label: 'subject', icon: <AccountCircle /> },
+  { key: 'location', label: 'Class locations ', icon: <LocationOn /> },
+  { key: 'mobile', label: 'Mobile', icon: <AccountCircle /> },
+  { key: 'landline', label: 'Landline', icon: <AccountCircle /> },
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
+];
+
+const AboutPage: React.FC = () => {
+  const { userData, isValidToken } = useCookie();
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [formValues, setFormValues] = useState<FormValues>({
+    name: '',
+    subject: '',
+    location: '',
+    education: '',
+    mobile: '',
+    landline: '',
+    bio: '',
+    livesIn: ''
+   
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`teacher/${userData.userId}`);
+        const data = response.data;
+        setFormValues({
+          name: data.name,
+          subject: data.subject,
+          location: data.classlocations,
+          education: data.education,
+          mobile: data.mobile,
+          landline: data.landline,
+          bio: data.bio,
+          livesIn: data.livesIn
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
     };
 
-    const handleSave = () => {
-        setIsEditing(false);
-    };
+    if (isValidToken) {
+      fetchData();
+    }
+  }, [userData, isValidToken]);
 
-    return (
-        <Box sx={{ backgroundColor: 'white', padding: '20px', borderRadius: '10px', maxWidth: '600px', margin: 'auto', marginTop: '50px', boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)', border: '2px solid #007bff' }}>
-            <header style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <h2>About</h2>
-            </header>
-            <Divider sx={{ borderBottom: '2px solid black' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle />
-                <h3 style={{ fontSize: '18px', marginLeft: '10px' }}>Name</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    name="name"
-                    value={formValues.name}
-                    onChange={handleInputChange}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{formValues.name}</p>
-            )}
-            <Divider sx={{ borderBottom: '2px solid black' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle />
-                <h3 style={{ fontSize: '18px', marginLeft: '10px' }}>Job</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    name="job"
-                    value={formValues.job}
-                    onChange={handleInputChange}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{formValues.job}</p>
-            )}
-            <Divider sx={{ borderBottom: '2px solid black' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <LocationOn />
-                <h3 style={{ fontSize: '18px', marginLeft: '10px' }}>Location</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    name="location"
-                    value={formValues.location}
-                    onChange={handleInputChange}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{formValues.location}</p>
-            )}
-            <Divider sx={{ borderBottom: '2px solid black' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <School />
-                <h3 style={{ fontSize: '18px', marginLeft: '10px' }}>Education</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    name="education"
-                    value={formValues.education}
-                    onChange={handleInputChange}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{formValues.education}</p>
-            )}
-            <Divider sx={{ borderBottom: '2px solid black' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle />
-                <h3 style={{ fontSize: '18px', marginLeft: '10px' }}>Mobile</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    name="mobile"
-                    value={formValues.mobile}
-                    onChange={handleInputChange}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{formValues.mobile}</p>
-            )}
-            <Divider sx={{ borderBottom: '2px solid black' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle />
-                <h3 style={{ fontSize: '18px', marginLeft: '10px' }}>Lan line</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    name="landline"
-                    value={formValues.landline}
-                    onChange={handleInputChange}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{formValues.landline}</p>
-            )}
-            <Divider sx={{ borderBottom: '2px solid black' }} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle />
-                <h3 style={{ fontSize: '18px', marginLeft: '10px' }}>Email</h3>
-            </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    name="email"
-                    value={formValues.email}
-                    onChange={handleInputChange}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{formValues.email}</p>
-            )}
-            <Box sx={{ display: 'flex', justifyContent: isEditing ? 'space-between' : 'center', marginTop: '20px' }}>
-                {isEditing ? (
-                    <>
-                        <button style={{ backgroundColor: '#004aad', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px' }} onClick={() => setIsEditing(false)}>Cancel</button>
-                        <button style={{ backgroundColor: '#004aad', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px' }} onClick={handleSave}>Save</button>
-                    </>
-                ) : (
-                    <button style={{ backgroundColor: '#004aad', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px' }} onClick={() => setIsEditing(true)}>Edit Details</button>
-                )}
-            </Box>
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleSave = async () => {
+    console.log(formValues);
+    
+    try {
+      await axios.put(`teacher/up-bio/${userData.userId}`, formValues);
+      
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  };
+
+  if (loading) {
+    return <CircularProgress color="primary" />;
+  }
+
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '10px',
+        maxWidth: '600px',
+        margin: 'auto',
+        marginTop: '50px',
+        boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)',
+        border: '2px solid #007bff'
+      }}
+    >
+      <header style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <h2>About</h2>
+      </header>
+      <Divider sx={{ borderBottom: '2px solid black' }} />
+
+   
+
+      {fieldOrder.map((field, index) => (
+        <Box key={field.key} sx={{ marginTop: '10px' }}>
+        
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {field.icon}
+            <Typography variant="h6" sx={{ fontWeight: 'bold', marginLeft: '10px' }}>
+              {field.label}:
+            </Typography>
+          </Box>
+          {isEditing ? (
+            <TextField
+              fullWidth
+              variant="outlined"
+              name={field.key}
+              value={formValues[field.key as keyof FormValues]}
+              onChange={handleInputChange}
+              sx={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none', marginTop: '5px' }}
+            />
+          ) : (
+            <Typography variant="body1" sx={{ marginLeft: '35px', marginTop: '5px' }}>
+              {formValues[field.key as keyof FormValues]}
+            </Typography>
+          )}
+          <Divider sx={{ borderBottom: '2px solid black', marginTop: '10px' }} />
         </Box>
-    );
-}
+      ))}
+
+      <Box sx={{ display: 'flex', justifyContent: isEditing ? 'space-between' : 'center', marginTop: '20px' }}>
+        {isEditing ? (
+          <>
+            <Button variant="contained" color="primary" onClick={() => setIsEditing(false)}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSave}>
+              Save
+            </Button>
+          </>
+        ) : (
+          <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
+            Edit Details
+          </Button>
+        )}
+      </Box>
+    </Box>
+  );
+};
 
 export default AboutPage;

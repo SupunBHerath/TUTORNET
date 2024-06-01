@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { Grid, Typography, Button, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton, Divider, useMediaQuery } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Typography, Button, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton, Divider, useMediaQuery, CircularProgress, Alert } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
-import coverphoto from '../../../../public/Teacher/image_22690a2b8a.jpg';
-import ProfilePicture from '../../../../public/Teacher/WhatsApp Image 2024-03-23 at 10.01.09_126679a9.jpg';
+import useCookie from '../../../Hook/UserAuth';
+import axios from 'axios';
+import { Color } from '../../../Components/CSS/CSS';
 
 const Profile: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  const [profilePicture, setProfilePicture] = useState(ProfilePicture);
-  const [coverPhoto, setCoverPhoto] = useState(coverphoto);
-  const [name, setName] = useState("Dr. Amith Pussella");
-  const [occupation, setOccupation] = useState("Physics Teacher");
+  const { userData } = useCookie();
 
-  const [newProfilePicture, setNewProfilePicture] = useState(ProfilePicture);
-  const [newCoverPhoto, setNewCoverPhoto] = useState(coverphoto);
-  const [newName, setNewName] = useState("Dr. Amith Pussella");
-  const [newOccupation, setNewOccupation] = useState("Physics Teacher");
+  const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const [coverPhoto, setCoverPhoto] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newOccupation, setNewOccupation] = useState("");
+  const [newProfilePicture, setNewProfilePicture] = useState<File | null>(null);
+  const [newCoverPhoto, setNewCoverPhoto] = useState<File | null>(null);
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -28,37 +32,96 @@ const Profile: React.FC = () => {
     setOpen(false);
   };
 
-  const handleSave = () => {
-    setProfilePicture(newProfilePicture);
-    setCoverPhoto(newCoverPhoto);
-    setName(newName);
-    setOccupation(newOccupation);
-    setOpen(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`teacher/${userData.userId}`);
+        const data = response.data;
+        setName(data.name);
+        setOccupation(data.subject);
+        setProfilePicture(data.profilePicture);
+        setCoverPhoto(data.coverPhoto);
+        setLoading(false);
+      } catch (error) {
+        console.log('Error fetching profile data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [userData.userId]);
+
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append('name', newName || name);
+      formData.append('subject', newOccupation || occupation);
+      if (newProfilePicture) {
+        formData.append('profilePicture', newProfilePicture);
+      }
+      if (newCoverPhoto) {
+        formData.append('coverPhoto', newCoverPhoto);
+      }
+
+      const response = await axios.put(`teacher/up-bio/${userData.userId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('Data updated successfully');
+        setName(newName || name);
+        setOccupation(newOccupation || occupation);
+        if (newProfilePicture) {
+          const updatedProfilePictureUrl = response.data.profilePicture;
+          setProfilePicture(updatedProfilePictureUrl);
+        }
+        if (newCoverPhoto) {
+          const updatedCoverPhotoUrl = response.data.coverPhoto;
+          setCoverPhoto(updatedCoverPhotoUrl);
+        }
+        setSuccess(true);
+        setTimeout(() => {
+          setSuccess(false);
+          setOpen(false);
+          setNewName("");
+          setNewOccupation("");
+          setNewProfilePicture(null);
+          setNewCoverPhoto(null);
+        }, 2000);
+      } else {
+        console.error('Error updating data');
+      }
+    } catch (error) {
+      console.error('Error updating data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleProfilePictureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setNewProfilePicture(URL.createObjectURL(event.target.files[0]));
+      setNewProfilePicture(event.target.files[0]);
     }
   };
 
   const handleCoverPhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setNewCoverPhoto(URL.createObjectURL(event.target.files[0]));
+      setNewCoverPhoto(event.target.files[0]);
     }
   };
 
   return (
     <>
-      <Grid container direction="column" alignItems="center" className='container  '>
-        {/* Cover Photo */}
+      <Grid container direction="column" alignItems="center" className="container">
         <Grid item xs={12} style={{ position: 'relative', width: isSmallScreen ? '100%' : '85%', marginTop: 40 }}>
-          <img src={coverPhoto} alt="Cover" style={{ width: '100%', maxHeight: '350px', overflow: 'hidden', borderRadius: 20 }} />
-
-          {/* Profile Picture */}
+          <img src={coverPhoto || ''} alt="Cover" style={{ minWidth: '100%', maxHeight: '350px', minHeight: '350px', overflow: 'hidden', backgroundColor: Color.SecondaryColor, borderRadius: 20 }} />
           <Avatar
             alt="Profile Picture"
-            src={profilePicture}
+            src={profilePicture || ''}
             sx={{
               width: isSmallScreen ? 200 : 250,
               height: isSmallScreen ? 200 : 250,
@@ -68,29 +131,28 @@ const Profile: React.FC = () => {
               border: '2px solid #fff',
             }}
           />
-
-          {/* Edit Profile Button */}
           <Button
             variant="contained"
             color="primary"
             startIcon={<EditIcon />}
-            style={{ position: 'absolute', right: 0, bottom: isSmallScreen ? -50 : -80, width: 150, height: 40, fontSize: '0.875rem' }}
+            style={{ position: 'absolute', right: 0, bottom: isSmallScreen ? -50 : -80, width: 180, height: 40, fontSize: '0.875rem' }}
             onClick={handleClickOpen}
           >
             Edit Profile
           </Button>
         </Grid>
-
-        {/* User Info */}
         <Grid item xs={12} alignItems="center" style={{ textAlign: 'center', marginTop: isSmallScreen ? 70 : 30, marginLeft: isSmallScreen ? 0 : 130 }}>
           <Typography variant="h4">{name}</Typography>
           <Typography variant="subtitle1">({occupation})</Typography>
         </Grid>
       </Grid>
-
-      {/* Edit Profile Dialog */}
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>Edit Profile</DialogTitle>
+        {success && (
+          <Alert severity="success">
+            Update Success
+          </Alert>
+        )}
         <DialogContent>
           <Divider />
           <Grid container spacing={2} alignItems="center" style={{ marginTop: 16 }}>
@@ -102,7 +164,7 @@ const Profile: React.FC = () => {
               </IconButton>
             </Grid>
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-              <Avatar src={newProfilePicture} alt="Profile" sx={{ width: 100, height: 100 }} />
+              <Avatar src={newProfilePicture ? URL.createObjectURL(newProfilePicture) : profilePicture || ''} alt="Profile" sx={{ width: 100, height: 100 }} />
             </Grid>
             <Divider style={{ width: '100%', margin: '16px 0' }} />
             <Grid item xs={12} style={{ display: 'flex', alignItems: 'center' }}>
@@ -113,7 +175,7 @@ const Profile: React.FC = () => {
               </IconButton>
             </Grid>
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-              <img src={newCoverPhoto} alt="Cover" style={{ width: '100%', maxHeight: '200px', borderRadius: 8 }} />
+              <img src={newCoverPhoto ? URL.createObjectURL(newCoverPhoto) : coverPhoto || ''} style={{ minWidth: '100%', maxHeight: '200px', minHeight: '200px', overflow: 'hidden', backgroundColor: Color.SecondaryColor, borderRadius: 20 }} />
             </Grid>
             <Divider style={{ width: '100%', margin: '16px 0' }} />
             <Grid item xs={12} style={{ display: 'flex', alignItems: 'center' }}>
@@ -127,6 +189,7 @@ const Profile: React.FC = () => {
                 fullWidth
                 variant="outlined"
                 value={newName}
+                placeholder={name}
                 onChange={(e) => setNewName(e.target.value)}
               />
             </Grid>
@@ -142,6 +205,7 @@ const Profile: React.FC = () => {
                 fullWidth
                 variant="outlined"
                 value={newOccupation}
+                placeholder={occupation}
                 onChange={(e) => setNewOccupation(e.target.value)}
               />
             </Grid>
@@ -151,8 +215,8 @@ const Profile: React.FC = () => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSave} color="primary">
-            Save Changes
+          <Button onClick={handleSave} color="primary" disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : "Save Changes"}
           </Button>
         </DialogActions>
       </Dialog>
