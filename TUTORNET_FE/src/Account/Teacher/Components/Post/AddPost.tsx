@@ -1,4 +1,4 @@
-import { Alert, Box, Button, MenuItem, TextField } from '@mui/material';
+import { Alert, Box, Button, LinearProgress, MenuItem, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
@@ -13,6 +13,7 @@ const AddPost = () => {
     const [description, setDescription] = useState('');
     const [date, setDate] = useState('');
     const {userData} = useCookie();
+    const [progress , setProgress] =useState(false);
   
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
@@ -55,9 +56,10 @@ const AddPost = () => {
     };
 
     const handleSubmit = async () => {
+
         try {
             const formData = new FormData();
-
+             setProgress(true);
             formData.append('image', uploadedFile!);
             formData.append('username', userData.username); 
             formData.append('userId', userData.userId);
@@ -67,12 +69,14 @@ const AddPost = () => {
                 method: 'POST',
                 body: formData
             });
+         
             if (response.ok) {
+                setProgress(false)
                 console.log(response)
                 setSuccess(true);
                 setError(false);
                 setTimeout(() => {
-                  
+                  window.location.reload();
                 }, 1000);
                 console.log('Image uploaded successfully.');
                 // Handle success response here, such as displaying a success message
@@ -83,15 +87,17 @@ const AddPost = () => {
             }
         } catch (error) {
             console.error('Error uploading image:', error);
-            // Handle network or other errors
             setError(true);
+            setProgress(false)
+
 
         }
     };
 
     return (
-        <div className='container w-50'>
+        <div className='container w-100 '>
             <Box>
+                {progress && (<LinearProgress />)}
                 {success && <Alert severity="success">uploaded successfully.</Alert>}
                 {error && <Alert severity="error">Failed to upload </Alert>}
                 <br />
@@ -117,7 +123,7 @@ const AddPost = () => {
                 />
                
             </Box>
-            <br /><br />
+        
             <div
                 style={{
                     border: '1px solid #ccc',
