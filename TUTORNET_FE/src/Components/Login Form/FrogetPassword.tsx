@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './FrogetPassword.css'; // Assuming CSS module import
-import FrogetImage from '../images/FrogetPassword.jpeg';
+import FrogetImage from './FrogetPassword.jpeg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 

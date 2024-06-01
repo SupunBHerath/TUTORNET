@@ -44,7 +44,7 @@ module.exports.register = async (req, res) => {
     }
 };
 module.exports.all = async (req, res) => {
-    Teacher.find()
+    Student.find()
         .then(teacher => {
             res.status(200).json(teacher)
         }).catch(err => {
