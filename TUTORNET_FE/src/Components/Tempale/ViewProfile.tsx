@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Avatar, CircularProgress, Alert } from '@mui/material';
+import { Grid, Typography, Avatar, CircularProgress, Alert, LinearProgress } from '@mui/material';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
@@ -41,7 +41,8 @@ const ViewProfile: React.FC = () => {
   }, [id]);
 
   if (loading) {
-    return <div className="loading-spinner"><CircularProgress /></div>;
+    return <> <br /><LinearProgress/>
+    </>;
   }
 
   if (error) {
@@ -49,7 +50,7 @@ const ViewProfile: React.FC = () => {
   }
 
   return (
-    <Grid container direction="column" alignItems="center" className="container">
+    <Grid container direction="column" alignItems="center" className="container " >
       <Grid item xs={12} style={{ position: 'relative', width: isSmallScreen ? '100%' : '85%', marginTop: 40 }}>
         <img
           src={teacher?.coverPhoto || ''}

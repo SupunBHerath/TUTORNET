@@ -2,6 +2,7 @@ import useCookie from '../../Hook/UserAuth';
 import Navi_Bar from '../../Account/Student/Componets/Nav_bar/Navi_Bar';
 import SNavi_Bar from '../../Account/Student/Componets/Nav_bar/Navi_Bar';
 import ViewProfile from './ViewProfile';
+import MainTab from './Tabs/mainTab';
 
 const TeacherProfile = () => {
   
@@ -19,7 +20,10 @@ const TeacherProfile = () => {
             <div>
               <SNavi_Bar/>
               <ViewProfile/>
-              <h1>Student Profile</h1>
+              
+              <div className="container mt-5" style={{ width: "1000px", justifyContent: "start" }}>
+              <MainTab/>
+              </div>
             </div>
           )
     }else{
