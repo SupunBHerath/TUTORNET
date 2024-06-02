@@ -63,7 +63,8 @@ module.exports.login = async (req, res) => {
                 userId: user._id,
                 username: user.name,
                 email: user.email,
-                role: user.role || userType
+                role: user.role || userType,
+                profile : user.profilePicture || ""
             },
             process.env.JWT_SECRET, // Use a secret key for signing the token
             { expiresIn: '1h' } // Token expiration time

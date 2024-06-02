@@ -79,10 +79,8 @@ const AddPost = () => {
                   window.location.reload();
                 }, 1000);
                 console.log('Image uploaded successfully.');
-                // Handle success response here, such as displaying a success message
             } else {
                 console.error('Failed to upload image.');
-                // Handle failure response here, such as displaying an error message
                 setError(true);
             }
         } catch (error) {

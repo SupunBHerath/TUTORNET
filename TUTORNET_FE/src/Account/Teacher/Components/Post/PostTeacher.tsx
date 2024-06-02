@@ -8,7 +8,6 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
@@ -19,6 +18,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import axios from 'axios';
+import useCookie from '../../../../Hook/UserAuth';
+import TimeDifference from '../../../../Components/TimeDifference/TimeDifference';
+import { LinearProgress } from '@mui/material';
+import { color } from 'html2canvas/dist/types/css/types/color';
+import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -35,50 +40,49 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
-const PostTeacher = () => {
+interface Post {
+    id: number;
+    _id:string;
+    title: string;
+    uploadedDay: string;
+    description: string;
+    image: string;
+}
+
+const PostTeacher: React.FC = () => {
+    const { isValidToken, userData } = useCookie();
     const [expanded, setExpanded] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-    const [posts, setPosts] = React.useState<any[]>([
-        {
-            id: 1,
-            title: "Shrimp and Chorizo Paella",
-            subheader: "September 14, 2016",
-            content: "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.",
-            image: "/static/images/cards/paella.jpg"
-        },
-        {
-            id: 2,
-            title: "Spicy Basil Chicken",
-            subheader: "October 20, 2019",
-            content: "This spicy basil chicken is easy to make and full of flavor. Serve it with steamed rice for a complete meal.",
-            image: "/static/images/cards/chicken.jpg"
-        },
-        {
-            id: 2,
-            title: "Spicy Basil Chicken",
-            subheader: "October 20, 2019",
-            content: "This spicy basil chicken is easy to make and full of flavor. Serve it with steamed rice for a complete meal.",
-            image: "/static/images/cards/chicken.jpg"
-        },
-        {
-            id: 2,
-            title: "Spicy Basil Chicken",
-            subheader: "October 20, 2019",
-            content: "This spicy basil chicken is easy to make and full of flavor. Serve it with steamed rice for a complete meal.",
-            image: "/static/images/cards/chicken.jpg"
-        }
-    ]);
-    const [currentPost, setCurrentPost] = React.useState<any>(null);
+    const [progress , setProgress] =React.useState(false);
+
+    const [posts, setPosts] = React.useState<Post[]>([]);
+    const [currentPost, setCurrentPost] = React.useState<Post | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string | null>(null);
     const [imageFile, setImageFile] = React.useState<File | null>(null);
+
+    React.useEffect(() => {
+        const getData = async () => {
+            try {
+                const response = await axios.get(`/post/${userData.userId}`);
+                if (response.status === 200) {
+                    setPosts(response.data);
+                    
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        getData();
+    }, [userData.userId]);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    const handleMoreClick = (event: React.MouseEvent<HTMLElement>, post: any) => {
+    const handleMoreClick = (event: React.MouseEvent<HTMLElement>, post: Post) => {
         setCurrentPost(post);
         setAnchorEl(event.currentTarget);
     };
@@ -96,16 +100,37 @@ const PostTeacher = () => {
         setOpenEditDialog(false);
     };
 
-    const handleSave = () => {
-        if (imageFile) {
-            currentPost.image = imagePreview;
+    const handleSave = async () => {
+        if (currentPost) {
+            const formData = new FormData();
+            formData.append('title', currentPost.title);
+            formData.append('subheader', currentPost.uploadedDay);
+            formData.append('content', currentPost.description);
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            try {
+                const response = await axios.put(`/post/${currentPost.id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+
+                if (response.status === 200) {
+                    setPosts(posts.map(post => post.id === currentPost.id ? { ...currentPost, image: response.data.image } : post));
+                    setOpenEditDialog(false);
+                }
+            } catch (err) {
+                console.log(err);
+            }
         }
-        setPosts(posts.map(post => post.id === currentPost.id ? currentPost : post));
-        setOpenEditDialog(false);
     };
 
     const handleContentChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setCurrentPost({ ...currentPost, content: event.target.value });
+        if (currentPost) {
+            setCurrentPost({ ...currentPost, description: event.target.value });
+        }
     };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,13 +141,7 @@ const PostTeacher = () => {
         }
     };
 
-    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrentPost({ ...currentPost, title: event.target.value });
-    };
-
-    const handleSubheaderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrentPost({ ...currentPost, subheader: event.target.value });
-    };
+   
 
     const handleDelete = () => {
         handleClose();
@@ -133,9 +152,27 @@ const PostTeacher = () => {
         setOpenDeleteDialog(false);
     };
 
-    const handleConfirmDelete = () => {
-        setPosts(posts.filter(post => post.id !== currentPost.id));
-        setOpenDeleteDialog(false);
+    const handleConfirmDelete = async () => {
+        if (currentPost) {
+            try {
+                setProgress(true)
+                const response = await axios.delete(`/post/${currentPost._id}`);
+
+                setTimeout(() => {
+                    setPosts(posts.filter(post => post._id !== currentPost._id));
+                    setOpenDeleteDialog(false);
+                    setProgress(false)
+                    setAnchorEl(null);  
+                  }, 2000);
+                if (response.status === 200) {
+                  
+                }
+            } catch (err) {
+                console.log(err);
+                setProgress(false)
+
+            }
+        }
     };
 
     return (
@@ -144,8 +181,8 @@ const PostTeacher = () => {
                 <Card key={post.id} sx={{ maxWidth: 345, marginBottom: 2 }}>
                     <CardHeader
                         avatar={
-                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                R
+                            <Avatar sx={{ }} aria-label="recipe">
+                                  <img src={userData.profile} alt="0" style={{backgroundPositionX:'center', backgroundSize:'cover',width:'55px'}}/>
                             </Avatar>
                         }
                         action={
@@ -153,12 +190,12 @@ const PostTeacher = () => {
                                 <MoreVertIcon />
                             </IconButton>
                         }
-                        title={post.title}
-                        subheader={post.subheader}
+                        title={userData.username}
+                        subheader={<TimeDifference time={post.uploadedDay}/>}
                     />
                     <CardContent>
                         <Typography variant="body2" color="text.secondary">
-                            {post.content}
+                            {post.description}
                         </Typography>
                     </CardContent>
                     <CardMedia
@@ -188,22 +225,7 @@ const PostTeacher = () => {
                 <Dialog open={openEditDialog} onClose={handleEditDialogClose}>
                     <DialogTitle>Edit Post</DialogTitle>
                     <DialogContent>
-                        <TextField
-                            margin="dense"
-                            label="Title"
-                            type="text"
-                            fullWidth
-                            value={currentPost.title}
-                            onChange={handleTitleChange}
-                        />
-                        <TextField
-                            margin="dense"
-                            label="Subheader"
-                            type="text"
-                            fullWidth
-                            value={currentPost.subheader}
-                            onChange={handleSubheaderChange}
-                        />
+                  
                         <TextField
                             margin="dense"
                             label="Content"
@@ -211,7 +233,7 @@ const PostTeacher = () => {
                             fullWidth
                             multiline
                             rows={4}
-                            value={currentPost.content}
+                            value={currentPost.description}
                             onChange={handleContentChange}
                         />
                         <Button
@@ -249,6 +271,7 @@ const PostTeacher = () => {
                 open={openDeleteDialog}
                 onClose={handleDeleteDialogClose}
             >
+                  {progress && (<LinearProgress  />)}
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>
                     <Typography>Are you sure you want to delete this post?</Typography>

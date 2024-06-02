@@ -8,6 +8,7 @@ interface UserData {
   username: string;
   email: string;
   role: string;
+  profile: string;
 }
 
 const useCookie = () => {
@@ -18,6 +19,7 @@ const useCookie = () => {
     username: '',
     email: '',
     role: '',
+    profile: '',
   });
 
   useEffect(() => {
@@ -37,13 +39,14 @@ const useCookie = () => {
           },
         });
 
-        console.log(response.data);
+      
         setIsValidToken(true); 
         setUserData({
           userId: response.data.userId,
           email: response.data.email,
           role: response.data.role,
           username: response.data.username,
+          profile: response.data.profile
         });
       } catch (error) {
         console.error('Error fetching data:', error);

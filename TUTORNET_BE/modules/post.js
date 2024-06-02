@@ -28,6 +28,16 @@ const post = new Schema({
       default: Date.now // Set default value to current date
     },
    
+    profileImage: {
+      type: String,
+      required: true,
+    },
+   
+    uploadImageId: {
+      type: String,
+      required: true,
+    },
+   
     status: {
       type: String,
       required: true,

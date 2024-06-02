@@ -14,6 +14,8 @@ import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
 import AdminMain from './Account/Admin/Pages/AdminMain';
 import PostPage from './Account/Teacher/Pages/PostPage';
+import TeacherWall from './Account/Teacher/Pages/TeacherWall';
+import TeacherProfile from './Components/Tempale/TeacherProfile';
 
 
 
@@ -28,6 +30,7 @@ const App = () => {
         <Route path="/Landing" element={<Landing />} />
         <Route path="/reg/teacher" element={<TeacherRegister />} />
         <Route path="/reg/student" element={<StudentRegister />} />
+        <Route path="/teacher/:id" element={<TeacherProfile />} />
     
 
         {/* ----------student  route -------------------------*/}
@@ -39,9 +42,10 @@ const App = () => {
 
 
         {/* ----------teacher  route -------------------------*/}
-        <Route path="/teacher" element={<TecherHome />} />
-        <Route path="/ads" element={<Ads/>} />
-        <Route path="/post" element={<PostPage/>} />
+        <Route path="/teacher" element={<TeacherWall />} />
+        <Route path="/teacher/ads" element={<Ads/>} />
+        <Route path="/teacher/post" element={<PostPage/>} />
+        <Route path="/teacher/profile" element={<TecherHome/>} />
 
        
 

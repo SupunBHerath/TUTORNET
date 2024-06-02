@@ -4,7 +4,6 @@ import { useTheme } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import useCookie from '../../../Hook/UserAuth';
 import axios from 'axios';
-import { Color } from '../../../Components/CSS/CSS';
 
 const Profile: React.FC = () => {
   const { userData } = useCookie();
@@ -116,9 +115,9 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      <Grid container direction="column" alignItems="center" className="container">
+      <Grid container direction="column" alignItems="center" className="container" >
         <Grid item xs={12} style={{ position: 'relative', width: isSmallScreen ? '100%' : '85%', marginTop: 40 }}>
-          <img src={coverPhoto || ''} alt="Cover" style={{ minWidth: '100%', maxHeight: '350px', minHeight: '350px', overflow: 'hidden', backgroundColor: Color.SecondaryColor, borderRadius: 20 }} />
+          <img src={coverPhoto || ''} alt="Cover" style={{ minWidth: '100%', maxHeight: '350px', minHeight: '350px', overflow: 'hidden', backgroundColor: 'rgb(98, 100, 102)', borderRadius: 20 }} />
           <Avatar
             alt="Profile Picture"
             src={profilePicture || ''}
@@ -142,8 +141,8 @@ const Profile: React.FC = () => {
           </Button>
         </Grid>
         <Grid item xs={12} alignItems="center" style={{ textAlign: 'center', marginTop: isSmallScreen ? 70 : 30, marginLeft: isSmallScreen ? 0 : 130 }}>
-          <Typography variant="h4">{name}</Typography>
-          <Typography variant="subtitle1">({occupation})</Typography>
+          <Typography variant="h3">{name}</Typography>
+          <Typography variant="h4">{occupation}</Typography>
         </Grid>
       </Grid>
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
@@ -175,7 +174,7 @@ const Profile: React.FC = () => {
               </IconButton>
             </Grid>
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-              <img src={newCoverPhoto ? URL.createObjectURL(newCoverPhoto) : coverPhoto || ''} style={{ minWidth: '100%', maxHeight: '200px', minHeight: '200px', overflow: 'hidden', backgroundColor: Color.SecondaryColor, borderRadius: 20 }} />
+              <img src={newCoverPhoto ? URL.createObjectURL(newCoverPhoto) : coverPhoto || ''} style={{ minWidth: '100%', maxHeight: '200px', minHeight: '200px', overflow: 'hidden', backgroundColor: 'rgb(98, 100, 102)', borderRadius: 20 }} />
             </Grid>
             <Divider style={{ width: '100%', margin: '16px 0' }} />
             <Grid item xs={12} style={{ display: 'flex', alignItems: 'center' }}>

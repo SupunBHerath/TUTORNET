@@ -20,40 +20,34 @@ const storage = new CloudinaryStorage({
   }
 });
 
-const upload = multer({ storage: storage }).single('image'); 
-
-// Define the post upload method
+const upload = multer({ storage: storage }).single('image');
 
 const post = async (req, res) => {
   try {
-    // Execute multer middleware
     upload(req, res, async (err) => {
       if (err) {
         return res.status(400).json({ error: 'Error uploading file' });
       }
 
-      // Check if file was uploaded
       if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
       }
 
-      // Upload image to Cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);
 
-      // Create a new post instance
       const newPost = new Post({
+        profileImage: req.body.profileImage,
+        uploadImageId: result.public_id,
         userId: req.body.userId,
         title: req.body.title,
         username: req.body.username,
-        image: result.secure_url, // Save the image URL from Cloudinary
+        image: result.secure_url,
         description: req.body.description,
-        status: req.body.status || 'visible', // Set status to 'visible' if not provided
+        status: req.body.status || 'visible',
       });
 
-      // Save the new post to the database
       const savedPost = await newPost.save();
 
-      // Respond with the saved post details
       res.status(201).json({ message: 'Successfully uploaded post', data: savedPost });
     });
   } catch (error) {
@@ -61,7 +55,8 @@ const post = async (req, res) => {
     res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 };
-const all =async (req, res, ) => {
+
+const all = async (req, res) => {
   try {
     const posts = await Post.find();
     res.status(200).json(posts);
@@ -69,8 +64,38 @@ const all =async (req, res, ) => {
     console.error(error);
     res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
-}
+};
+
+const owersData = async (req, res) => {
+  try {
+    const posts = await Post.find({ userId: req.params.id });
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message || 'Internal Server Error' });
+  }
+};
+
+const Delete = async (req, res) => {
+  try {
+    const deletedPost = await Post.findByIdAndDelete(req.params.id);
+
+    if (!deletedPost) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    // const deletedImage = await cloudinary.uploader.destroy(deletedPost.uploadImageId);
+
+    res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).json({ error: error.message || 'Internal Server Error' });
+  }
+};
+
 module.exports = {
   post: post,
-  all:all
+  all: all,
+  owersData: owersData,
+  Delete: Delete,
 };
