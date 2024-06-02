@@ -1,4 +1,4 @@
-import {  Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import StudentHome from './Account/Student/StudentHome';
 import Home from './Account/CHP/Home';
 import RegistrationForm from './Components/Registration Form/RegistrationStudent';
@@ -14,45 +14,37 @@ import TecherHome from './Account/Teacher/Pages/TecherHome';
 import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
 import AdminMain from './Account/Admin/Pages/AdminMain';
-import FrogetPassword from './Components/Login Form/FrogetPassword';
-
-
+import ProfilePage from './Account/Student/Componets/UserProfile/ProfilePage';
 
 const App = () => {
-  axios.defaults.baseURL ='http://localhost:8080'
+  axios.defaults.baseURL = 'http://localhost:8080';
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/fp" element={<FrogetPassword/>} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/fp" element={<ForgetPassword />} /> Corrected route */}
         <Route path="/register" element={<RegistrationForm />} />
-        <Route path="/Landing" element={<Landing />} />
+        <Route path="/landing" element={<Landing />} />
         <Route path="/reg/teacher" element={<TeacherRegister />} />
         <Route path="/reg/student" element={<StudentRegister />} />
-      
-        {/* ----------student  route -------------------------*/}
+
+        {/* ----------student route -------------------------*/}
         <Route path="/student" element={<StudentHome />} />
-        <Route path="/search" element={<SearchPage/>} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/profile" element={<ProfilePage />} /> {/* Corrected route */}
 
-        {/* ----------teacher  route -------------------------*/}
+        {/* ----------teacher route -------------------------*/}
         <Route path="/teacher" element={<TecherHome />} />
-        <Route path="/ads" element={<Ads/>} />
+        <Route path="/ads" element={<Ads />} />
 
-        {/* ----------admin  route -------------------------*/}
-        
-        <Route path="admin" element={<AdminMain/>} />
-        <Route path="admin/user" element={<UserManage />} />
-        <Route path="admin/payment" element={<PaymentManage />} />
-        <Route path="admin/ads" element={<AdsManage />} />
+        {/* ----------admin route -------------------------*/}
+        <Route path="/admin" element={<AdminMain />} />
+        <Route path="/admin/user" element={<UserManage />} />
+        <Route path="/admin/payment" element={<PaymentManage />} />
+        <Route path="/admin/ads" element={<AdsManage />} />
       </Routes>
-           {/* <Home/> */}
-
-      {/* <StudentHome/> */}
-      {/* <ADashboard /> */}
-
     </div>
-
   );
 };
 

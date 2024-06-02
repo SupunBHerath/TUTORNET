@@ -1,71 +1,119 @@
-/* src/components/UserProfile/UserProfile.css */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .user-profile {
-    background-color: #ffffff; /* White background */
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: auto;
-    text-align: center;
-    margin-top: 20px;
-    border: 2px solid #1976d2; /* Blue border */
-  }
-  
-  .profile-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .profile-avatar {
-    width: 150px; /* Medium size for profile photo */
-    height: 150px; /* Medium size for profile photo */
-    border: 3px solid #1976d2; /* Blue border */
-    border-radius: 50%; /* Circular shape */
-  }
-  
-  .small-avatar-button {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px; /* Larger padding */
-    border-radius: 20px; /* Rounded corners */
-    background-color: #1976d2; /* Blue background */
-    color: white;
-  }
-  
-  .profile-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .editable-field {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    width: 100%;
-  }
-  
-  .editable-field .MuiTextField-root {
-    flex: 1;
-  }
-  
-  .editable-field .MuiButton-root {
-    margin-left: 10px;
-    min-width: 60px; /* Small button */
-  }
-  
-  .button {
-    margin-top: 20px;
-    background-color: #1976d2; /* Blue background */
-    color: white;
-  }
-  
-  .button:hover {
-    background-color: #125ca8; /* Darker blue on hover */
-  }
-  
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+  border: 2px solid #1976d2; /* Blue border */
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 180px; /* Larger size for profile photo */
+  height: 180px; /* Larger size for profile photo */
+  border: 3px solid #1976d2; /* Blue border */
+  border-radius: 50%; /* Circular shape */
+}
+
+.animated-avatar {
+  animation: pulse 2s infinite;
+}
+
+.avatar-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #1976d2; /* Blue background */
+  color: white;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.editable-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.password-fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.field-label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.field-value {
+  flex: 1;
+  text-align: left;
+}
+
+.editable-field .MuiTextField-root {
+  flex: 1;
+}
+
+.editable-field .MuiButton-root {
+  margin-left: 10px;
+  min-width: 60px; /* Small button */
+}
+
+.button {
+  margin-top: 20px;
+  background-color: #1976d2; /* Blue background */
+  color: white;
+}
+
+.button:hover {
+  background-color: #125ca8; /* Darker blue on hover */
+}
+
+.delete-button {
+  margin-top: 20px;
+  background-color: #d32f2f; /* Red background */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
+.delete-button:hover {
+  background-color: #a62828; /* Darker red on hover */
+}
+
+.delete-button svg {
+  margin-right: 5px; /* Space between icon and text */
+}

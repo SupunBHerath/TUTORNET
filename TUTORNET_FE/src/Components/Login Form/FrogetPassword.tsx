@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './FrogetPassword.css'; // Assuming CSS module import
+import './FrogetPassword.css';
 import FrogetImage from './FrogetPassword.jpeg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-interface ForgotPasswordProps {} // No props for this component
+interface ForgotPasswordProps {} 
 
 const FrogetPassword: React.FC<ForgotPasswordProps> = () => {
   const [isFormOpen, setIsFormOpen] = useState(true);
@@ -25,7 +25,7 @@ const FrogetPassword: React.FC<ForgotPasswordProps> = () => {
       setErrorMessage('Please enter a valid email address.');
     } else {
       setErrorMessage('');
-      // Implement logic to send password reset instructions
+     
     }
   };
 
