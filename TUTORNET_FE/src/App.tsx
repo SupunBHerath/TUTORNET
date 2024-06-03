@@ -13,9 +13,12 @@ import TecherHome from './Account/Teacher/Pages/TecherHome';
 import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
 import AdminMain from './Account/Admin/Pages/AdminMain';
+
 import PostPage from './Account/Teacher/Pages/PostPage';
 import TeacherWall from './Account/Teacher/Pages/TeacherWall';
 import TeacherProfile from './Components/Tempale/TeacherProfile';
+
+import FrogetPassword from './Components/Login Form/FrogetPassword';
 
 
 
@@ -27,6 +30,9 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/fp" element={<FrogetPassword/>} />
+        <Route path="/register" element={<RegistrationForm />} />
         <Route path="/Landing" element={<Landing />} />
         <Route path="/reg/teacher" element={<TeacherRegister />} />
         <Route path="/reg/student" element={<StudentRegister />} />
