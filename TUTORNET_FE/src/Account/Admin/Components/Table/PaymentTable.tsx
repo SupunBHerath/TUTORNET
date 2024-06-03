@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, LinearProgress } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { jsPDF } from 'jspdf';
@@ -13,6 +13,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import MuiAlert from "@mui/material/Alert";
+import axios from 'axios';
 
 interface SnackbarAlertProps {
   open: boolean;
@@ -38,71 +39,71 @@ const SnackbarAlert: React.FC<SnackbarAlertProps> = ({
   );
 };
 
-function AlertDialogSlide(prop:any) {
+function AlertDialogSlide(prop: any) {
   const [open, setOpen] = React.useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleAgree = async () => {
     try {
-      fetch(`http://localhost:8080/reqads/delete/${prop.id}`, {
-        method: 'DELETE'
-    })
-    .then(response => {
-      if (response.ok) {
-          console.log('Advertisement deleted successfully');
-          setOpen(false);
-          setTimeout(() => {
-            setDeleteAlert(true);
-          }, 2000);
-          {prop.fun(prop.id)}
+      const response = await axios.delete(`/reqads/delete/${prop.id}`);
+
+      if (response.status === 200) {
+        console.log('Advertisement deleted successfully');
+        setOpen(false);
+        setDeleteAlert(true);
+
+        setTimeout(() => {
+          { prop.fun(prop.id) }
+          setDeleteAlert(false);
+
+        }, 1000);
       } else {
-          console.error('Failed to delete advertisement');
+        console.error('Failed to delete advertisement');
       }
-  })
     } catch (error) {
       console.error('Error fetching data:', error);
     }
+
   };
- const handleClose = () => {
-  setOpen(false);
- }
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <>
-    <React.Fragment>
-    
-    <IconButton onClick={handleClickOpen}>
-      <DeleteIcon />
-    </IconButton>
-    <Dialog
-      open={open}
-      TransitionComponent={Transition}
-      keepMounted
-      onClose={handleClose}
-      aria-describedby="alert-dialog-slide-description"
-    >
-      <DialogTitle>{'Are you sure delete  ? '}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
-        {prop.id}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Disagree</Button>
-        <Button onClick={handleAgree}>Agree</Button>
-      </DialogActions>
-    </Dialog>
-  </React.Fragment>
+      <React.Fragment>
+
+        <IconButton onClick={handleClickOpen}>
+          <DeleteIcon />
+        </IconButton>
+        <Dialog
+          open={open}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{'Are you sure delete  ? '}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              {prop.id}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Disagree</Button>
+            <Button onClick={handleAgree}>Agree</Button>
+          </DialogActions>
+        </Dialog>
+      </React.Fragment>
       <SnackbarAlert
         open={deleteAlert}
         message={"Delete  succefully...."}
         autoHideDuration={1000}
       />
     </>
-    
+
   );
 }
 
@@ -161,18 +162,25 @@ const PaymentTable: React.FC = () => {
   const [location, setLocation] = useState<string>('');
   const [update, setUpdate] = useState<update[]>([])
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://tutornet-5v7a-supunbheraths-projects.vercel.app/reqads/all');
-        if (!response.ok) {
+        const response = await axios.get('/reqads/all');
+
+        if (!response) {
           throw new Error('Network response was not ok');
         }
-        const data: User[] = await response.json();
+
+        const data = response.data;
 
         setRows(data);
         setTem(data);
         setDbdata(data)
+        setTimeout(() => {
+          setLoading(true);
+        }, 800)
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -181,6 +189,41 @@ const PaymentTable: React.FC = () => {
 
     fetchData();
   }, []);
+
+  
+  const handleSaveChanges = () => {
+    const postData = async () => {
+      try {
+        const updateData = rows.filter(row => {
+          const correspondingDBData = dbdata.find(item => item._id === row._id);
+          return correspondingDBData && row.status !== correspondingDBData.status;
+        });
+        console.log('Update Data:', updateData);
+        const response = await axios.put('/reqads/update', updateData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response) {
+          throw new Error('Network response was not ok');
+        }
+        const data = response.data;
+        setIsChange(false);
+        console.log('Received Data:', data);
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          setOpenSnackbar(false);
+        }, 2000);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+
+    };
+
+    postData();
+  };
+
 
   const handleChange = (event: any) => {
     setLocation(event.target.value as string);
@@ -270,7 +313,6 @@ const PaymentTable: React.FC = () => {
 
 
 
-  // Function to toggle status from Pending to Done or Reject
   const toggleStatus = (_id: string) => {
     setIsChange(true)
     const updatedRows = rows.map(row => {
@@ -298,65 +340,7 @@ const PaymentTable: React.FC = () => {
     setIsChange(false)
   };
 
-  const handleSaveChanges = () => {
-    const postData = async () => {
-      try {
-        // Filter rows to get the updates that need to be sent
-        const updateData = rows.filter(row => {
-          const correspondingDBData = dbdata.find(item => item._id === row._id);
-          return correspondingDBData && row.status !== correspondingDBData.status;
-        });
 
-        console.log('Update Data:', updateData);
-
-        // Make the PUT request to update the documents
-        const response = await fetch('http://localhost:8080/reqads/update', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(updateData)
-        });
-
-        // Check if the response is ok
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        // Parse the JSON response
-        const data = await response.json();
-        setIsChange(false)
-        console.log('Received Data:', data);
-        setOpenSnackbar(true)
-        setTimeout(() => {
-          setOpenSnackbar(false)
-        }, 2000);
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Call the postData function
-    postData();
-  };
-
-  function constructFullURL(imagePath: any) {
-    // Fix the path format
-    imagePath = imagePath.replace(/\\/g, '/'); // Replace backslashes with forward slashes
-    imagePath = imagePath.replace('uploads/', ''); // Remove the 'uploads/' part
-
-    // Construct the full URL
-
-    const fullURL = 'http://localhost:8080/uploads/' + imagePath;
-    console.log(fullURL);
-    
-    return fullURL;
-
-    
-    return fullURL;
-    
-  }
 
   return (
     <>
@@ -368,7 +352,7 @@ const PaymentTable: React.FC = () => {
         >
           PDF
         </Button>
-      
+
         <div className="btnDiv  d-flex  justify-content-end w-100" style={{ height: '70px' }}>
           <Box sx={{ mt: 2, textAlign: 'end' }}>
             <Button variant="outlined" onClick={handleSaveChanges} sx={{ mr: 2 }} disabled={!change}>Save</Button>
@@ -387,7 +371,7 @@ const PaymentTable: React.FC = () => {
         </div>
       </div>
 
-      <TableContainer component={Paper} style={{ overflowX: 'auto', maxWidth: '100%' }} className='  '>
+      {loading ? (<TableContainer component={Paper} style={{ overflowX: 'auto', maxWidth: '100%' }} className='  '>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -426,20 +410,20 @@ const PaymentTable: React.FC = () => {
                   <IconButton onClick={() => toggleStatus(row._id)}>
                     <EditIcon />
                   </IconButton>
-                  <AlertDialogSlide id={row._id} fun ={handleDelete}/>
+                  <AlertDialogSlide id={row._id} fun={handleDelete} />
 
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer>) : (<LinearProgress />)}
       <SnackbarAlert
         open={openSnackbar}
         message={"update succefully...."}
         autoHideDuration={1000}
       />
-    
+
     </>
   );
 }

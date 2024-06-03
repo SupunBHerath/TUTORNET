@@ -14,23 +14,24 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Color, Font } from '../../../../Components/CSS/CSS';
+import useCookie from '../../../../Hook/UserAuth';
 
 const pages = [
-  { name: 'Home', path: '/' },
-  { name: 'About us', path: '/about' },
-  { name: 'Contact Us', path: '/contact' },
-  { name: 'Ads', path: '/Ads' }
+  { name: 'Home', path: '/teacher' },
+  { name: 'About us', path: '/teacher/about' },
+  { name: 'Contact Us', path: '/teacher/contact' },
+  { name: 'Ads', path: '/teacher/Ads' }
 ];
 
 const settings = [
-  { name: 'Profile', path: '/profile' },
+  { name: 'Profile', path: '/teacher/profile' },
   { name: 'Logout', path: '/logout' }
 ];
 
 function Navi_Bar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
+   const {userData} = useCookie();
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -145,7 +146,7 @@ function Navi_Bar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={userData.profile} />
               </IconButton>
             </Tooltip>
             <Menu

@@ -34,7 +34,7 @@ export default function AddUser() {
                 style={{ marginBottom: '10px' }}
                 onClick={handleOpen}
                 startIcon={<AddCircleIcon />}>
-                Add
+                Admin
             </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
