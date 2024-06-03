@@ -30,6 +30,7 @@ import PaymentManage from '../../Pages/PaymentManage';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import AdsManagePage from '../../Pages/AdsManage';
 import Notification from '../../Pages/Notification';
+import SubjectTable from '../Table/SubjectTable';
 
 // Define your custom font
 
@@ -156,6 +157,9 @@ export default function AdminNavbar() {
   const notification = () => {
     setActiveComponent('notification');
   };
+  const subject = () => {
+    setActiveComponent('subject');
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -252,6 +256,16 @@ export default function AdminNavbar() {
           </ListItemButton>
           <br />
           <br />
+          <ListItemButton onClick={subject}>
+            <ListItemIcon>
+              <AddAlertIcon sx={activeComponent === 'subject' ? { color: Color.SecondaryColor } : {}} />
+
+            </ListItemIcon>
+            <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Subject List</span>} sx={activeComponent === 'subject' ? { color: Color.SecondaryColor } : {}} />
+
+          </ListItemButton>
+          <br />
+          <br />
           <Link to='/'>
             <ListItemButton>
               <ListItemIcon>
@@ -268,6 +282,7 @@ export default function AdminNavbar() {
         {activeComponent === 'userManage' && <UserManage />}
         {activeComponent === 'payment' && <PaymentManage />}
         {activeComponent === 'adsManage' && <AdsManagePage />}
+        {activeComponent === 'subject' && <SubjectTable />}
         {activeComponent === 'notification' && <Notification />}
       </Box>
     </Box>

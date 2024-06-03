@@ -6,8 +6,9 @@ const feedbackSchema = new mongoose.Schema({
     comment: { type: String, required: true },
     rating: { type: Number, required: true },
     teacherId: { type: String, required: true },
-    avatarUrl: { type: String,},
-    status: {type: String,required: true,default: "pending" },
+    teacherName: { type: String, required: true },
+    avatarUrl: { type: String},
+    status: {type: String,required: true,default: "Visible" },
     uploadedDay: {
         type: Date,
         required: true,

@@ -93,10 +93,8 @@ const storage = new CloudinaryStorage({
   }
 });
 
-// Initialize multer with Cloudinary storage
 const upload = multer({ storage: storage });
 
-// Route to update teacher profile with file uploads
 module.exports.updateTeacherProfile = [
   upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name: 'coverPhoto', maxCount: 1 }]),
   async (req, res) => {
@@ -104,37 +102,31 @@ module.exports.updateTeacherProfile = [
     const updateFields = req.body;
 
     try {
-      // Check if the user ID is valid
       if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(400).json({ message: 'Invalid user ID' });
       }
 
-      // Check if the user exists
       const existingTeacher = await Teacher.findById(userId);
       if (!existingTeacher) {
         return res.status(404).json({ message: 'Teacher not found' });
       }
 
-      // Upload profile picture to Cloudinary
       if (req.files && req.files.profilePicture) {
         const profilePicturePath = req.files.profilePicture[0].path;
         const uploadedProfilePicture = await cloudinary.uploader.upload(profilePicturePath);
         updateFields.profilePicture = uploadedProfilePicture.secure_url;
       }
 
-      // Upload cover photo to Cloudinary
       if (req.files && req.files.coverPhoto) {
         const coverPhotoPath = req.files.coverPhoto[0].path;
         const uploadedCoverPhoto = await cloudinary.uploader.upload(coverPhotoPath);
         updateFields.coverPhoto = uploadedCoverPhoto.secure_url;
       }
 
-      // Update other fields
       for (const [key, value] of Object.entries(updateFields)) {
         existingTeacher[key] = value;
       }
 
-      // Save the updated teacher object
       const updatedTeacher = await existingTeacher.save();
 
       res.json(updatedTeacher);

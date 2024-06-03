@@ -77,7 +77,7 @@ const TeacherProfile: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
           <p>Class Type: {teacher.classType}</p>
         </div>
         <div className="profile-link">
-          <Link to={`/teacher/${teacher._id}`}>View Profile</Link>
+          <Link to={`/teacher/${teacher._id}/&${encodeURIComponent(teacher.name)}`}>View Profile</Link>
         </div>
       </div>
     );

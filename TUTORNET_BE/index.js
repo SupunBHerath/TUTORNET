@@ -17,6 +17,7 @@ const post = require('./router/postRoute.js');
 const mail = require('./Mail/adsSubmit.js');
 const path =    require('path');
 const feedBack = require('./router/feedbackRoute.js');
+const Subject = require('./router/subject.js');
 
 /** middlwares */
 app.use(express.json());
@@ -44,6 +45,7 @@ app.use('/reqads',reqads)
 app.use('/validate',validate)
 app.use('/post',post)
 app.use('/feedback',feedBack)
+app.use('/subject',Subject)
 //mail
 app.use('/mail',mail)
 

@@ -16,7 +16,12 @@ export default function RegistrationStudent(prop: any) {
   const [success, setSuccess] = useState(false);
   const [fail, setFail] = useState(false);
 
-
+  const blockNumericInput = (e: any) => {
+    const charCode = e.which ? e.which : e.keyCode;
+    if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
+      e.preventDefault();
+    }
+  };
   const [formData, setFormData] = useState({
 
     username: '',
@@ -26,6 +31,8 @@ export default function RegistrationStudent(prop: any) {
   });
 
   const handleInputChange = (event: any) => {
+    setFail(false)
+
     const { name, value } = event.target;
     setFormData({
       ...formData,
@@ -38,6 +45,8 @@ export default function RegistrationStudent(prop: any) {
   // error handling for text inputs
 
   const handleNameChange = (e: any) => {
+    setFail(false)
+
     handleInputChange(e)
     if (e.target.validity.valid) {
       setNameError(false);
@@ -48,6 +57,8 @@ export default function RegistrationStudent(prop: any) {
 
 
   const handleEmailChange = (e: any) => {
+    setFail(false)
+
     handleInputChange(e)
     if (e.target.validity.valid) {
       setEmailError(false);
@@ -57,6 +68,7 @@ export default function RegistrationStudent(prop: any) {
   };
 
   const handlePasswordChange = (e: any) => {
+    setFail(false)
 
 
     handleInputChange(e)
@@ -68,6 +80,7 @@ export default function RegistrationStudent(prop: any) {
   };
   const handleConfPasswordChange = (e: any) => {
     handleInputChange(e);
+    setFail(false)
 
     const password = formData.password; // Get the value of the password field
     const cpassword = e.target.value; // Get the value of the confirm password field
@@ -82,9 +95,10 @@ export default function RegistrationStudent(prop: any) {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    setFail(false)
   
     try {
-      const response = await axios.post('https://tutornet-5v7a-supunbheraths-projects.vercel.app/student/register', { ...formData });
+      const response = await axios.post('/student/register', { ...formData });
       if (response.status === 200) {
         setSuccess(true);
         setTimeout(() => {
@@ -95,11 +109,11 @@ export default function RegistrationStudent(prop: any) {
         setEmailError(true)
       } else {
         setEmailError(true)
-        console.log(response.data);
       }
     } catch (error) {
-      console.log(error)
       setFail(true)
+      setEmailError(true)
+
 
 
     }
@@ -141,6 +155,7 @@ export default function RegistrationStudent(prop: any) {
                 value={formData.username}
                 required
                 onChange={handleNameChange}
+                onKeyDown={blockNumericInput}
                 error={nameError}
                 helperText={
                   nameError ? "Please enter your name (letters and spaces only)" : ""
@@ -158,6 +173,7 @@ export default function RegistrationStudent(prop: any) {
                 name="email"
                 value={formData.email}
                 onChange={handleEmailChange}
+                
                 error={emailError}
                 helperText={emailError ? "Please enter a valid & uniqe email" : ""}
                 inputProps={{
