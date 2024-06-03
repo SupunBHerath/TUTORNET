@@ -1,162 +1,265 @@
-import React, { useState } from 'react';
-import { Avatar, Button, Box, TextField, Typography, IconButton, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import './UserProfile.css';
+import { useState } from 'react';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Divider from '@mui/joy/Divider';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
+import IconButton from '@mui/joy/IconButton';
+import Stack from '@mui/joy/Stack';
+import Typography from '@mui/joy/Typography';
+import Card from '@mui/joy/Card';
+import CardActions from '@mui/joy/CardActions';
+import CardOverflow from '@mui/joy/CardOverflow';
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import LockRoundedIcon from '@mui/icons-material/LockRounded';
 
-interface UserProfileProps {
-  name: string;
-  email: string;
-  avatarUrl: string;
-  onUpdate: (updatedData: { name: string; password: string; confirmPassword: string; avatarUrl: string }) => void;
-  onDeleteAccount: (currentPassword: string) => void;
-}
+export default function MyProfile() {
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const [isEditingFirstName, setIsEditingFirstName] = useState(false);
+  const [isEditingLastName, setIsEditingLastName] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-const UserProfile: React.FC<UserProfileProps> = ({ name, email, avatarUrl, onUpdate, onDeleteAccount }) => {
-  const [selectedAvatar, setSelectedAvatar] = useState<string>(avatarUrl);
-  const [newName, setNewName] = useState<string>(name);
-  const [currentPassword, setCurrentPassword] = useState<string>('');
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [isEditingName, setIsEditingName] = useState<boolean>(false);
-  const [isEditingPassword, setIsEditingPassword] = useState<boolean>(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
-  const [deletePassword, setDeletePassword] = useState<string>('');
-
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedAvatar(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handlePasswordEditClick = () => {
+    setShowPasswordFields(true);
   };
 
-  const handleUpdateClick = () => {
-    onUpdate({ name: newName, password: newPassword, confirmPassword, avatarUrl: selectedAvatar });
+  const handleFirstNameEditClick = () => {
+    setIsEditingFirstName(true);
   };
 
-  const handleDeleteAccount = () => {
-    onDeleteAccount(deletePassword);
-    setIsDeleteDialogOpen(false);
+  const handleLastNameEditClick = () => {
+    setIsEditingLastName(true);
+  };
+
+  const handleNameSaveClick = () => {
+    setIsEditingFirstName(false);
+    setIsEditingLastName(false);
+  };
+
+  const handlePasswordSaveClick = () => {
+    setShowPasswordFields(false);
   };
 
   return (
-    <Box className="user-profile">
-      <Box className="profile-header">
-        <Box position="relative" className="avatar-container">
-          <Avatar src={selectedAvatar} className="profile-avatar animated-avatar" />
-          <IconButton color="primary" component="label" className="avatar-button">
-            <EditIcon />
-            <input type="file" hidden onChange={handleAvatarChange} />
-          </IconButton>
+    <Box sx={{ flex: 1, width: '100%' }}>
+      <Box
+        sx={{
+          position: 'sticky',
+          top: { sm: -100, md: -110 },
+          bgcolor: 'background.body',
+          zIndex: 9995,
+        }}
+      >
+        <Box sx={{ px: { xs: 2, md: 6 } }}>
+          <Typography level="h2" component="h1" sx={{ mt: 1, mb: 2 }}>
+            My profile
+          </Typography>
         </Box>
       </Box>
-      <Box className="profile-actions">
-        <Box className="editable-field">
-          <Typography variant="h6" component="div" className="field-label">
-            Name
-          </Typography>
-          {isEditingName ? (
-            <TextField
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-          ) : (
-            <Typography variant="body1" className="field-value">
-              {newName}
-            </Typography>
-          )}
-          <Button variant="outlined" onClick={() => setIsEditingName(!isEditingName)}>
-            {isEditingName ? 'Save' : <EditIcon />}
-          </Button>
-        </Box>
-        <Box className="editable-field">
-          <Typography variant="h6" component="div" className="field-label">
-            Email
-          </Typography>
-          <Typography variant="body1" className="field-value">
-            {email}
-          </Typography>
-        </Box>
-        <Box className="editable-field">
-          <Typography variant="h6" component="div" className="field-label">
-            Change Password
-          </Typography>
-          <Button variant="outlined" onClick={() => setIsEditingPassword(!isEditingPassword)}>
-            {isEditingPassword ? 'Save' : <EditIcon />}
-          </Button>
-        </Box>
-        {isEditingPassword && (
-          <Box className="password-fields">
-            <TextField
-              label="Current Password"
-              type="password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="New Password"
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
-            <TextField
-              label="Confirm Password"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-            />
+      <Stack
+        spacing={4}
+        sx={{
+          display: 'flex',
+          maxWidth: '800px',
+          mx: 'auto',
+          px: { xs: 2, md: 6 },
+          py: { xs: 2, md: 3 },
+        }}
+      >
+        <Card sx={{ border: '2px solid blue', borderRadius: 2 }}>
+          <Box sx={{ mb: 1 }}>
+            <Typography level="title-md">Personal info</Typography>
           </Box>
-        )}
-        <Button variant="contained" color="primary" onClick={handleUpdateClick} className="button">
-          Update
-        </Button>
-      </Box>
-      <Button variant="outlined" color="secondary" onClick={() => setIsDeleteDialogOpen(true)} className="delete-button">
-        <DeleteIcon /> Delete Account
-      </Button>
-      <Dialog open={isDeleteDialogOpen} onClose={() => setIsDeleteDialogOpen(false)}>
-        <DialogTitle>Delete Account</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To delete your account, please enter your current password to confirm.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Current Password"
-            type="password"
-            fullWidth
-            value={deletePassword}
-            onChange={(e) => setDeletePassword(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsDeleteDialogOpen(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleDeleteAccount} color="secondary">
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+          <Divider />
+          <Stack
+            direction="row"
+            spacing={3}
+            sx={{ display: { xs: 'none', md: 'flex' }, my: 1 }}
+          >
+            <Stack direction="column" spacing={1}>
+              <AspectRatio
+                ratio="1"
+                maxHeight={200}
+                sx={{ flex: 1, minWidth: 120, borderRadius: '100%' }}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
+                  srcSet="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286&dpr=2 2x"
+                  loading="lazy"
+                  alt=""
+                />
+              </AspectRatio>
+              <IconButton
+                aria-label="upload new picture"
+                size="sm"
+                variant="outlined"
+                color="neutral"
+                
+                sx={{
+                  bgcolor: 'background.body',
+                  position: 'absolute',
+                  zIndex: 2,
+                  borderRadius: '50%',
+                  left: 100,
+                  top: 170,
+                  boxShadow: 'sm',
+                }}
+              >
+                <EditRoundedIcon />
+              </IconButton>
+              
+            </Stack>
+            <Stack spacing={2} sx={{ flexGrow: 1 }}>
+              <Stack spacing={1}>
+                <FormLabel>First Name</FormLabel>
+                <FormControl
+                  sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+                >
+                  <IconButton
+                   
+                    onClick={handleFirstNameEditClick}
+                  >
+                    
+                    <EditRoundedIcon />
+                  </IconButton>
+                  <Input
+                    size="sm"
+                    placeholder="First name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    disabled={!isEditingFirstName}
+                    sx={{ flexGrow: 1 }}
+                  />
+                </FormControl>
+              </Stack>
+              <Stack spacing={1}>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl
+                  sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+                >
+                  <IconButton
+                   
+                    onClick={handleLastNameEditClick}
+                  >
+                    <EditRoundedIcon />
+                  </IconButton>
+                  <Input
+                    size="sm"
+                    placeholder="Last name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    disabled={!isEditingLastName}
+                    sx={{ flexGrow: 1 }}
+                  />
+                </FormControl>
+              </Stack>
+              {(isEditingFirstName || isEditingLastName) && (
+                <Button
+                  size="sm"
+                  variant="outlined"
+                  onClick={handleNameSaveClick}
+                  sx={{ alignSelf: 'flex-start', mt: 1 }}
+                >
+                  Save
+                </Button>
+              )}
+              <Stack direction="row" spacing={2}>
+                <FormControl sx={{ flexGrow: 1 }}>
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    disabled
+                    size="sm"
+                    type="email"
+                    startDecorator={<EmailRoundedIcon />}
+                    placeholder="email"
+                    sx={{ flexGrow: 1 }}
+                  />
+                </FormControl>
+              </Stack>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Typography>Change Password</Typography>
+                <IconButton
+                 
+                  onClick={handlePasswordEditClick}
+                  sx={{ marginLeft: 1 }}
+                >
+                  <EditRoundedIcon />
+                </IconButton>
+              </Stack>
+              {showPasswordFields && (
+                <>
+                  <FormControl sx={{ flexGrow: 1 }}>
+                    <FormLabel>Current Password</FormLabel>
+                    <Input
+                      size="sm"
+                      type="password"
+                      startDecorator={<LockRoundedIcon />}
+                      placeholder="Current Password"
+                      sx={{ flexGrow: 1 }}
+                    />
+                  </FormControl>
+                  <FormControl sx={{ flexGrow: 1 }}>
+                    <FormLabel>New Password</FormLabel>
+                    <Input
+                      size="sm"
+                      type="password"
+                      startDecorator={<LockRoundedIcon />}
+                      placeholder="New Password"
+                      sx={{ flexGrow: 1 }}
+                    />
+                  </FormControl>
+                  <FormControl sx={{ flexGrow: 1 }}>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <Input
+                      size="sm"
+                      type="password"
+                      startDecorator={<LockRoundedIcon />}
+                      placeholder="Confirm Password"
+                      sx={{ flexGrow: 1 }}
+                    />
+                  </FormControl>
+                  <Button
+                    size="sm"
+                    variant="outlined"
+                    onClick={handlePasswordSaveClick}
+                    sx={{ alignSelf: 'flex-start', mt: 1 }}
+                  >
+                    Save Password
+                  </Button>
+                </>
+              )}
+            </Stack>
+          </Stack>
+          <CardOverflow sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
+            <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+              <Button
+                size="sm"
+                variant="outlined"
+                sx={{
+                  color: 'red',
+                  borderColor: 'red',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                    borderColor: 'darkred',
+                  },
+                }}
+              >
+                Delete Account
+              </Button>
+              <Button size="sm" variant="outlined" color="neutral">
+                Cancel
+              </Button>
+              <Button size="sm" variant="solid">
+                Save
+              </Button>
+            </CardActions>
+          </CardOverflow>
+        </Card>
+      </Stack>
     </Box>
   );
-};
-
-export default UserProfile;
+}

@@ -14,7 +14,7 @@ import TecherHome from './Account/Teacher/Pages/TecherHome';
 import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
 import AdminMain from './Account/Admin/Pages/AdminMain';
-import ProfilePage from './Account/Student/Componets/UserProfile/ProfilePage';
+import UserProfile from './Account/Student/Componets/UserProfile/UserProfile';
 
 const App = () => {
   axios.defaults.baseURL = 'http://localhost:8080';
@@ -32,7 +32,7 @@ const App = () => {
         {/* ----------student route -------------------------*/}
         <Route path="/student" element={<StudentHome />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/profile" element={<ProfilePage />} /> {/* Corrected route */}
+        <Route path="/profile" element={<UserProfile />} /> {/* Corrected route */}
 
         {/* ----------teacher route -------------------------*/}
         <Route path="/teacher" element={<TecherHome />} />
