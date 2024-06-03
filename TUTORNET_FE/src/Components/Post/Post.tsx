@@ -57,17 +57,19 @@ export default function Post(props:any) {
         title={props.title}
         subheader={props.date}
       />
+      
+       <CardContent>
+        <Typography variant="body2" color="text.secondary">
+            {props.description}
+        </Typography>
+      </CardContent>
       <CardMedia
         component="img"
         height="auto"
         image={props.img}
       
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-            {props.description}
-        </Typography>
-      </CardContent>
+     
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
@@ -75,14 +77,7 @@ export default function Post(props:any) {
         <IconButton aria-label="share">
           <AddCommentRoundedIcon />
         </IconButton>
-        {/* <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore> */}
+       
       </CardActions>
       
     </Card>

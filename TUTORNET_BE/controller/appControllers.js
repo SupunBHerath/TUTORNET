@@ -12,7 +12,7 @@ module.exports.verifyUser = async (req, res, next) => {
     try {
         const { email } = req.method === "GET" ? req.query : req.body;
 
-        // Check the user existence in Teacher, Student, and Admin collections
+        
         const teacherExist = await Teacher.findOne({ email });
         const studentExist = await Student.findOne({ email });
         const adminExist = await Admin.findOne({ email });
@@ -21,11 +21,11 @@ module.exports.verifyUser = async (req, res, next) => {
             return res.status(404).send({ error: "Can't find User!" });
         }
 
-        next(); // Proceed to the next middleware if user exists
+        next(); 
 
     } catch (error) {
         console.error(error);
-        return res.status(500).send({ error: "Authentication Error" }); // Handle other errors with a 500 status code
+        return res.status(500).send({ error: "Authentication Error" }); 
     }
 };
 
@@ -61,8 +61,10 @@ module.exports.login = async (req, res) => {
         const token = jwt.sign(
             { 
                 userId: user._id,
+                username: user.name,
                 email: user.email,
-                role: user.role || userType
+                role: user.role || userType,
+                profile : user.profilePicture || ""
             },
             process.env.JWT_SECRET, // Use a secret key for signing the token
             { expiresIn: '1h' } // Token expiration time

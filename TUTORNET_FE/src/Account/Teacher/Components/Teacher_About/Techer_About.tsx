@@ -1,100 +1,162 @@
-import React, { useState } from 'react';
-import { Box, Divider } from '@mui/material';
-import { AccountCircle, LocationOn, School } from '@mui/icons-material'; // Import icons
+import React, { useEffect, useState } from 'react';
+import { Box, Divider, CircularProgress, Button, TextField, Typography } from '@mui/material';
+import { AccountCircle, LocationOn, School, Home } from '@mui/icons-material';
+import axios from 'axios';
+import useCookie from '../../../../Hook/UserAuth';
 
-interface AboutProps {
-    name: string;
-    job: string;
-    location: string;
-    education: string;
-    mobile: string;
-    landline: string;
-    email: string;
+interface FormValues {
+  name: string;
+  subject: string;
+  location: string;
+  education: string;
+  mobile: string;
+  landline: string;
+  bio: string;
+  livesIn: string;
+ 
 }
 
-const AboutPage: React.FC<AboutProps> = ({ name, job, location, education, mobile, landline, email }) => {
-    const [isEditing, setIsEditing] = useState(false);
+const fieldOrder = [
+  { key: 'name', label: 'Name', icon: <AccountCircle /> },
+  { key: 'bio', label: 'Bio', icon: <AccountCircle /> },
+  { key: 'livesIn', label: 'Lives in', icon: <Home /> },
+  { key: 'education', label: 'Education', icon: <School /> },
+  { key: 'subject', label: 'subject', icon: <AccountCircle /> },
+  { key: 'location', label: 'Class locations ', icon: <LocationOn /> },
+  { key: 'mobile', label: 'Mobile', icon: <AccountCircle /> },
+  { key: 'landline', label: 'Landline', icon: <AccountCircle /> },
 
-    return (
-        <Box sx={{ backgroundColor: '#f0f0f0', padding: '20px', borderRadius: '10px', maxWidth: '400px', margin: 'auto' }}>
-            <header>
-                <h2>About</h2>
-            </header>
-            <Divider />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle /> {/* Icon */}
-                <h3>Name</h3>
-            </Box>
-            {isEditing ? (
-                <input type="text" defaultValue={name} />
-            ) : (
-                <p>{name}</p>
-            )}
-            <Divider />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle /> {/* Icon */}
-                <h3>Job</h3>
-            </Box>
-            {isEditing ? (
-                <input type="text" defaultValue={job} />
-            ) : (
-                <p>{job}</p>
-            )}
-            <Divider />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <LocationOn /> {/* Icon */}
-                <h3>Location</h3>
-            </Box>
-            {isEditing ? (
-                <input type="text" defaultValue={location} />
-            ) : (
-                <p>{location}</p>
-            )}
-            <Divider />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <School /> {/* Icon */}
-                <h3>Education</h3>
-            </Box>
-            {isEditing ? (
-                <input type="text" defaultValue={education} />
-            ) : (
-                <p>{education}</p>
-            )}
-            <Divider />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle /> {/* Icon */}
-                <h3>Mobile</h3>
-            </Box>
-            {isEditing ? (
-                <input type="text" defaultValue={mobile} />
-            ) : (
-                <p>{mobile}</p>
-            )}
-            <Divider />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle /> {/* Icon */}
-                <h3>Landline</h3>
-            </Box>
-            {isEditing ? (
-                <input type="text" defaultValue={landline} />
-            ) : (
-                <p>{landline}</p>
-            )}
-            <Divider />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-                <AccountCircle /> {/* Icon */}
-                <h3>Email</h3>
-            </Box>
-            {isEditing ? (
-                <input type="text" defaultValue={email} />
-            ) : (
-                <p>{email}</p>
-            )}
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-                {isEditing ? <button>Save</button> : <button onClick={() => setIsEditing(true)}>Edit Details</button>}
-            </Box>
+];
+
+const AboutPage: React.FC = () => {
+  const { userData, isValidToken } = useCookie();
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [formValues, setFormValues] = useState<FormValues>({
+    name: '',
+    subject: '',
+    location: '',
+    education: '',
+    mobile: '',
+    landline: '',
+    bio: '',
+    livesIn: ''
+   
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`teacher/${userData.userId}`);
+        const data = response.data;
+        setFormValues({
+          name: data.name,
+          subject: data.subject,
+          location: data.classlocations,
+          education: data.education,
+          mobile: data.mobile,
+          landline: data.landline,
+          bio: data.bio,
+          livesIn: data.livesIn
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setLoading(false);
+      }
+    };
+
+    if (isValidToken) {
+      fetchData();
+    }
+  }, [userData, isValidToken]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleSave = async () => {
+    console.log(formValues);
+    
+    try {
+      await axios.put(`teacher/up-bio/${userData.userId}`, formValues);
+      
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  };
+
+  if (loading) {
+    return <CircularProgress color="primary" />;
+  }
+
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '10px',
+        maxWidth: '600px',
+        margin: 'auto',
+        marginTop: '50px',
+        boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.2)',
+        border: '2px solid #007bff'
+      }}
+    >
+      <header style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <h2>About</h2>
+      </header>
+      <Divider sx={{ borderBottom: '2px solid black' }} />
+
+   
+
+      {fieldOrder.map((field, index) => (
+        <Box key={field.key} sx={{ marginTop: '10px' }}>
+        
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {field.icon}
+            <Typography variant="h6" sx={{ fontWeight: 'bold', marginLeft: '10px' }}>
+              {field.label}:
+            </Typography>
+          </Box>
+          {isEditing ? (
+            <TextField
+              fullWidth
+              variant="outlined"
+              name={field.key}
+              value={formValues[field.key as keyof FormValues]}
+              onChange={handleInputChange}
+              sx={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none', marginTop: '5px' }}
+            />
+          ) : (
+            <Typography variant="body1" sx={{ marginLeft: '35px', marginTop: '5px' }}>
+              {formValues[field.key as keyof FormValues]}
+            </Typography>
+          )}
+          <Divider sx={{ borderBottom: '2px solid black', marginTop: '10px' }} />
         </Box>
-    );
-}
+      ))}
+
+      <Box sx={{ display: 'flex', justifyContent: isEditing ? 'space-between' : 'center', marginTop: '20px' }}>
+        {isEditing ? (
+          <>
+            <Button variant="contained" color="primary" onClick={() => setIsEditing(false)}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleSave}>
+              Save
+            </Button>
+          </>
+        ) : (
+          <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
+            Edit Details
+          </Button>
+        )}
+      </Box>
+    </Box>
+  );
+};
 
 export default AboutPage;

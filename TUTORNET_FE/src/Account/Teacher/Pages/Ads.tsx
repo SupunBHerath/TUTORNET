@@ -6,6 +6,7 @@ const Ads = () => {
   return (
     <div>
       <Navi_Bar/>
+      <br /><br />
       <AdDescription/>
     </div>
   )

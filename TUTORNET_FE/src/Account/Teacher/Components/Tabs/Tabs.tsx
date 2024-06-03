@@ -7,6 +7,9 @@ import Tabs2 from './Tabs2';
 import Tabs4 from './Tabs4';
 import Tabs3 from './Tabs3';
 
+
+
+
 export default function ColorTabs() {
     const [value, setValue] = React.useState('Post'); // Set default value to 'Post'
 

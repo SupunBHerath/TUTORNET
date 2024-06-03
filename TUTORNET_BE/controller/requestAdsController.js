@@ -5,9 +5,8 @@ const Ads = require('../modules/requestAds');
 const router = express.Router();
 const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
-// const formidable = require('formidable');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
-// Define storage for the uploaded images
+
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -15,7 +14,7 @@ function getRandomInt(min, max) {
 }
 
 
-// const storage = multer.diskStorage({
+
 //     destination: function (req, file, cb) {
 //         cb(null, 'public/images');
 //     },
@@ -63,22 +62,20 @@ function getRandomInt(min, max) {
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-        folder: 'ADS', // Optional, specify the folder in Cloudinary to upload files to
-        allowed_formats: ['jpg', 'jpeg', 'png'], // Optional, specify allowed formats
-        // Other Cloudinary parameters can be added as needed
+        folder: 'ADS', 
+        allowed_formats: ['jpg', 'jpeg', 'png'], 
+       
     }
 });
 
 const upload = multer({ storage: storage });
 
 
-// Check if Cloudinary environment variables are set
 if (!process.env.CLOUD_NAME || !process.env.CLOUD_KEY || !process.env.CLOUD_KEY_SECRET) {
     console.error('Cloudinary environment variables are not set.');
-    process.exit(1); // Exit the process
+    process.exit(1); 
 }
 
-// Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_KEY,
@@ -88,24 +85,21 @@ cloudinary.config({
 
 router.post('/', upload.fields([{ name: 'ads' }, { name: 'rec' }]), async (req, res) => {
     try {
-        // Extract data from the request
         const { userId, location, payDay, payment } = req.body;
         const { ads, rec } = req.files;
 
-        // Check if all required fields are present
         if (!userId || !location || !payDay || !payment || !ads || !rec) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        // Upload images to Cloudinary
         const adsResult = await cloudinary.uploader.upload(ads[0].path);
         const recResult = await cloudinary.uploader.upload(rec[0].path);
 
         // Save data to MongoDB
         const newAd = new Ads({
             userId,
-            ads: adsResult.secure_url, // store the secure URL of the image
-            rec: recResult.secure_url, // store the secure URL of the image
+            ads: adsResult.secure_url, 
+            rec: recResult.secure_url, 
             location,
             payDay,
             payment
@@ -134,9 +128,9 @@ router.put('/update', async (req, res) => {
     try {
       const updates = req.body;
   
-      // Process each update request
+      
       const updatePromises = updates.map(async (update) => {
-        const { _id, ...rest } = update; // Exclude _id from the update data
+        const { _id, ...rest } = update; 
         return Ads.findByIdAndUpdate(_id, rest, { new: true });
       });
   
@@ -152,6 +146,9 @@ router.put('/update', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+
+
+
 router.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
     try {
@@ -159,12 +156,6 @@ router.delete('/delete/:id', async (req, res) => {
         if (!dataToDelete) {
             return res.status(404).send('Data not found');
         }
-
-        // Delete the associated images
-        fs.unlinkSync(dataToDelete.ads);
-        fs.unlinkSync(dataToDelete.rec);
-
-        // Delete the document
         await Ads.findByIdAndDelete(id);
         
         res.send('Data and associated images deleted successfully');
@@ -174,6 +165,8 @@ router.delete('/delete/:id', async (req, res) => {
     }
 });
 
+
+
 router.get('/pending', async (req, res) => {
     try {
         const pendingRecords = await Ads.find({ status: 'pending' });
@@ -182,10 +175,12 @@ router.get('/pending', async (req, res) => {
     } catch (err) {
         console.error('Error fetching pending records:', err);
         
-        // Respond with a 500 status code and an error message
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
+
 router.get('/done', async (req, res) => {
     try {
         const pendingRecords = await Ads.find({ status: 'Done' });
@@ -194,7 +189,6 @@ router.get('/done', async (req, res) => {
     } catch (err) {
         console.error('Error fetching pending records:', err);
         
-        // Respond with a 500 status code and an error message
         res.status(500).json({ error: 'Internal server error' });
     }
 });

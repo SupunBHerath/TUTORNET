@@ -26,7 +26,7 @@ const settings = [
   { name: 'Logout', path: '/' }
 ];
 
-function Navi_Bar() {
+function SNavi_Bar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -178,4 +178,4 @@ function Navi_Bar() {
   );
 }
 
-export default Navi_Bar;
+export default SNavi_Bar;

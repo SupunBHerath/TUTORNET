@@ -11,7 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './CHP.css'
-import  {Color} from '../../Components/CSS/CSS'
+import { Color } from '../../Components/CSS/CSS'
 import { Link, useNavigate } from 'react-router-dom';
 import Register from '../../Components/Modal/Register';
 import LoginForm from '../../Components/Modal/LoginModal';
@@ -44,7 +44,10 @@ export default function CHPNaviBar(props: Props) {
       </Typography>
       <Divider />
       <List className='justify-content-center '>
-       
+        <Link to="/"> Home</Link>
+        <Link to="/landing"> Landing</Link>
+        <Link to="/student"> Sudent</Link>
+        <Link to="/admin"> Admin</Link>
       </List>
     </Box>
   );
@@ -64,7 +67,7 @@ export default function CHPNaviBar(props: Props) {
 
     <Box sx={{ display: 'flex' }} className="CHPNaviBar  "  >
       <CssBaseline />
-      <AppBar component="nav" className="CHPNaviBar  "style={{ backgroundColor: Color.PrimaryColor }} >
+      <AppBar component="nav" className="CHPNaviBar  " style={{ backgroundColor: Color.PrimaryColor }} >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -78,28 +81,28 @@ export default function CHPNaviBar(props: Props) {
           <Typography
             variant="h5"
             component="div"
-            sx={{  display: { xs: 'block', sm: 'block' } }}
+            sx={{ display: { xs: 'block', sm: 'block' } }}
             className='logo'
           >
-            TUTOR<span style={{ color: Color.SecondaryColor}}>NET</span>
-           
+            TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
+
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1}} className="NaviBarLink  " >
+          <Box sx={{ display: { xs: 'none', sm: 'block' }, flexGrow: 1 }} className="NaviBarLink  " >
             <Link to="/"> Home</Link>
             <Link to="/landing"> Landing</Link>
             <Link to="/student"> Sudent</Link>
             <Link to="/admin"> Admin</Link>
 
           </Box>
-          <Box sx={{ display: { xs: 'none', sm: 'block' ,} }} className="NaviBarLink d-flex " >
+          <Box sx={{ display: { sm: 'none', md: 'block', } }} className="NaviBarLink d-flex " >
             <div className="btn">
-            <LoginForm/>
+              <LoginForm />
             </div>
             <div className="btn">
-            <Register/>
-         
+              <Register />
+
             </div>
-           
+
             {/* <button className='btn ' style={{color:Color.SecondaryColor,borderStyle:'solid' ,borderColor:'white'}} onClick={loginBtn}> Login</button> */}
 
           </Box>
@@ -115,7 +118,7 @@ export default function CHPNaviBar(props: Props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { sm: 'block', md: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
@@ -125,7 +128,7 @@ export default function CHPNaviBar(props: Props) {
       <Box component="main" sx={{ p: 0 }} className=' w-100 '>
         <Toolbar />
         <Typography >
-     
+
 
         </Typography>
       </Box>

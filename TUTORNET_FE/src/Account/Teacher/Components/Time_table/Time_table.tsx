@@ -88,9 +88,14 @@ const PostWallPage: React.FC = () => {
     return (
         <Box sx={{ padding: '20px', position: 'relative' }}>
             <Typography variant="h4" gutterBottom>TIME TABLE</Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <Button variant="contained" startIcon={<Add />} onClick={handleAddPost}>Add</Button>
-            </Box>
+            <Button 
+                variant="contained" 
+                startIcon={<Add />} 
+                onClick={handleAddPost} 
+                sx={{ position: 'absolute', top: 0, right: 0, marginTop: '10px', marginRight: '10px' }}
+            >
+                Add
+            </Button>
             <Modal
                 open={isAddingPost}
                 onClose={handleCancelPost}

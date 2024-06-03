@@ -1,16 +1,17 @@
-// Import necessary modules and icons
 import * as React from 'react';
-import { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, LinearProgress } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable'; // Import 'jspdf-autotable' to add the autoTable functionality
+import 'jspdf-autotable';
 import Logo from '../../../../../public/logo/Tutor logo _ t.png'
 import DownloadIcon from '@mui/icons-material/Download';
 import AddUser from '../Add User/AddUser';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import axios from 'axios'; // Import Axios
+
 const style = {
   position: 'absolute' as 'absolute',
   top: '40%',
@@ -24,141 +25,126 @@ const style = {
   p: 3,
 };
 
-
-// Define the user type
-type User = {
+type RoleDetails = {
   id: number;
   name: string;
   email: string;
   role: string;
 };
 
-// Sample data for the table   http://localhost:8080/teacher/user
-const rows: User[] = [];
-fetch('http://localhost:8080/teacher/user')
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    // Assuming the API response is an array of user objects
-    rows.push(...data);
-  })
-  .catch(error => {
-    console.error('Error fetching data:', error);
-  });
-// Extend the jsPDF interface to include the autoTable method
-interface jsPDFWithAutoTable extends jsPDF {
-  autoTable: (options: any) => jsPDF;
-}
-
 export default function UserTable() {
-  const [filteredRows, setFilteredRows] = useState<User[]>(rows);
-  const BasicModal = () => {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const [roleDetails, setRoleDetails] = useState<RoleDetails[]>([]);
+  const [filteredRoleDetails, setFilteredRoleDetails] = useState<RoleDetails[]>([]);
+  const [openFilterModal, setOpenFilterModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(8);
+  const [loading, setLoading] = useState(false);
 
-    return (
-      <div>
-        <Button onClick={handleOpen} startIcon={<FilterListIcon />}>Filter</Button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
+  useEffect(() => {
 
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <Button onClick={() => handleFilter('all')} variant="outlined" startIcon={<FilterListIcon />} >All</Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button onClick={() => handleFilter('Teacher')} variant="outlined" startIcon={<FilterListIcon />} >Teachers</Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button onClick={() => handleFilter('Student')} variant="outlined" startIcon={<FilterListIcon />}>Students</Button>
-              </Grid>
-              {/* Add more filter buttons if needed */}
-            </Grid>
-          </Box>
-        </Modal>
-      </div>
-    );
-  }
+    fetchRoleDetails();
+  }, []);
 
+  const fetchRoleDetails = async () => {
+    try {
+      const adminResponse = await axios.get('admin/all');
+      const teacherResponse = await axios.get('teacher/all');
+      const studentResponse = await axios.get('student/all');
 
-  // Function to handle the delete action
+      // Check if all responses are successful
+      if (adminResponse.status === 200 && teacherResponse.status === 200 && studentResponse.status === 200) {
+
+        const adminData: RoleDetails[] = adminResponse.data;
+        const teacherData: RoleDetails[] = teacherResponse.data;
+        const studentData: RoleDetails[] = studentResponse.data;
+
+        // Merge data from all responses
+        const allRoleDetails = [...adminData, ...teacherData, ...studentData];
+        setRoleDetails(allRoleDetails);
+        setFilteredRoleDetails(allRoleDetails);
+        setTimeout(()=>{
+          setLoading(true)
+        },1000)
+      } else {
+        throw new Error('One or more network responses were not ok');
+      }
+    } catch (error) {
+      console.error('Error fetching role details:', error);
+    }
+  };
+
   const handleDelete = (id: number) => {
     console.log('Delete user with id:', id);
     // Add your delete logic here
   };
 
-  // Function to download the table as a PDF
   const downloadPdf = () => {
-    const doc = new jsPDF() as jsPDFWithAutoTable; // Cast jsPDF to jsPDFWithAutoTable to use autoTable
+    const doc = new jsPDF() as any; // Cast jsPDF to any to avoid TypeScript error
 
-    // Add company name at the top
     doc.setFontSize(20);
     doc.text('TUTORNET User Details', 50, 20);
+    doc.addImage(Logo, 'JPEG', 14, 30, 10, 10);
 
-    // Add company logo
-    doc.addImage(Logo, 'JPEG', 14, 30, 10, 10); // Adjust dimensions as needed
-
-    // Ensure the table does not overlap with the logo by adjusting the startY position
     var count = 1;
     doc.autoTable({
       head: [['No', 'Name', 'Email', 'Role']],
-      body: filteredRows.map(row => [count++, row.name, row.email, row.role]),
+      body: filteredRoleDetails.map(row => [count++, row.name, row.email, row.role]),
       startY: 50,
-      
-    }
-    );
-   
+    });
+
     doc.save('Tutornet_User_Details.pdf');
   };
 
-  // Function to filter users by role
   const handleFilter = (role: string) => {
-    const filteredUsers = role === 'all' ? rows : rows.filter(user => user.role === role);
-    setFilteredRows(filteredUsers);
+    const filteredRoles = role === 'all' ? roleDetails : roleDetails.filter(roleDetail => roleDetail.role === role);
+    setFilteredRoleDetails(filteredRoles);
+    setOpenFilterModal(false);
   };
-
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(8);
-  const totalPages = Math.ceil(filteredRows.length / itemsPerPage);
+
+  const totalPages = Math.ceil(filteredRoleDetails.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentItems = filteredRows.slice(startIndex, endIndex);
+  const currentItems = filteredRoleDetails.slice(startIndex, endIndex);
 
-
-
-  var countData = 1;
   return (
     <>
       <AddUser />
 
       <div className="Tablebtn mb-2 mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        {BasicModal()}
-        <Button
-          onClick={downloadPdf}
-
-          startIcon={<DownloadIcon />}
-        >
-          PDF
-        </Button>
+        <Button onClick={() => setOpenFilterModal(true)} startIcon={<FilterListIcon />}>Filter</Button>
+        <Button onClick={downloadPdf} startIcon={<DownloadIcon />}>PDF</Button>
       </div>
-      {/* filter function  */}
 
+      <Modal
+        open={openFilterModal}
+        onClose={() => setOpenFilterModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Grid container spacing={3}>
+            <Grid item xs={2}>
+              <Button onClick={() => handleFilter('all')} variant="outlined" startIcon={<FilterListIcon />}>All</Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button onClick={() => handleFilter('Admin')} variant="outlined" startIcon={<FilterListIcon />}>Admins</Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button onClick={() => handleFilter('Teacher')} variant="outlined" startIcon={<FilterListIcon />}>Teachers</Button>
+            </Grid>
+            <Grid item xs={3}>
+              <Button onClick={() => handleFilter('Student')} variant="outlined" startIcon={<FilterListIcon />}>Students</Button>
+            </Grid>
+            {/* Add more filter buttons if needed */}
+          </Grid>
+        </Box>
+      </Modal>
 
-      <TableContainer component={Paper}>
+      {loading ? (<TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -170,11 +156,9 @@ export default function UserTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            
-            {currentItems.map((row) => (
-             
+            {currentItems.map((row, index) => (
               <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="row">{countData++}</TableCell>
+                <TableCell component="th" scope="row">{startIndex + index + 1}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.role}</TableCell>
@@ -188,9 +172,8 @@ export default function UserTable() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      {/* Pagination */}
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      ) : (<LinearProgress />)}
+     {loading &&  <div style={{ textAlign: 'center', marginTop: '20px' }}>
         {Array.from({ length: totalPages }, (_, index) => (
           <Button
             key={index}
@@ -202,7 +185,9 @@ export default function UserTable() {
           </Button>
         ))}
         <br /><br />
-      </div>
+      </div> }
     </>
   );
 }
+
+
