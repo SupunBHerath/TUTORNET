@@ -1,34 +1,53 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './FrogetPassword.css'; // Assuming CSS module import
+
 import FrogetImage from '../images/FrogetPassword.jpeg';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-interface ForgotPasswordProps {} // No props for this component
 
-const FrogetPassword: React.FC<ForgotPasswordProps> = () => {
+
+const FrogetPassword: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(true);
-  const navigate = useNavigate();
+  
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
   const isValidEmail = (email: string): boolean => {
-    const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit =async  (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!isValidEmail(email)) {
       setErrorMessage('Please enter a valid email address.');
     } else {
       setErrorMessage('');
-      // Implement logic to send password reset instructions
-    }
-  };
 
+      try {
+        const response = await fetch('http://localhost:5000/api/forgot-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setSuccessMessage('Password reset email sent. Please check your inbox.');
+        } else {
+            setErrorMessage(data.message || 'An error occurred');
+        }
+    } catch (error) {
+        console.error('Error during forgot password:', error);
+        setErrorMessage('Internal server error.');
+    }
+};
+
+  }
   const handleCloseForm = () => {
     setIsFormOpen(false);
     navigate('/');
@@ -59,6 +78,7 @@ const FrogetPassword: React.FC<ForgotPasswordProps> = () => {
               required
             />
             {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && <p className="success-message">{successMessage}</p>}
             <button type="submit" className="frogetf-btn">
               Submit
             </button>
