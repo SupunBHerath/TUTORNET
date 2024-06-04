@@ -10,6 +10,7 @@ import PostChart from '../Components/Charts/PostChart'
 import { Color } from '../../../Components/CSS/CSS'
 import axios from 'axios'
 import AdsChart from '../Components/Charts/AdsChart'
+import useCookie from '../../../Hook/UserAuth'
 
 type RoleDetails = {
   role: string;
@@ -18,10 +19,10 @@ type RoleDetails = {
 
 const ADashboard = () => {
   const [roleDetails, setRoleDetails] = useState<RoleDetails[]>([]);
-
   useEffect(() => {
     fetchRoleDetails();
   }, []);
+  useCookie()
 
   const fetchRoleDetails = async () => {
     try {

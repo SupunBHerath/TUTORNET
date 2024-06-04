@@ -23,20 +23,32 @@ import u5 from '../../../public/Users/u5.jpg'
 import { AdsCarousel } from './Components/AdsCarousel'
 import STNavi_Bar from '../Landing_page/Components/Navi_Bar/STNavi_Bar'
 import axios from 'axios'
-// CHP  common home page 
-
+import { useNavigate } from 'react-router-dom'
+import useCookie from '../../Hook/UserAuth'
+import { logout } from '../../Hook/Logout'
+interface UserData {
+    userId: string;
+    username: string;
+    email: string;
+    role: string;
+    profile: string;
+}
 
 const Home = () => {
-  const[teacher , setTeacher]=useState(0)
-  const[student , setStudent]=useState(0)
-  
-useEffect
+    const [teacher, setTeacher] = useState(0)
+    const [student, setStudent] = useState(0)
+    const navigate = useNavigate();
+   
     useEffect(() => {
         AOS.init({
             duration: 2000,
         })
-    })
-  
+    }, [])
+     
+ 
+    
+
+
 
 
     return (

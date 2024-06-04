@@ -28,9 +28,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
-        {/* <Route path="/login" element={<Login/>} /> */}
         <Route path="/fp" element={<FrogetPassword/>} />
-        {/* <Route path="/register" element={<RegistrationForm />} /> */}
         <Route path="/Landing" element={<Landing />} />
         <Route path="/reg/teacher" element={<TeacherRegister />} />
         <Route path="/reg/student" element={<StudentRegister />} />
@@ -38,9 +36,6 @@ const App = () => {
     
 
         {/* ----------student  route -------------------------*/}
-
-     
-
         <Route path="/student" element={<StudentHome />} />
         <Route path="/search" element={<SearchPage/>} />
         <Route path="/student/profile" element={<Profile/>} />
@@ -55,20 +50,13 @@ const App = () => {
        
 
         {/* ----------admin  route -------------------------*/}
-
-       
-
-        
-        <Route path="admin" element={<AdminMain/>} />
-        <Route path="admin/user" element={<UserManage />} />
-        <Route path="admin/payment" element={<PaymentManage />} />
+        <Route path="/admin" element={<AdminMain/>} />
+        <Route path="/admin/user" element={<UserManage />} />
+        <Route path="/admin/payment" element={<PaymentManage />} />
        
 
       </Routes>
-           {/* <Home/> */}
-
-      {/* <StudentHome/> */}
-      {/* <ADashboard /> */}
+      
 
     </div>
 

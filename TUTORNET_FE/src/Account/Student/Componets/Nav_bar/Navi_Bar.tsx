@@ -13,6 +13,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Color, Font } from '../../../../Components/CSS/CSS';
+import { logout } from '../../../../Hook/Logout';
+
 
 const pages = [
   { name: 'Home', path: '/student' },
@@ -23,7 +25,7 @@ const pages = [
 
 const settings = [
   { name: 'Profile', path: '/student/profile' },
-  { name: 'Logout', path: '/' }
+  { name: 'Logout', path: '/', onclick:logout}
 ];
 
 function SNavi_Bar() {

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 
 interface PostData {
-  date: string; 
+  uploadedDay: string; 
 }
 
 interface ChartData {
@@ -28,11 +28,14 @@ const AdsChart: React.FC = () => {
 
       if (response.status === 200) {
         const postData = processPostData(response.data);
+        console.log("dddd");
+        
+console.log(postData);
 
         const dates = getLastThreeDays();
 
         setChartData({
-          post: dates.map(date => postData.counts[date] || 0),
+          post: dates.map(uploadedDay => postData.counts[uploadedDay] || 0),
           dates: dates
         });
 
@@ -48,7 +51,7 @@ const AdsChart: React.FC = () => {
     const dateCounts: { [key: string]: number } = {};
 
     data.forEach(item => {
-      const date = item.date.split('T')[0];
+      const date = item.uploadedDay.split('T')[0];
       if (!dateCounts[date]) {
         dateCounts[date] = 0;
       }

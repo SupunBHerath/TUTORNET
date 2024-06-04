@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 
 interface PostData {
-  date: string; 
+  uploadedDay: string; 
 }
 
 interface ChartData {
@@ -48,7 +48,7 @@ const PostChart: React.FC = () => {
     const dateCounts: { [key: string]: number } = {};
 
     data.forEach(item => {
-      const date = item.date.split('T')[0];
+      const date = item.uploadedDay.split('T')[0];
       if (!dateCounts[date]) {
         dateCounts[date] = 0;
       }
