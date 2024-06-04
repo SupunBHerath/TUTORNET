@@ -8,63 +8,86 @@ import { useEffect, useState } from 'react'
 import UserChart from '../Components/Charts/UserChart'
 import PostChart from '../Components/Charts/PostChart'
 import { Color } from '../../../Components/CSS/CSS'
+import axios from 'axios'
+
+type RoleDetails = {
+  role: string;
+  count: number;
+};
 
 const ADashboard = () => {
-  const [row, setRow] = useState(null);
+  const [row, setRow] = useState<number>(0);
+  const [roleDetails, setRoleDetails] = useState<RoleDetails[]>([]);
+
   useEffect(() => {
-    fetch('http://localhost:8080/teacher/all')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-    
-        setRow(data.length)
-       
-        console.log(row)
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  },[row])
+    fetchRoleDetails();
+  }, []);
+
+  const fetchRoleDetails = async () => {
+    try {
+      const adminResponse = await axios.get('admin/all');
+      const teacherResponse = await axios.get('teacher/all');
+      const studentResponse = await axios.get('student/all');
+      const postResponse = await axios.get('post/all');
+      const adsResponse = await axios.get('ads/all');
+
+      // Check if all responses are successful
+      if (adminResponse.status === 200 && teacherResponse.status === 200 && studentResponse.status === 200) {
+        const adminCount = adminResponse.data.length;
+        const teacherCount = teacherResponse.data.length;
+        const studentCount = studentResponse.data.length;
+        const postCount = postResponse.data.length;
+        const adsCount = adsResponse.data.length;
+
+        // Set the count for each role
+        setRow(adminCount);
+        setRoleDetails([
+          { role: 'Admin', count: adminCount },
+          { role: 'Teacher', count: teacherCount },
+          { role: 'Student', count: studentCount },
+          { role: 'Post', count: postCount },
+          { role: 'Ads', count: adsCount }
+        ]);
+      } else {
+        throw new Error('One or more network responses were not ok');
+      }
+    } catch (error) {
+      console.error('Error fetching role details:', error);
+    }
+  };
 
   return (
     <div className='pt-1'>
-      <div className="d-flex row justify-content-evenly " >
-        <HeaderCard icon={teacherIcon} title="Teachers" count={row}  />
-        <HeaderCard icon={studentIcon} title="Students" count="5000" />
-        <HeaderCard icon={postIcon} title="Post" count="1500" />
-        <HeaderCard icon={AdsIcon} title="Ads" count="10" />
+      <div className="col d-lg-flex justify-content-evenly">
+        <HeaderCard icon={teacherIcon} title="Teachers" count={row} />
+        <HeaderCard icon={studentIcon} title="Students" count={roleDetails.find(role => role.role === 'Student')?.count || 0} />
+        <HeaderCard icon={postIcon} title="Posts" count={roleDetails.find(role => role.role === 'Post')?.count || 0} />
+        <HeaderCard icon={AdsIcon} title="Ads" count={roleDetails.find(role => role.role === 'Ads')?.count || 0} />
       </div>
       <br /><br />
       <br /><br />
 
-
-      <div className="" >
-        <div className="row text-center ">
-          <div className="col-md-4 ">
+      <div className="container">
+        <div className="row text-center">
+          <div className="col-md-4">
             <UserChart />
             <br />
-            <h3>New <span style={{ color: Color.SecondaryColor }}>Account</span>  creations in the last 3 days</h3>
-
+            <h3>New <span style={{ color: Color.SecondaryColor }}>Account</span> in the last 3 days</h3>
           </div>
-          <div className="col-md-4 ">
+          <div className="col-md-4">
             <PostChart />
             <br />
-            <h3>New <span style={{ color: Color.SecondaryColor }}>Post</span>  creations in the last 3 days</h3>
+            <h3>New <span style={{ color: Color.SecondaryColor }}>Post</span> in the last 3 days</h3>
           </div>
-          <div className="col-md-4 ">
+          <div className="col-md-4">
             <PostChart />
             <br />
-            <h3>New <span style={{ color: Color.SecondaryColor }}>ADS</span>  creations in the last 3 days</h3>
+            <h3>New <span style={{ color: Color.SecondaryColor }}>ADS</span>  in the last 3 days</h3>
           </div>
         </div>
       </div>
-   
     </div>
   )
 }
 
-export default ADashboard
+export default ADashboard;

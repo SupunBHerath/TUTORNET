@@ -175,7 +175,7 @@ export default function MyProfile() {
                     size="sm"
                     type="email"
                     startDecorator={<EmailRoundedIcon />}
-                    placeholder="email"
+                    placeholder="email" 
                     sx={{ flexGrow: 1 }}
                   />
                 </FormControl>

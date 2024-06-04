@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+import { CircularProgress } from '@mui/material';
 
 export default function Linear() {
   const [progress, setProgress] = React.useState(0);
@@ -24,6 +25,7 @@ export default function Linear() {
   return (
     <Box sx={{ width: '100%' }}>
       <LinearProgress variant="determinate" value={progress} />
+   
     </Box>
   );
 }

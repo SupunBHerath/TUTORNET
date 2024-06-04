@@ -8,6 +8,7 @@ const { authMiddleware } = require('../middleware/aulth');
 
 router.post('/register',authMiddleware , controller.register );
 router.post('/', authMiddleware);
+router.get('/all', controller.all);
 
 
 module.exports = router;

@@ -36,7 +36,7 @@ const PaymentManage = () => {
   return (
     <div>
       <div className="UserManage" >
-        <div className="payment d-flex justify-content-center row ">
+        <div className="payment d-flex justify-content-center  ">
 
             <HeaderCard icon={profit} title="Revenue" count={revenue} />
 

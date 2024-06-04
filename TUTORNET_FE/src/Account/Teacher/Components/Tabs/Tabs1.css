@@ -6,13 +6,12 @@
 .intro-container {
     max-width: 500px;
     flex: 1;
-    padding: 20px;
-   /* Example background color */
+    padding: 10px;
 }
 
 .post-container {
-    width: 500px; /* Adjust width as needed */
+    width: 500px; 
     overflow-y: auto;
     padding: 20px;
-    background-color: #ffffff; /* Example background color */
+    background-color: #ffffff; 
 }

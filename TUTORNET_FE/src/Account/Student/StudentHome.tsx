@@ -1,6 +1,7 @@
 import StudentPost from './StudentPost'
-import Navi_Bar from './Componets/Nav_bar/Navi_Bar'
 import AdsHome from './Componets/Ads/AdsHome';
+import { Grid } from '@mui/material';
+import SNavi_Bar from './Componets/Nav_bar/Navi_Bar';
 
 
 
@@ -8,27 +9,21 @@ const StudentHome = () => {
 
     return (
         <div className='bg-body-tertiary '>
-            <div>
-                <Navi_Bar />
-                <div className="all d-flex ">
-                    <div className="StudentHome justify-content-center row d-flex ">
-                        <div className="ads mt-5  col-lg-3  d-flex justify-content-center ">
-                            <AdsHome />
-                             
-                        </div>
-                        <div className="post overflow-x-hidden  overflow-y-auto col-lg-4  " style={{ maxHeight: '100vh' }}>
-                          
-                            <StudentPost />
-                        </div>
-                        <div className="ads mt-5  col-lg-4 d-flex justify-content-center  ">
-                        <AdsHome />
-                            
-                        </div>
-                    </div>
-                   
-                </div>
+            <SNavi_Bar />
 
-            </div>
+            <Grid container spacing={3} padding={5} paddingY={0} marginTop={5}>
+                <Grid item xs >
+                    <AdsHome />
+                </Grid>
+                <Grid item xs={4} >
+                    <StudentPost />
+
+                </Grid>
+                <Grid item xs>
+                    <AdsHome />
+
+                </Grid>
+            </Grid>
 
         </div>
     )

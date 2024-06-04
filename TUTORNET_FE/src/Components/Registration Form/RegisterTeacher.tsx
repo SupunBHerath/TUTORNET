@@ -1,40 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField, Button, Container, Grid, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../CSS/CSS';
-
+interface subject {
+  title: any;
+}
 export default function RegisteredForm(prop: any) {
   const navigate = useNavigate();
   const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [selectedSubject, setselectedSubject] = useState('');
   const [nameError, setNameError] = useState(false);
   const [nicknameError, setNickNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
-  const [subjectError, setSubjectError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [cpasswordError, setCPasswordError] = useState(false);
   const [success, setSuccess] = useState(false);
   const [fail, setFail] = useState(false);
-
-  const handleDistrictChange = (event: React.ChangeEvent<{}>, newValue: string | null) => {
+  const [Subjects, setSubjects] = useState<subject[]>([]);
+  
+  useEffect(()=>{
+    const subjectData =async ()=>{
+      const res = await axios.get('/subject/v');
+      setSubjects(res.data);
+    } 
+    subjectData();
+  },[])
+  const handleDistrictChange = (event: any, newValue: string | null) => {
     if (newValue !== null) {
-      setSelectedDistrict(newValue)
+      setSelectedDistrict(newValue);
       setFormData(prevState => ({
         ...prevState,
         district: newValue
       }));
     }
   };
-  const [formData, setFormData] = useState({
+  const handleSubjectChange = (event: any, newValue: string | null) => {
+    if (newValue !== null) {
+      setselectedSubject(newValue);
+      setFormData(prevState => ({
+        ...prevState,
+        subject: newValue
+      }));
+    }
+  };
 
+  const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     nickname: '',
     subject: '',
     district: '',
-
   });
 
   const handleInputChange = (event: any) => {
@@ -45,116 +63,100 @@ export default function RegisteredForm(prop: any) {
     });
   };
 
-
-
-  // error handling for text inputs
+  // Block numeric input including number pad
+  const blockNumericInput = (e: any) => {
+    const charCode = e.which ? e.which : e.keyCode;
+    if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
+      e.preventDefault();
+    }
+  };
 
   const handleNameChange = (e: any) => {
-    handleInputChange(e)
-    if (e.target.validity.valid) {
-      setNameError(false);
-    } else {
-      setNameError(true);
-    }
+    setFail(false);
+
+    handleInputChange(e);
+    const pattern = /^[A-Za-z ]+$/;
+    setNameError(!pattern.test(e.target.value));
   };
 
   const handleNickNameChange = (e: any) => {
-    handleInputChange(e)
-    if (e.target.validity.valid) {
-      setNickNameError(false);
-    } else {
-      setNickNameError(true);
-    }
+    setFail(false);
+
+    handleInputChange(e);
+    const pattern = /^[A-Za-z ]+$/;
+    setNickNameError(!pattern.test(e.target.value));
   };
 
   const handleEmailChange = (e: any) => {
-    handleInputChange(e)
-    if (e.target.validity.valid) {
-      setEmailError(false);
-    } else {
-      setEmailError(true);
-    }
+    setFail(false);
+
+    handleInputChange(e);
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailError(!pattern.test(e.target.value));
   };
-  const handleSubjectChange = (e: any) => {
-    handleInputChange(e)
-    if (e.target.validity.valid) {
-      setSubjectError(false);
-    } else {
-      setSubjectError(true);
-    }
-  };
+
+ 
   const handlePasswordChange = (e: any) => {
-    handleInputChange(e)
-    if (e.target.validity.valid) {
-      setPasswordError(false);
-    } else {
-      setPasswordError(true);
-    }
+    handleInputChange(e);
+    setPasswordError(e.target.value.length < 6);
   };
+
   const handleConfPasswordChange = (e: any) => {
     handleInputChange(e);
-
-    const password = formData.password; // Get the value of the password field
-    const cpassword = e.target.value; // Get the value of the confirm password field
-    console.log(password, cpassword)
-    if (e.target.validity.valid && password === cpassword) {
-      setCPasswordError(false);
-    } else {
-      setCPasswordError(true);
-    }
+    setCPasswordError(formData.password !== e.target.value);
   };
-
 
   const handleSubmit = async (event: any) => {
+    setFail(false);
+
     event.preventDefault();
-    console.log(formData)
     try {
-      const response = await axios.post('http://localhost:8080/teacher/register', { ...formData });
+      const response = await axios.post('/teacher/register', { ...formData });
       if (response.status === 200) {
-        // navigate('/admin/user');
         setSuccess(true);
+      setEmailError(false);
         setTimeout(() => {
           navigate('/');
-        }, 2000);
-
+        }, 2200);
       } else if (response.status === 400) {
-        setEmailError(true)
+        setEmailError(true);
       } else {
-        // alert('Registration failed');
-        setEmailError(true)
-        console.log(response.data);
+        setEmailError(true);
       }
     } catch (error) {
-      setFail(true)
-
+      setFail(true);
+      setEmailError(true);
 
     }
   };
+
+  const filterOptions = (options: string[], { inputValue }: { inputValue: string }) => {
+    return options.filter(option => option.toLowerCase().startsWith(inputValue.toLowerCase())).slice(0, 6); 
+  };
+
+
 
   return (
     <>
-      <Container maxWidth="xs" className=' border  p-3 rounded-4 '>
-      {success && <Alert severity="success">Registration successful</Alert>} {/* Render error if exists */}
-        {fail && <Alert severity="error">Registration fail</Alert>} {/* Render error if exists */}
+      <Container maxWidth="xs" className='border p-3 rounded-4'>
+        {success && <Alert severity="success">Registration successful</Alert>}
+        {fail && <Alert severity="error">Registration failed , Check your email </Alert>}
         <Typography
           variant="h4"
           noWrap
           component="div"
           sx={{ display: { xs: 'block', sm: 'block' } }}
-          style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}  >
+          style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}>
           TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
-
         </Typography>
         <Typography
           variant="h6"
           noWrap
           component="div"
           sx={{ display: { xs: 'block', sm: 'block' } }}
-          style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}  >
+          style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}>
           Teacher's Register <span style={{ color: Color.SecondaryColor }}>Form</span>
-
         </Typography>
-
         <br />
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -166,30 +168,23 @@ export default function RegisteredForm(prop: any) {
                 value={formData.username}
                 required
                 onChange={handleNameChange}
+                onKeyDown={blockNumericInput}
                 error={nameError}
-                helperText={
-                  nameError ? "Please enter your name (letters and spaces only)" : ""
-                }
-                inputProps={{
-                  pattern: "[A-Za-z ]+",
-                }}
+                helperText={nameError ? "Please enter your name (letters and spaces only)" : ""}
+                inputProps={{ pattern: "[A-Za-z ]+" }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Nick Name "
+                label="Nick Name"
                 name="nickname"
                 value={formData.nickname}
-
                 onChange={handleNickNameChange}
+                onKeyDown={blockNumericInput}
                 error={nicknameError}
-                helperText={
-                  nicknameError ? "Please enter your name (letters and spaces only)" : ""
-                }
-                inputProps={{
-                  pattern: "[A-Za-z ]+",
-                }}
+                helperText={nicknameError ? "Please enter your nickname (letters and spaces only)" : ""}
+                inputProps={{ pattern: "[A-Za-z ]+" }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -200,49 +195,52 @@ export default function RegisteredForm(prop: any) {
                 value={formData.email}
                 onChange={handleEmailChange}
                 error={emailError}
-                helperText={emailError ? "Please enter a valid & uniqe email" : ""}
-                inputProps={{
-                  type: "email",
-                }}
+                helperText={emailError ? "Please enter a valid & unique email" : ""}
+                inputProps={{ type: "email" }}
               />
             </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleSubjectChange}
-                required
-                error={subjectError}
-                helperText={
-                  subjectError ? "Please enter subject (letters and spaces only)" : ""
-                }
-                inputProps={{
-                  pattern: "[A-Za-z ]+",
-                }}
-              />
-            </Grid>
-
+           
             <Grid item xs={12}>
               <Autocomplete
                 freeSolo
-                id="free-solo-2-demo"
+                id="subject-autocomplete"
                 disableClearable
-                options={district.map((option) => option.title)}
-                value={selectedDistrict} // Set the value prop to the selectedDistrict state
-                onChange={handleDistrictChange} // Call handleInputChange when a value is selected
+                options={Subjects.map(option => option.title)}
+                value={selectedSubject}
+                onChange={handleSubjectChange}
+               filterOptions={filterOptions}
+               onKeyDown={blockNumericInput}
+               
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Subject"
+                    name="subject"
+                    required
+                    
+                    InputProps={{ ...params.InputProps, type: 'search'   }}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Autocomplete
+                freeSolo
+                id="district-autocomplete"
+                disableClearable
+                options={district.map(option => option.title)}
+                value={selectedDistrict}
+                onChange={handleDistrictChange}
+               filterOptions={filterOptions}
+               onKeyDown={blockNumericInput}
+
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="District"
                     name="district"
                     required
-                    InputProps={{
-                      ...params.InputProps,
-                      type: 'search',
-                    }}
+                    InputProps={{ ...params.InputProps, type: 'search' }}
                   />
                 )}
               />
@@ -257,48 +255,38 @@ export default function RegisteredForm(prop: any) {
                 required
                 type='password'
                 error={passwordError}
-                helperText={
-                  passwordError ? "Please enter password " : ""
-                }
-
+                helperText={passwordError ? "Please enter a password (minimum 6 characters)" : ""}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Confirm password"
+                label="Confirm Password"
                 name="cpassword"
                 onChange={handleConfPasswordChange}
                 required
                 type='password'
                 error={cpasswordError}
-                helperText={
-                  cpasswordError ? "password does not match" : ""
-                }
-
+                helperText={cpasswordError ? "Passwords do not match" : ""}
               />
             </Grid>
             <Grid item xs={12} style={{ display: 'block' }}>
-              <Button id="registerButton" type="submit" variant="contained" className='w-100' style={{ backgroundColor: Color.PrimaryColor, padding: '10px' }} >
+              <Button id="registerButton" type="submit" variant="contained" className='w-100' style={{ backgroundColor: Color.PrimaryColor, padding: '10px' }}>
                 Register
               </Button>
               <Grid container justifyContent="flex-end">
-              <Grid item>
-                <br />
-                Already have an account?  <Link to="/login" >Login </Link>
+                <Grid item>
+                  <br />
+                  Already have an account? <Link to="/login">Login</Link>
+                </Grid>
               </Grid>
-            </Grid>
             </Grid>
           </Grid>
         </form>
       </Container>
     </>
-
-
-
   );
 }
-
 
 const district = [
   { title: 'Ampara' },
@@ -327,3 +315,4 @@ const district = [
   { title: 'Trincomalee' },
   { title: 'Vavuniya' }
 ];
+
