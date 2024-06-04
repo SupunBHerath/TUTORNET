@@ -101,7 +101,7 @@ const AddAdsFormTeacher = () => {
                 body: formData
             });
             if (response.ok) {
-                const mail = await fetch('http://localhost:8080/mail/submit', { method: 'POST' ,body:formData});
+                // const mail = await fetch('http://localhost:8080/mail/submit', { method: 'POST' ,body:formData});
                 setSuccess(true);
                 setError(false);
                 setTimeout(() => {

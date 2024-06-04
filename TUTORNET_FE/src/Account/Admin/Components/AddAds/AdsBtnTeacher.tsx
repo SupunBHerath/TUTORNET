@@ -55,12 +55,7 @@ export default function AdsBtnTeacher() {
                 <Fade in={open}>
 
                     <Box sx={style}>
-                        {/* <Button
-                            style={{ float: 'right', marginTop:"-10px",marginRight:'-50px',color:"red" }}
-                            onClick={handleClose}
-                            startIcon={<CloseIcon />}>
-                                
-                        </Button> */}
+                       
                         <AddAdsFormTeacher/>
                     </Box>
                 </Fade>

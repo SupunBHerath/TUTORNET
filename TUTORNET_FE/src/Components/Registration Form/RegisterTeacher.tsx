@@ -63,7 +63,6 @@ export default function RegisteredForm(prop: any) {
     });
   };
 
-  // Block numeric input including number pad
   const blockNumericInput = (e: any) => {
     const charCode = e.which ? e.which : e.keyCode;
     if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {

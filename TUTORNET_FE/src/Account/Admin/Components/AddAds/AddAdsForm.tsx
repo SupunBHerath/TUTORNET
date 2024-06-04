@@ -118,6 +118,7 @@ const AddAdsForm = () => {
             <VisuallyHiddenInput
                 id="fileInput"
                 type="file"
+                accept="image/*" 
                 ref={fileInputRef}
                 onChange={handleFileChange}
             />
