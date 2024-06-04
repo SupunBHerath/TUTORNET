@@ -7,6 +7,7 @@ const PostPage = () => {
       <Navi_Bar/>
 
       <AddPost/>
+      
     </div>
   )
 }

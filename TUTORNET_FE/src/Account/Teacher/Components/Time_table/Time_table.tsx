@@ -131,7 +131,7 @@ const PostWallPage: React.FC = () => {
                 </Box>
             </Modal>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
-                {posts.map((post, index) => (
+                {posts.map((post, _index) => (
                     <Box 
                         key={post.id} 
                         sx={{ 
