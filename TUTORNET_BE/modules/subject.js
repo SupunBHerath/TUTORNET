@@ -12,6 +12,11 @@ const subjectSchema = new Schema({
     required: true,
     default: 'Visible',
   },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now
+}
 });
 
 module.exports = mongoose.model('Subject', subjectSchema);

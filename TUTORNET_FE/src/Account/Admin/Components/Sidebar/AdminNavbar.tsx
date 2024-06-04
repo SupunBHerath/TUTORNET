@@ -31,7 +31,7 @@ import { Color, Font } from '../../../../Components/CSS/CSS';
 import AdsManagePage from '../../Pages/AdsManage';
 import Notification from '../../Pages/Notification';
 import SubjectTable from '../Table/SubjectTable';
-
+import FeedbackIcon from '@mui/icons-material/Feedback';
 // Define your custom font
 
 const drawerWidth = 240;
@@ -248,7 +248,7 @@ export default function AdminNavbar() {
           <br />
           <ListItemButton onClick={notification}>
             <ListItemIcon>
-              <AddAlertIcon sx={activeComponent === 'notification' ? { color: Color.SecondaryColor } : {}} />
+              <FeedbackIcon sx={activeComponent === 'notification' ? { color: Color.SecondaryColor } : {}} />
 
             </ListItemIcon>
             <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Notification</span>} sx={activeComponent === 'notification' ? { color: Color.SecondaryColor } : {}} />

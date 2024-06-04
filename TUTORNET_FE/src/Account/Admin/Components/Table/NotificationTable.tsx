@@ -197,7 +197,6 @@ export default function NotificationTable() {
           ))}
         </Grid>
 
-        {/* Confirmation dialog */}
         <Dialog open={openConfirmationDialog} onClose={dialogType === 'status' ? handleCancelStatusChange : handleCancelDelete}>
           {loading && <LinearProgress />}
           <DialogTitle>{dialogType === 'delete' ? 'Confirm Delete' : 'Confirm Status Change'}</DialogTitle>

@@ -12,7 +12,7 @@ interface ChartData {
   dates: string[];
 }
 
-const PostChart: React.FC = () => {
+const AdsChart: React.FC = () => {
   const [chartData, setChartData] = useState<ChartData>({
     post: [],
     dates: []
@@ -24,7 +24,7 @@ const PostChart: React.FC = () => {
 
   const fetchPostDetails = async () => {
     try {
-      const response = await axios.get<PostData[]>('post/all');
+      const response = await axios.get<PostData[]>('ads/all');
 
       if (response.status === 200) {
         const postData = processPostData(response.data);
@@ -71,7 +71,7 @@ const PostChart: React.FC = () => {
   return (
     <BarChart
       series={[
-        { label: 'Post', data: chartData.post }
+        { label: 'Ads', data: chartData.post }
       ]}
       height={370}
       xAxis={[{ data: chartData.dates, scaleType: 'band' }]}
@@ -80,4 +80,4 @@ const PostChart: React.FC = () => {
   );
 }
 
-export default PostChart;
+export default AdsChart;

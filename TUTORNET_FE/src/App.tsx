@@ -16,6 +16,7 @@ import PostPage from './Account/Teacher/Pages/PostPage';
 import TeacherWall from './Account/Teacher/Pages/TeacherWall';
 import TeacherProfile from './Components/Tempale/TeacherProfile';
 import FrogetPassword from './Components/Login Form/FrogetPassword';
+import Profile from './Account/Student/Profile';
 
 
 
@@ -42,6 +43,7 @@ const App = () => {
 
         <Route path="/student" element={<StudentHome />} />
         <Route path="/search" element={<SearchPage/>} />
+        <Route path="/student/profile" element={<Profile/>} />
 
 
         {/* ----------teacher  route -------------------------*/}

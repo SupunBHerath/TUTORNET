@@ -62,6 +62,11 @@ const teacherSchema = new Schema({
     coverPhoto: {
         type: String,
         required: false
+    },
+    date: {
+        type: Date,
+        required: true,
+        default: Date.now
     }
 });
 

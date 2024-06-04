@@ -22,7 +22,7 @@ const pages = [
 ];
 
 const settings = [
-  { name: 'Profile', path: '/profile' },
+  { name: 'Profile', path: '/student/profile' },
   { name: 'Logout', path: '/' }
 ];
 

@@ -10,7 +10,7 @@ import AddUser from '../Add User/AddUser';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -73,13 +73,20 @@ export default function UserTable() {
     }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     console.log('Delete user with id:', id);
-    // Add your delete logic here
+    try{
+      const deleteUser = await axios.delete(`/api/delete/${id}`)
+      if(deleteUser){
+        
+      }
+    }catch(error) {
+      console.error('Error deleting user:', error);
+    }
   };
 
   const downloadPdf = () => {
-    const doc = new jsPDF() as any; // Cast jsPDF to any to avoid TypeScript error
+    const doc = new jsPDF() as any; 
 
     doc.setFontSize(20);
     doc.text('TUTORNET User Details', 50, 20);

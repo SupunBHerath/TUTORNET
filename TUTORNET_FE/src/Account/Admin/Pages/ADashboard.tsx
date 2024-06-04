@@ -9,6 +9,7 @@ import UserChart from '../Components/Charts/UserChart'
 import PostChart from '../Components/Charts/PostChart'
 import { Color } from '../../../Components/CSS/CSS'
 import axios from 'axios'
+import AdsChart from '../Components/Charts/AdsChart'
 
 type RoleDetails = {
   role: string;
@@ -16,7 +17,6 @@ type RoleDetails = {
 };
 
 const ADashboard = () => {
-  const [row, setRow] = useState<number>(0);
   const [roleDetails, setRoleDetails] = useState<RoleDetails[]>([]);
 
   useEffect(() => {
@@ -31,7 +31,6 @@ const ADashboard = () => {
       const postResponse = await axios.get('post/all');
       const adsResponse = await axios.get('ads/all');
 
-      // Check if all responses are successful
       if (adminResponse.status === 200 && teacherResponse.status === 200 && studentResponse.status === 200) {
         const adminCount = adminResponse.data.length;
         const teacherCount = teacherResponse.data.length;
@@ -39,8 +38,6 @@ const ADashboard = () => {
         const postCount = postResponse.data.length;
         const adsCount = adsResponse.data.length;
 
-        // Set the count for each role
-        setRow(adminCount);
         setRoleDetails([
           { role: 'Admin', count: adminCount },
           { role: 'Teacher', count: teacherCount },
@@ -59,7 +56,7 @@ const ADashboard = () => {
   return (
     <div className='pt-1'>
       <div className="col d-lg-flex justify-content-evenly">
-        <HeaderCard icon={teacherIcon} title="Teachers" count={row} />
+        <HeaderCard icon={teacherIcon} title="Teachers" count={roleDetails.find(role => role.role === 'Teacher')?.count || 0}/>
         <HeaderCard icon={studentIcon} title="Students" count={roleDetails.find(role => role.role === 'Student')?.count || 0} />
         <HeaderCard icon={postIcon} title="Posts" count={roleDetails.find(role => role.role === 'Post')?.count || 0} />
         <HeaderCard icon={AdsIcon} title="Ads" count={roleDetails.find(role => role.role === 'Ads')?.count || 0} />
@@ -80,7 +77,7 @@ const ADashboard = () => {
             <h3>New <span style={{ color: Color.SecondaryColor }}>Post</span> in the last 3 days</h3>
           </div>
           <div className="col-md-4">
-            <PostChart />
+           <AdsChart/>
             <br />
             <h3>New <span style={{ color: Color.SecondaryColor }}>ADS</span>  in the last 3 days</h3>
           </div>
