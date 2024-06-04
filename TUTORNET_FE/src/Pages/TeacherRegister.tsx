@@ -2,10 +2,11 @@ import RegisterTeacher from '../Components/Registration Form/RegisterTeacher'
 import CHPNaviBar from '../Account/CHP/CHPNaviBar'
 import logo from '../../public/logo/Tutor logo.png'
 import './RegisterForm.css'
+import STNavi_Bar from '../Account/Landing_page/Components/Navi_Bar/STNavi_Bar'
 const TeacherRegister = () => {
     return (
         <div>
-            <CHPNaviBar />
+            <STNavi_Bar />
             <br />
             <div className="container rounded-4  p-3 shadow-lg ">
                 <div className="row">
