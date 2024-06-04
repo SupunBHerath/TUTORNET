@@ -1,0 +1,53 @@
+.delete-question-form {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .delete-question-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .delete-question-form .message {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .delete-question-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .delete-question-form form div {
+    margin-bottom: 10px;
+  }
+  
+  .delete-question-form form label {
+    margin-bottom: 5px;
+  }
+  
+  .delete-question-form form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .delete-question-form form button {
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .delete-question-form form button[type="button"] {
+    background-color: #6c757d;
+  }
+  
