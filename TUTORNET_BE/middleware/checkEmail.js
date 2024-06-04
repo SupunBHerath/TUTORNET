@@ -5,25 +5,22 @@ const Teacher = require("../modules/teacher");
 
 module.exports.checkEmail = async (req, res, next) => {
     try {
-        const { email } = req.method === "GET" ? req.query : req.body;
-
-        
-        const teacherExist = await Teacher.findOne({ email });
-        const studentExist = await Student.findOne({ email });
-        const adminExist = await Admin.findOne({ email });
-
-        if (!teacherExist && !studentExist && !adminExist) {
-            return res.status(200).send({ module: "unique email"});
-        }else{
-            return res.status(400).send({ error: "Please use a unique email.",
-                status:400
-             });
-        }
-        
-        next(); 
-
+      const { email } =req.body
+  
+      const teacherExist = await Teacher.findOne({ email });
+      const studentExist = await Student.findOne({ email });
+      const adminExist = await Admin.findOne({ email });
+  
+      if (!teacherExist && !studentExist && !adminExist) {
+        next();  
+       
+      } else {
+        return res.status(400).send({ error: "Please use a unique email.", status: 400 });
+      }
+  
+   
     } catch (error) {
-        console.error(error);
-        return res.status(500).send({ error: "Authentication Error" }); 
+      console.error(error);
+      return res.status(500).send({ error: "Authentication Error" });
     }
-};
+  };

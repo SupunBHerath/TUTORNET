@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import useCookie from '../../../../Hook/UserAuth';
+import { logout } from '../../../../Hook/Logout';
 
 const pages = [
   { name: 'Home', path: '/teacher' },
@@ -25,7 +26,8 @@ const pages = [
 
 const settings = [
   { name: 'Profile', path: '/teacher/profile' },
-  { name: 'Logout', path: '/logout' }
+  { name: 'Logout', path: '/', onclick:logout}
+
 ];
 
 function Navi_Bar() {

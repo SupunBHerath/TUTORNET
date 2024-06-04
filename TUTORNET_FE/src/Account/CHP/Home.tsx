@@ -21,38 +21,38 @@ import u2 from '../../../public/Users/u2.jpg'
 import u4 from '../../../public/Users/u4.jpg'
 import u5 from '../../../public/Users/u5.jpg'
 import { AdsCarousel } from './Components/AdsCarousel'
-import Cookies from 'js-cookie';
 import STNavi_Bar from '../Landing_page/Components/Navi_Bar/STNavi_Bar'
-// CHP  common home page 
-
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import useCookie from '../../Hook/UserAuth'
+import { logout } from '../../Hook/Logout'
+interface UserData {
+    userId: string;
+    username: string;
+    email: string;
+    role: string;
+    profile: string;
+}
 
 const Home = () => {
-    Cookies.remove('token');
-    const jwtToken = Cookies.get('token');
-    console.log(jwtToken);
+    const [teacher, setTeacher] = useState(0)
+    const [student, setStudent] = useState(0)
+    const navigate = useNavigate();
+   
     useEffect(() => {
         AOS.init({
             duration: 2000,
         })
-    })
-    const [rows, setRows] = useState([]);
-    fetch('http://localhost:8080/teacher/use1')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Assuming the API response is an array of user objects
-            setRows(data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    }, [])
+     
+ 
+    
+
+
+
+
     return (
         <div className=''>
-            {/* <CHPNaviBar /> */}
             <STNavi_Bar />
             <div className="container-fluid  ">
 
@@ -69,7 +69,7 @@ const Home = () => {
                                         <div className="">
                                             <div>
                                                 <span style={{ color: Color.PrimaryColor }}>[ </span  >
-                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={rows.length} /></span>
+                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={200} /></span>
                                                 <span style={{ color: Color.PrimaryColor }}>+ ]</span>
                                             </div>
                                             <h2 className='text-white mt-3'>Students</h2>
@@ -79,7 +79,7 @@ const Home = () => {
                                         <div className="">
                                             <div>
                                                 <span style={{ color: Color.PrimaryColor }}>[ </span  >
-                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={rows.length} /></span>
+                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={50} /></span>
                                                 <span style={{ color: Color.PrimaryColor }}>+ ]</span>
                                             </div>
                                             <h2 className='text-white mt-3'>Teachers</h2>
@@ -109,7 +109,7 @@ const Home = () => {
                 <div className="space" style={{ height: "150px" }}></div>
                 <AdsCarousel />
                 <div className="Comment_session d-md-none  d-lg-block">
-                <div className="space" style={{ height: "150px" }}></div>
+                    <div className="space" style={{ height: "150px" }}></div>
 
                     <div className="text-center mt-5  " data-aos="zoom-in-down">
                         <h1 id='PT' className='display-2 '>[ User Comment ]</h1>

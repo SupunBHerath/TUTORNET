@@ -1,6 +1,5 @@
 import {  Route, Routes } from 'react-router-dom';
 import StudentHome from './Account/Student/StudentHome';
-
 import Home from './Account/CHP/Home';
 import LoginForm from './Components/Login Form/LoginForm';
 import UserManage from './Account/Admin/Pages/UserManage';
@@ -13,12 +12,11 @@ import TecherHome from './Account/Teacher/Pages/TecherHome';
 import Ads from './Account/Teacher/Pages/Ads';
 import SearchPage from './Account/Student/SearchPage';
 import AdminMain from './Account/Admin/Pages/AdminMain';
-
 import PostPage from './Account/Teacher/Pages/PostPage';
 import TeacherWall from './Account/Teacher/Pages/TeacherWall';
 import TeacherProfile from './Components/Tempale/TeacherProfile';
-
 import FrogetPassword from './Components/Login Form/FrogetPassword';
+import Profile from './Account/Student/Profile';
 
 
 
@@ -38,11 +36,9 @@ const App = () => {
     
 
         {/* ----------student  route -------------------------*/}
-
-     
-
         <Route path="/student" element={<StudentHome />} />
         <Route path="/search" element={<SearchPage/>} />
+        <Route path="/student/profile" element={<Profile/>} />
 
 
         {/* ----------teacher  route -------------------------*/}
@@ -54,20 +50,13 @@ const App = () => {
        
 
         {/* ----------admin  route -------------------------*/}
-
-       
-
-        
-        <Route path="admin" element={<AdminMain/>} />
-        <Route path="admin/user" element={<UserManage />} />
-        <Route path="admin/payment" element={<PaymentManage />} />
+        <Route path="/admin" element={<AdminMain/>} />
+        <Route path="/admin/user" element={<UserManage />} />
+        <Route path="/admin/payment" element={<PaymentManage />} />
        
 
       </Routes>
-           {/* <Home/> */}
-
-      {/* <StudentHome/> */}
-      {/* <ADashboard /> */}
+      
 
     </div>
 

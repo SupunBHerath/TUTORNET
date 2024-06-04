@@ -3,6 +3,7 @@ import HeaderCard from '../Components/Card/HeaderCard'
 import profit from '../../../../public/Icon/profits.png'
 import PaymentTable from '../Components/Table/PaymentTable'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 
 
@@ -11,26 +12,26 @@ const PaymentManage = () => {
   const [row, setRow] = useState(null);
   const [revenue, setRevenue] = useState(0);
   useEffect(() => {
-    fetch('http://localhost:8080/reqads/Done')
-      .then(response => {
-        if (!response.ok) {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('reqads/Done');
+        if (response.status === 200) {
+          const data = response.data;
+          let totalRevenue = 0; 
+          for (let i = 0; i < data.length; i++) {
+            totalRevenue += data[i].payment;
+          }
+          setRevenue(totalRevenue);
+          console.log(totalRevenue);
+        } else {
           throw new Error('Network response was not ok');
         }
-        return response.json();
-      })
-      .then(data => {
-        let totalRevenue = 0; // Initialize total revenue
-        setRow(data.length);
-        for (let i = 0; i < data.length; i++) {
-          totalRevenue += data[i].payment; // Add each payment to total revenue
-        }
-        setRevenue(totalRevenue); // Set total revenue
-  
-        console.log(totalRevenue);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching data:', error);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
   
   return (

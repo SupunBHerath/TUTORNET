@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { logout } from './Logout';
 
-// Define a type for the user data
 interface UserData {
   userId: string;
   username: string;
@@ -26,9 +26,9 @@ const useCookie = () => {
     const validateToken = async () => {
       const token = localStorage.getItem('token');
 
-      console.log('User token:', token);
       if (!token) {
-        navigate('/'); 
+        console.log("token not found");
+        logout(navigate);
         return;
       }
 
@@ -39,26 +39,32 @@ const useCookie = () => {
           },
         });
 
-      
-        setIsValidToken(true); 
-        setUserData({
-          userId: response.data.userId,
-          email: response.data.email,
-          role: response.data.role,
-          username: response.data.username,
-          profile: response.data.profile
-        });
+        if (response) {
+          setIsValidToken(true);
+          setUserData({
+            userId: response.data.userId,
+            email: response.data.email,
+            role: response.data.role,
+            username: response.data.username,
+            profile: response.data.profile
+          });
+        } else {
+          setIsValidToken(false);
+          logout(navigate);
+        }
+
+
       } catch (error) {
         console.error('Error fetching data:', error);
-        setIsValidToken(false); 
-        navigate('/');
+        setIsValidToken(false);
+        logout(navigate);
       }
     };
 
     validateToken();
-  }, [navigate]); 
+  }, [navigate]);
 
- 
+
   return { isValidToken, userData };
 };
 

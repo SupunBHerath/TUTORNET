@@ -18,12 +18,13 @@ const mail = require('./Mail/adsSubmit.js');
 const path =    require('path');
 const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
+const Ads = require('./router/ads.js');
 
-/** middlwares */
+
 app.use(express.json());
 app.use(cors());
 app.use(morgan('try'));
-app.disable('x-powerd-by') // less hackers know about our stack
+app.disable('x-powerd-by')
 
 const PORT = 8080 || 3000;
 
@@ -40,12 +41,13 @@ app.use('/api',router)
 app.use('/teacher',teacher)
 app.use('/student',Student)
 app.use('/admin',admin)
-app.use('/ads',ads)
+// app.use('/ads',ads)
 app.use('/reqads',reqads)
 app.use('/validate',validate)
 app.use('/post',post)
 app.use('/feedback',feedBack)
 app.use('/subject',Subject)
+app.use('/ads',Ads)
 //mail
 app.use('/mail',mail)
 

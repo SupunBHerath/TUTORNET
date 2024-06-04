@@ -94,12 +94,12 @@ const AddPost = () => {
 
     return (
         <div className='container w-100 '>
-            <Box>
+            <Box >
                 {progress && (<LinearProgress />)}
                 {success && <Alert severity="success">uploaded successfully.</Alert>}
                 {error && <Alert severity="error">Failed to upload </Alert>}
                 <br />
-                <TextField
+                {/* <TextField
                     id="title"
                     label="Title"
                     value={title}
@@ -107,7 +107,7 @@ const AddPost = () => {
                     variant="outlined"
                     fullWidth
                     style={{ marginBottom: '16px' }}
-                />
+                /> */}
                 <TextField
                     id="description"
                     label="Description"
@@ -117,7 +117,7 @@ const AddPost = () => {
                     fullWidth
                     multiline
                     rows={4}
-                    style={{ marginBottom: '16px' }}
+                    style={{ marginBottom: '16px',width:'400px' }}
                 />
                
             </Box>
@@ -159,7 +159,7 @@ const AddPost = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                disabled={!uploadedFile  || !title || !description }
+                disabled={!uploadedFile   || !description }
                 style={{ marginTop: '16px',width: '100%'  }}
             >
                 Submit

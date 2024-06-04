@@ -5,31 +5,26 @@ import landingIcon from '../../../../public/Icon/landing-page.png';
 import Wall from '../../../../public/Icon/wallpage.png';
 import search from '../../../../public/Icon/search.png';
 import AdsTable from '../Components/Table/AdsTable';
+import axios from 'axios';
 
 interface Ad {
   location: string;
-  // Add other properties as per your ad object structure
 }
 
 const AdsManagePage: React.FC = () => {
   const [rows, setRows] = useState<Ad[]>([]);
 
+
   useEffect(() => {
-    // Fetch ads data
-    fetch('https://tutornet-5v7a-supunbheraths-projects.vercel.app/ads/all')
+    axios.get('/ads/all')
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data: Ad[]) => {
-        setRows(data);
+        setRows(response.data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, []);
+  
 
   return (
     <div>

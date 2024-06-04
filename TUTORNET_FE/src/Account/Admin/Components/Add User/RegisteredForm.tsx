@@ -5,7 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import useCookie from '../../../../Hook/UserAuth';
 var count = 0;
+interface type {
+    username: string;
+    email: string;
+    password: string;
+}
 export default function RegisteredForm() {
     const navigate = useNavigate();
     const [nameError, setNameError] = useState(false);
@@ -15,7 +21,7 @@ export default function RegisteredForm() {
     const [confPassword, setConfPassword] = useState('');
     const [success, setSuccess] = useState(false);
     const [fail, setFail] = useState(false);
-
+    const{ userData} = useCookie()
 
     const [formData, setFormData] = useState({
         username: '',
@@ -30,7 +36,12 @@ export default function RegisteredForm() {
             [name]: value,
         });
     };
-
+    const blockNumericInput = (e: any) => {
+        const charCode = e.which ? e.which : e.keyCode;
+        if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
+          e.preventDefault();
+        }
+      };
     const handleNameChange = (e: any) => {
         handleInputChange(e);
         setNameError(!e.target.validity.valid);
@@ -55,23 +66,16 @@ export default function RegisteredForm() {
     const handleSubmitPassword = async (e: any) => {
         e.preventDefault();
         count++;
-        const email = "admin@gmail.com";
+        const email = userData.email;
         const password = confPassword;
         if (count < 3) {
             try {
-                const response = await fetch('http://localhost:8080/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password }),
-                });
-
-                const data = await response.json();
+                const response = await axios.post('/api/login',{email,password})
+                const data = await response.data
 
                 if (data.ok) {
                     try {
-                        const response = await axios.post('http://localhost:8080/admin/register', { ...formData });
+                        const response = await axios.post('/admin/register', { ...formData });
                         if (response.status === 200) {
                             setSuccess(true);
                             setTimeout(() => {
@@ -129,6 +133,7 @@ export default function RegisteredForm() {
                                     fullWidth
                                     label="Name"
                                     name="username"
+                                    onKeyDown={blockNumericInput}
                                     value={formData.username}
                                     required
                                     onChange={handleNameChange}

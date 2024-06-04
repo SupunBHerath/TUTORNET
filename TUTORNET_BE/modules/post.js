@@ -8,7 +8,7 @@ const post = new Schema({
     },
     title: {
       type: String,
-      required: true 
+      // required: true 
     },
     username: {
         type: String,
@@ -30,7 +30,7 @@ const post = new Schema({
    
     profileImage: {
       type: String,
-      required: true,
+      // required: true,
     },
    
     uploadImageId: {

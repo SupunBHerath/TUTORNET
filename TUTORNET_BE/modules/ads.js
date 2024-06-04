@@ -10,6 +10,9 @@ const ads = new Schema({
         type:String,
         required:true
     },
+    leveal: {
+        type:Number,
+    },
      uploadedDay: {
       type: Date,
       required: true,
