@@ -1,4 +1,3 @@
-import React from "react";
 import "./CHP.css";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
@@ -18,8 +17,8 @@ export const CHPAboutUS = () => {
             className="col-lg-6 rounded-1 m-0 p-0 overflow-hidden shadow-lg"
             data-aos="fade-left"
           >
-            <div className="youtube-iframe embed-responsive embed-responsive-1by1 text-center d-sm-none d-lg-block ">
-             <img src={logo} alt=""  className=""/>
+            <div className=" logoimage d-sm-none d-md-block bg-black "style={{  backgroundImage: `url(${logo})` ,backgroundSize:'cover'}}  >
+              
             </div>
           </div>
           <div className="col-lg-6 p-3 p-lg-5 pt-lg-3 " data-aos="fade-in">

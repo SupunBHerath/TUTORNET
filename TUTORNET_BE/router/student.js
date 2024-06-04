@@ -2,26 +2,13 @@ const express = require('express');
 const Student = require('../modules/student');
 const router = express.Router();
 const controller = require('../controller/studentController');
+const { checkEmail } = require('../middleware/checkEmail');
 
 
 
-router.post('/register', controller.register);
+router.post('/register', checkEmail,controller.register);
+router.get('/all', controller.all);
 
 
 
-// delete student 
-
-router.delete('/delee/:id', (res, req) => {
-    Student.findByIdAndRemove(req.params.id).exex((err, student) => {
-        if (err) {
-            return res.status(400).json(
-                { message: err.message }
-            )
-        }
-        return res.status(200).json({
-            message: "Delete successfully",
-            data: student
-        })
-    })
-})
 module.exports = router;

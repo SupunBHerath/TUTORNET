@@ -44,3 +44,12 @@ module.exports.register = async (req, res) => {
         return res.status(500).send({ error: "Internal server error." });
     }
 };
+module.exports.all = async (req, res) => {
+    Admin.find()
+        .then(admin => {
+            res.status(200).json(admin)
+        }).catch(err => {
+            res.status(400).json({ message: err.message })
+            console.log("error", err)
+        })
+}

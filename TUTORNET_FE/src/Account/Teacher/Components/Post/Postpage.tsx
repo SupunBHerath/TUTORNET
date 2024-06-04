@@ -1,15 +1,19 @@
-import React from 'react'
-import Logo from '../../../../../public/logo/Logo_t.png'
-import Post from '../../../../Components/Post/Post'
+import React, { useState } from 'react';
+import PostTeacher from './PostTeacher';
+import AddPostBtn from './AddPostForm';
+const PostPage: React.FC = () => {
 
-const PostPage = () => {
+
   return (
-    <div>
-      <Post pp={Logo} title='TUTORNET Team' date='28-Mar-2024' img={Logo} description='--- Description ----'/>
-      <Post pp={Logo} title='TUTORNET Team' date='28-Mar-2024' img={Logo} description='--- Description ----'/>
-      <Post pp={Logo} title='TUTORNET Team' date='28-Mar-2024' img={Logo} description='--- Description ----'/>
+    <><div className="">
+      <AddPostBtn />
     </div>
-  )
-}
+      <div style={{ position: 'relative', padding: '20px' }}>
+        <PostTeacher />
+      </div>
+    </>
 
-export default PostPage
+  );
+};
+
+export default PostPage;

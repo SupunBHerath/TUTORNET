@@ -1,9 +1,10 @@
-import React from 'react'
+import STNavi_Bar from "../Components/Navi_Bar/STNavi_Bar"
 
 const Landing = () => {
   return (
     <div>
-      <h1>landing_page</h1>
+     <STNavi_Bar/>
+     
     </div>
   )
 }

@@ -11,12 +11,12 @@ interface Ad {
   // Add other properties as per your ad object structure
 }
 
-const AdsManage: React.FC = () => {
+const AdsManagePage: React.FC = () => {
   const [rows, setRows] = useState<Ad[]>([]);
 
   useEffect(() => {
     // Fetch ads data
-    fetch('http://localhost:8080/ads/all')
+    fetch('https://tutornet-5v7a-supunbheraths-projects.vercel.app/ads/all')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -40,12 +40,14 @@ const AdsManage: React.FC = () => {
           <HeaderCard icon={search} title="Searcher" count={rows.filter(ad => ad.location === 'Search Page').length} />
         </div>
         <br />
-        <div className="container " style={{maxWidth:'1200px'}}>
+        <div className="" >
           <AdsTable />
+        
         </div>
+        
       </div>
     </div>
   );
 };
 
-export default AdsManage;
+export default AdsManagePage;

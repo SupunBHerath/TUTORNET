@@ -44,9 +44,11 @@ module.exports.register = async (req, res) => {
     }
 };
 module.exports.all = async (req, res) => {
-    Teacher.find()
-        .then(teacher => {
-            res.status(200).json(teacher)
+    Student.find()
+
+        .then(student => {
+            res.status(200).json(student)
+
         }).catch(err => {
             res.status(400).json({ message: err.message })
             console.log("error", err)

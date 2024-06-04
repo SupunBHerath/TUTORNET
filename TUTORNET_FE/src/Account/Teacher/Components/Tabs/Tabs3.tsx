@@ -1,4 +1,3 @@
-import React from 'react'
 import ResultUploadPage from '../Results/Results'
 
 

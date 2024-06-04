@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,9 +11,9 @@ import RatingSize from '../../Components/Rating/Raating';
 export default function CHPCard(prop: any) {
   return (
     <div className="col-md-3   ">
-      <Card sx={{ maxWidth: 345 , borderRadius:20 }} className='CHPCard mt-4 mx-auto  ' style={{borderColor:Color.PrimaryColor}}>
+      <Card sx={{ maxWidth: 270 , borderRadius:20 }} className='CHPCard mt-4 mx-auto  ' style={{borderColor:Color.PrimaryColor}}>
         <CardMedia
-          sx={{ height: 270 }}
+          sx={{ height: 200 }}
           image={prop.image}
           title="green iguana"
           style={{backgroundPosition:'top'}}

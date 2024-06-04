@@ -3,23 +3,22 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import amith from '../../../../public/Ads/ads3.jpg'; // Unused import?
+
 
 const images = [
   {
-    label: 'fghdvd',
+  
     imgPath: '../../../../public/Ads/OIP.jpeg',
   },
   {
-    label: 'Bali, Indonesia',
+   
     imgPath: '../../../../public/Ads/ads3.jpg',
   },
   {
-    label: 'Goč, Serbia',
+   
     imgPath: '../../../../public/Ads/ads2.jpg',
   },
 ];
@@ -70,7 +69,7 @@ function Ads() {
           bgcolor: 'background.default',
         }}
       >
-        <Typography>{images[activeStep].label}</Typography>
+       
       </Paper>
       <Box
         component="img"
@@ -82,7 +81,7 @@ function Ads() {
           width: '100%',
         }}
         src={images[activeStep].imgPath}
-        alt={images[activeStep].label}
+        alt='loading'
       />
       <MobileStepper
         steps={maxSteps}

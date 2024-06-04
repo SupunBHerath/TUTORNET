@@ -68,30 +68,31 @@ export default function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-
         setSuccess(true);
         setTimeout(() => {
-          // Access the role property from the data object
+          // Assuming you're using JavaScript in the frontend
+          localStorage.setItem('token', data.token);
+          console.log(data.token);
           const userRole = data.role;
           console.log(userRole);
           // Perform actions based on the user's role
           switch (userRole) {
-              case 'Teacher':
-                navigate('/teacher');
-                  break;
-              case 'Student':
-                navigate('/student');
-                  break;
-              case 'Admin':
-                navigate('/admin');
-                  break;
-              default:
-                navigate('/');
-                  break;
+            case 'Teacher':
+              navigate('/teacher');
+              break;
+            case 'Student':
+              navigate('/student');
+              break;
+            case 'Admin':
+              navigate('/admin');
+              break;
+            default:
+              navigate('/');
+              break;
           }
 
-        
-      }, 1000);
+
+        }, 1000);
       } else {
 
         setError(data.error); // Set the error message
@@ -187,6 +188,7 @@ export default function LoginForm() {
                 <Grid item>
                   <Link to="">
                     {"Don't have an account? Sign Up"}
+
                   </Link>
                 </Grid>
               </Grid>

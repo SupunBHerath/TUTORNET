@@ -4,11 +4,8 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RegisterForm from '../../../../Components/Registration Form/RegistrationStudent';
 import RegisteredForm from './RegisteredForm';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
 import CloseIcon from '@mui/icons-material/Close';
 
 
@@ -37,7 +34,7 @@ export default function AddUser() {
                 style={{ marginBottom: '10px' }}
                 onClick={handleOpen}
                 startIcon={<AddCircleIcon />}>
-                Add
+                Admin
             </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
