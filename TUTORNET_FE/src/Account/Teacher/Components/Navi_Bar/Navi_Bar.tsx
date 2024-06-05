@@ -20,6 +20,7 @@ import { logout } from '../../../../Hook/Logout';
 const pages = [
   { name: 'Home', path: '/teacher' },
   { name: 'About us', path: '/teacher/about' },
+  { name: 'Search ', path: '/teacher/search' },
   // { name: 'Contact Us', path: '/teacher/contact' },
   { name: 'Ads', path: '/teacher/Ads' }
 ];

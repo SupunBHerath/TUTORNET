@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { Color } from "../../Components/CSS/CSS";
 import logo from '../../../public/logo/Logo_t.png'
-
+import w from '../../../public/Lanading/w.jpg'
 export const CHPAboutUS = () => {
   const navigate = useNavigate();
   return (
@@ -17,9 +17,8 @@ export const CHPAboutUS = () => {
             className="col-lg-6 rounded-1 m-0 p-0 overflow-hidden shadow-lg"
             data-aos="fade-left"
           >
-            <div className=" logoimage d-sm-none d-md-block bg-black "style={{  backgroundImage: `url(${logo})` ,backgroundSize:'cover'}}  >
-              
-            </div>
+            <div className="logoimage d-sm-none d-md-block" style={{ backgroundImage: `url(${w})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', width: '100%', height: '480px' }}></div>
+
           </div>
           <div className="col-lg-6 p-3 p-lg-5 pt-lg-3 " data-aos="fade-in">
             <div>

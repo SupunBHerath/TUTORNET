@@ -1,13 +1,13 @@
-import TopTeachers from './Componets/TopSir/TopTeacher'
-import SNavi_Bar from './Componets/Nav_bar/Navi_Bar'
-import AdsHome from './Componets/Ads/AdsHome'
-import { Box } from '@mui/material'
-import AdsSearch from './Componets/Ads/search'
 
-const SearchPage = () => {
+import { Box } from '@mui/material'
+import Navi_Bar from '../Components/Navi_Bar/Navi_Bar'
+import TopTeachers from '../../Student/Componets/TopSir/TopTeacher'
+import AdsSearch from '../../Student/Componets/Ads/search'
+
+const SearchPageT = () => {
   return (
     <div style={{backgroundColor: '#f0f0f0'}} className='p-4 '>
-      <SNavi_Bar />
+      <Navi_Bar />
       <Box display="flex" justifyContent="space-between" className="bg-body-tertiary" style={{ height: '100vh' }}>
         <Box component="aside" style={{ width: '25%', overflowY: 'auto', margin: '20px' }} >
           <br />
@@ -23,4 +23,4 @@ const SearchPage = () => {
   )
 }
 
-export default SearchPage
+export default SearchPageT
