@@ -6,116 +6,121 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import CircularProgress from '@mui/material/CircularProgress';
+import Fade from '@mui/material/Fade';
 import axios from 'axios';
 
 interface Ad {
   image: string;
   location: string;
+  uploadedDay: string;
+  _id: string;
+  __v: number;
 }
 
 function Ads() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [loading, setLoading] = React.useState(true);
   const [ads, setAds] = React.useState<Ad[]>([]);
-  const intervalRef = React.useRef<number | null>(null);
+  const maxSteps = ads.length;
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => (prevActiveStep + 1) % ads.length);
+    setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => (prevActiveStep - 1 + ads.length) % ads.length);
+    setActiveStep((prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps);
   };
 
-  const startAutoLoop = () => {
-    intervalRef.current = window.setInterval(() => {
-      handleNext();
-    }, 8000); 
-  };
-
-  const stopAutoLoop = () => {
-    intervalRef.current = null;
-  };
+  React.useEffect(() => {
+    const interval = setInterval(handleNext, 30000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [ads]);
 
   React.useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await axios.get('/ads/all');
-        const landingAds = response.data.filter((ad: Ad) => ad.location === 'Landing Page');
-        setAds(landingAds);
-        console.log(landingAds);
-        
-        startAutoLoop(); 
+        const response = await axios.get('/ads/all'); 
+        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Landing Page');
+        setAds(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);
       }
     };
-  
-    fetchAds();
 
-    return () => {
-      stopAutoLoop(); 
-    };
+    fetchAds();
   }, []);
 
+  React.useEffect(() => {
+    if (ads.length > 0) {
+      setLoading(true);
+      const img = new Image();
+      img.src = ads[activeStep]?.image;
+      img.onload = () => setLoading(false);
+    }
+  }, [activeStep, ads]);
+
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, width: '100%', maxWidth: 600, mx: 'auto' }}>
       <Paper
         square
         elevation={0}
         sx={{
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
           height: 50,
           pl: 2,
           bgcolor: 'background.default',
         }}
-      />
-      {ads.length > 0 && (
-        <>
+      >
+        <Box component="span" sx={{ flex: '1 1 auto' }} />
+      </Paper>
+      <Box
+        sx={{
+          position: 'relative',
+          height: 400,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+        }}
+      >
+        {loading && <CircularProgress />}
+        <Fade in={!loading} timeout={500}>
           <Box
             component="img"
             sx={{
-              height: 400,
-              display: 'block',
-              maxWidth: 400,
-              overflow: 'hidden',
+              height: '100%',
               width: '100%',
+              maxHeight: 400,
+              maxWidth: 600,
+              objectFit: 'cover',
+              display: loading ? 'none' : 'block',
             }}
-            src="/"
-            alt="ad"
+            src={ads[activeStep]?.image}
+            alt={`Advertisement ${activeStep + 1}`}
           />
-          <MobileStepper
-            steps={ads.length}
-            position="static"
-            activeStep={activeStep}
-            nextButton={
-              <Button
-                size="small"
-                onClick={handleNext}
-                disabled={ads.length === 0 || activeStep === ads.length - 1}
-              >
-                Next
-                {theme.direction === 'rtl' ? (
-                  <KeyboardArrowLeft />
-                ) : (
-                  <KeyboardArrowRight />
-                )}
-              </Button>
-            }
-            backButton={
-              <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                {theme.direction === 'rtl' ? (
-                  <KeyboardArrowRight />
-                ) : (
-                  <KeyboardArrowLeft />
-                )}
-                Back
-              </Button>
-            }
-          />
-        </>
-      )}
+        </Fade>
+      </Box>
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        activeStep={activeStep}
+        nextButton={
+          <Button size="small" onClick={handleNext} disabled={maxSteps === 0}>
+            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={maxSteps === 0}>
+            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+          </Button>
+        }
+      />
     </Box>
   );
 }

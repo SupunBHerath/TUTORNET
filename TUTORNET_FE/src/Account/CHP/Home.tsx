@@ -44,13 +44,24 @@ const Home = () => {
             duration: 2000,
         })
     }, [])
-     
- 
-    
-
-
-
-
+    useEffect(  ()=>{
+            const feachData = async () =>{
+                try{
+                const res = await axios.get('/teacher/all')
+                .then((res=>{
+                    setTeacher(res.data.length)
+                    console.log(res.data.length);
+                    
+                }))
+                const res2 = await axios.get('/student/all')
+                .then((res2=>{
+                    setStudent(res2.data.length)
+                }))
+            }catch(err){
+                console.log(err)
+            }}
+            feachData()
+    },[])
     return (
         <div className=''>
             <STNavi_Bar />
@@ -69,7 +80,7 @@ const Home = () => {
                                         <div className="">
                                             <div>
                                                 <span style={{ color: Color.PrimaryColor }}>[ </span  >
-                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={200} /></span>
+                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={student} /></span>
                                                 <span style={{ color: Color.PrimaryColor }}>+ ]</span>
                                             </div>
                                             <h2 className='text-white mt-3'>Students</h2>
@@ -79,7 +90,7 @@ const Home = () => {
                                         <div className="">
                                             <div>
                                                 <span style={{ color: Color.PrimaryColor }}>[ </span  >
-                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={50} /></span>
+                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={teacher} /></span>
                                                 <span style={{ color: Color.PrimaryColor }}>+ ]</span>
                                             </div>
                                             <h2 className='text-white mt-3'>Teachers</h2>

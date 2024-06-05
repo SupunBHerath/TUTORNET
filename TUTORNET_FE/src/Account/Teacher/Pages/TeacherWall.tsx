@@ -1,43 +1,33 @@
-import { Grid } from '@mui/material';
-import Facebook from '../../../Components/LodingPost/LodingPost';
-import Linear from '../../../Components/Progress/Linear';
-import useCookie from '../../../Hook/UserAuth';
-import Home from '../../CHP/Home';
-import AdsHome from '../../Student/Componets/Ads/AdsHome';
+import React from 'react';
+import { Box, Grid } from '@mui/material';
 import StudentPost from '../../Student/StudentPost';
-import Navi_Bar from '../Components/Navi_Bar/Navi_Bar'
+import AdsHome from '../../Student/Componets/Ads/AdsHome';
+import Navi_Bar from '../Components/Navi_Bar/Navi_Bar';
+import ProfileCard from '../Components/ProfileCard/ProfileCard';
 
-const TeacherWall = () => {
-  const { isValidToken, userData } = useCookie();
-  if (!isValidToken) {
-    return <Linear />
-  }
-  if (userData.role !== 'Teacher') {
-    return <Home />;
-  }
 
+const TeachWall = () => {
   return (
-    <div className='bg-body-tertiary '>
-        <Navi_Bar />
-
-      <Grid container spacing={3} padding={5} paddingY={0} marginTop={5}>
-
-        <Grid item xs >
-        <AdsHome />
-        </Grid>
-        <Grid item xs={4} >
-        <StudentPost />
-      
-        </Grid>
-        <Grid item xs>
-        <AdsHome />
-       
-        </Grid>
-      </Grid>
-     
-
+    <div>
+      <Navi_Bar />
+      <Box display="flex" justifyContent="space-between" className="bg-body-tertiary" style={{ height: '100vh' }}>
+        <Box component="aside" style={{ width: '30%', backgroundColor: '#f0f0f0', overflowY: 'auto',margin:'20px'}} >
+            <br />
+            <br /><br />
+          <ProfileCard />
+        </Box>
+        <Box component="main" style={{ width: '35%', overflowY: 'auto', height: '100%' }}>
+            <br /><br /><br /><br />
+          <StudentPost />
+        </Box>
+        <Box component="aside" style={{ width: '30%', backgroundColor: '#f0f0f0', overflowY: 'auto',margin:'20px' }}>
+            <br />
+            <br />
+          <AdsHome />
+        </Box>
+      </Box>
     </div>
-  )
-}
+  );
+};
 
-export default TeacherWall
+export default TeachWall;

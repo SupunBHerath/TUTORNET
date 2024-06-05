@@ -17,12 +17,13 @@ import TeacherWall from './Account/Teacher/Pages/TeacherWall';
 import TeacherProfile from './Components/Tempale/TeacherProfile';
 import FrogetPassword from './Components/Login Form/FrogetPassword';
 import Profile from './Account/Student/Profile';
+import SearchPageT from './Account/Teacher/Pages/search';
 
 
 
 
 const App = () => {
-  axios.defaults.baseURL ='https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+  axios.defaults.baseURL ='http://localhost:8080/'
   return (
     <div>
       <Routes>
@@ -46,6 +47,7 @@ const App = () => {
         <Route path="/teacher/ads" element={<Ads/>} />
         <Route path="/teacher/post" element={<PostPage/>} />
         <Route path="/teacher/profile" element={<TecherHome/>} />
+        <Route path="/teacher/search" element={<SearchPageT/>} />
 
        
 

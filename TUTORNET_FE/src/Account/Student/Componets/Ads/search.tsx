@@ -18,7 +18,7 @@ interface Ad {
   __v: number;
 }
 
-function AdsHome() {
+function AdsSearch() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const [loading, setLoading] = React.useState(true);
@@ -43,17 +43,17 @@ function AdsHome() {
   React.useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await axios.get('/ads/all'); 
-        console.log(response.data);
+        const response = await axios.get('/ads/all');
+        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Search Page');
+      
         
-        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Wall Page');
-        console.log(filteredAds);
+        
         setAds(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);
       }
     };
-
+  
     fetchAds();
   }, []);
 
@@ -128,4 +128,4 @@ function AdsHome() {
   );
 }
 
-export default AdsHome;
+export default AdsSearch;

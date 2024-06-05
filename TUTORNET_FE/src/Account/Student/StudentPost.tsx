@@ -4,6 +4,7 @@ import Post from '../../Components/Post/Post';
 import Logo from '../../../public/logo/Logo_t.png';
 import axios from 'axios';
 import Facebook from '../../Components/LodingPost/LodingPost';
+import TimeDifference from '../../Components/TimeDifference/TimeDifference';
 
 interface PostData {
   userId: string;
@@ -49,8 +50,8 @@ const StudentPost: React.FC = () => {
               <Post
                 pp={Logo}
                 img={post.image}
-                title={post.title}
-                date={post.uploadedDay}
+                title={post.username}
+                date={<TimeDifference time ={post.uploadedDay}/>}
                 description={post.description}
               />
             </Grid>
