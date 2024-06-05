@@ -1,4 +1,4 @@
-import { Alert, Box, Button, MenuItem, TextField } from '@mui/material';
+import { Alert, Box, Button, LinearProgress, MenuItem, TextField } from '@mui/material';
 import React, { useState, useRef } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
@@ -10,6 +10,7 @@ const AddAdsForm = () => {
     const [locationFilter, setLocationFilter] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
     const [error, setError] = useState<string | boolean>(false);
+    const [prosses, setProgress] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,7 +44,7 @@ const AddAdsForm = () => {
             if (!uploadedFile) {
                 throw new Error('No file uploaded');
             }
-
+             setProgress(true)
             const formData = new FormData();
             formData.append('image', uploadedFile);
             formData.append('location', locationFilter);
@@ -55,6 +56,8 @@ const AddAdsForm = () => {
             });
 
             if (response.status === 201) {
+             setProgress(false)
+                
                 setSuccess(true);
                 setError(false);
                 setTimeout(() => {
@@ -75,6 +78,7 @@ const AddAdsForm = () => {
             <Box>
                 {success && <Alert severity="success">Uploaded successfully.</Alert>}
                 {error && <Alert severity="error">{typeof error === 'string' ? error : 'Failed to upload.'}</Alert>}
+                {prosses && <LinearProgress />}
                 <br />
                 <TextField
                     required
