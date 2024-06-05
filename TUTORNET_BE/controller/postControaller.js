@@ -58,7 +58,7 @@ const post = async (req, res) => {
 
 const all = async (req, res) => {
   try {
-    const posts = await Post.find().sort({ uploadedDay: -1 });
+    const posts = await Post.find();
     res.status(200).json(posts);
   } catch (error) {
     console.error(error);
