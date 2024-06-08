@@ -112,6 +112,7 @@ const Profile: React.FC = () => {
       setNewCoverPhoto(event.target.files[0]);
     }
   };
+  
   const blockNumericInput = (e: any) => {
     const charCode = e.which ? e.which : e.keyCode;
     if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {

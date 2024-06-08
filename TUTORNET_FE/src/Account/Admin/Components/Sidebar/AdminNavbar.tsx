@@ -23,7 +23,7 @@ import Badge from '@mui/material/Badge';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserManage from '../../Pages/UserManage';
 import ADashboard from '../../Pages/ADashboard';
 import PaymentManage from '../../Pages/PaymentManage';
@@ -36,10 +36,13 @@ import { logout } from '../../../../Hook/Logout';
 import axios from 'axios';
 // Define your custom font
 
+
 const drawerWidth = 240;
 
 const handleLogout = () => {
-  logout();
+const navigation = useNavigate()
+
+  logout(navigation);
 };
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -68,7 +71,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
