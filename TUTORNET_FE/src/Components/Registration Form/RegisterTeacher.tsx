@@ -97,7 +97,7 @@ export default function RegisteredForm(prop: any) {
  
   const handlePasswordChange = (e: any) => {
     handleInputChange(e);
-    setPasswordError(e.target.value.length < 6);
+    setPasswordError(e.target.value.length < 8);
   };
 
   const handleConfPasswordChange = (e: any) => {

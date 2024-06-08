@@ -259,7 +259,7 @@ export default function MyProfile() {
                     <FormLabel>Current Password</FormLabel>
                     <TextField
                       fullWidth
-                      label="Confirm password"
+                      label="Current password"
                       name="oldPassword"
                       onChange={(e) => setOldPassword(e.target.value)}
                       required
