@@ -112,8 +112,9 @@ export default function RegisteredForm(prop: any) {
     try {
       const response = await axios.post('/teacher/register', { ...formData });
       if (response.status === 200) {
+        setFail(false);
+        setEmailError(false);
         setSuccess(true);
-      setEmailError(false);
         setTimeout(() => {
           navigate('/');
         }, 2200);

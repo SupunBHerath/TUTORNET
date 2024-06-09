@@ -18,13 +18,13 @@ import { logout } from '../../../../Hook/Logout';
 
 const pages = [
   { name: 'Home', path: '/student' },
-  { name: 'Search', path: '/search' }
+  { name: 'Search', path: 'search' }
 
  
 ];
 
 const settings = [
-  { name: 'Profile', path: '/student/profile' },
+  { name: 'Profile', path: 'profile' },
   { name: 'Logout', path: '/', onclick:logout}
 ];
 

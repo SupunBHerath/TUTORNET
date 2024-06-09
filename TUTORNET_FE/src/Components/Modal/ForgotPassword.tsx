@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Link } from 'react-router-dom';
 import { Color, Font } from '../CSS/CSS';
-import LoginForm from '../Login Form/LoginForm';
+import ForgotPasswordAndOtpForm from '../ForgotPasswordForm/ForgotPasswordForm';
 
-const LoginModal: React.FC = () => {
+const ForgotPassword: React.FC = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -31,13 +31,9 @@ const LoginModal: React.FC = () => {
 
   return (
     <div>
-      <Button
-        onClick={handleOpen}
-        style={{ color: Color.SecondaryColor, borderColor: Color.SecondaryColor }}
-        variant='outlined'
-      >
-        <span style={{ fontFamily: Font.PrimaryFont }}>Login</span>
-      </Button>
+      <Link to="#" onClick={handleOpen} style={{ color: Color.SecondaryColor, textDecoration: 'none' }}>
+        <span style={{ fontFamily: Font.PrimaryFont }}>Forgot Password</span>
+      </Link>
       <Modal
         open={open}
         onClose={handleClose}
@@ -45,11 +41,11 @@ const LoginModal: React.FC = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={modalStyle}>
-          <LoginForm />
+          <ForgotPasswordAndOtpForm />
         </Box>
       </Modal>
     </div>
   );
 }
 
-export default LoginModal;
+export default ForgotPassword;

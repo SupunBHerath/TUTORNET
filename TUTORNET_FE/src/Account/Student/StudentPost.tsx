@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, CircularProgress } from '@mui/material';
+import { Grid} from '@mui/material';
 import Post from '../../Components/Post/Post';
 import Logo from '../../../public/logo/Logo_t.png';
 import axios from 'axios';
