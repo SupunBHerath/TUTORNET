@@ -79,9 +79,8 @@ module.exports.login = async (req, res) => {
     }
 };
 
-
-module.exports.Delete = async (req, res) => {
-    const { email } = req.body;
+module.exports.updatePassword = async (req, res) => {
+    const { email, newPassword } = req.body;
 
     try {
         let user;
@@ -101,11 +100,12 @@ module.exports.Delete = async (req, res) => {
             return res.status(404).send({ error: "User not found." });
         }
 
-      
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        await user.deleteOne();
+        user.password = hashedPassword;
+        await user.save();
 
-        return res.status(200).send({message: "Delete successful."});
+        return res.status(200).send({ message: "Password updated successfully." });
     } catch (error) {
         console.error(error);
         return res.status(500).send({ error: "Internal server error." });

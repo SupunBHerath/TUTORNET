@@ -19,6 +19,7 @@ const path =    require('path');
 const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
 const Ads = require('./router/ads.js');
+const FP = require('./router/ForgotpasswordRoute.js');
 
 
 app.use(express.json());
@@ -48,6 +49,7 @@ app.use('/post',post)
 app.use('/feedback',feedBack)
 app.use('/subject',Subject)
 app.use('/ads',Ads)
+app.use('/otp',FP)
 //mail
 app.use('/mail',mail)
 
