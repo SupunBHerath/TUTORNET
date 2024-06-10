@@ -3,10 +3,10 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import { Alert, IconButton } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import MailIcon from '@mui/icons-material/Mail';
+import { useNavigate } from 'react-router-dom';
 
-const ForgotPasswordAndOtpForm: React.FC = () => {
+const ForgotPasswordAndOtpForm: React.FC = (porp:any) => {
   const [loading, setLoading] = React.useState(false);
 
   const [email, setEmail] = useState('');
@@ -21,7 +21,10 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [massgen, setMassgen] = useState('')
   const [alert, setAlert] = useState(false)
+  const [alert2, setAlert2] = useState(false)
   const [Id, setId] = useState('')
+  const navigate = useNavigate();
+
   const generateOtp = () => {
     return Math.floor(10000 + Math.random() * 90000).toString();
   };
@@ -50,7 +53,6 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
       const res = await axios.post('/otp', { email, id });
 
       if (res.status === 200) {
-        console.log('Submit forgot password request for email:', email);
         setTimeout(() => {
           setSubmitted(true);
           setLoading(false);
@@ -72,6 +74,7 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
   };
   const chageEmail = async () => {
     setVerify(false);
+    setSubmitted(false);
   return;
 
   }
@@ -108,7 +111,6 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
       if (response.status === 200) {
         setLoading(false);
         setAlert(false);
-        console.log('Submitted OTP:', enteredOtp);
         setVerify(true);
       } else {
         setLoading(false);
@@ -137,9 +139,10 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
 
   const handleSubmitNewPassword = async () => {
     setLoading(true);
+    setAlert2(false);
+
     if (!password) {
       setLoading(false);
-
       setPasswordError(true);
       return;
     }
@@ -150,17 +153,28 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
       return;
     }
     try {
-      const response = await axios.post('/otp/resetPassword', { password, Id });
+      const response = await axios.post('/otp/resetPassword', { email,password, Id });
       if (response.status === 200) {
         setLoading(false);
         setAlert(false);
+        setAlert2(true);
+        setMassgen('Password updated successfully.');
+        setTimeout(() => {
+          navigate('/');
+          window.location.reload();
+        }, 2000);
+
       } else {
+        setAlert2(false);
         setLoading(false);
         setAlert(true);
         setMassgen('Failed to reset password. Please try again.');
       }
     } catch (e) {
+      setAlert2(false);
+      setAlert(true);
       setMassgen('Failed to reset password. Please try again.');
+      setLoading(false);
 
     }
   };
@@ -168,11 +182,8 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
   if (submitted && !verify) {
     return (
       <form onSubmit={(e) => e.preventDefault()}>
-        <IconButton >
-          <RefreshIcon />
-        </IconButton>
         <IconButton onClick={chageEmail}>
-          <MailIcon />
+          <MailIcon /> 
         </IconButton>
         {alert &&
           <Alert severity='error'>{massgen}</Alert>}
@@ -223,6 +234,8 @@ const ForgotPasswordAndOtpForm: React.FC = () => {
       <form onSubmit={(e) => e.preventDefault()}>
         {alert &&
           <Alert severity='error'>{massgen}</Alert>}
+        {alert2 &&
+          <Alert severity='success'>{massgen}</Alert>}
         <TextField
           margin="normal"
           required

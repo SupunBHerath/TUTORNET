@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import AdminNavbar from '../Account/Admin/Components/Sidebar/AdminNavbar';
 
 
-const LandingLayout: React.FC = () => {
+const AdminLayout: React.FC = () => {
   return (
     <div>
       <AdminNavbar/>
@@ -15,4 +15,4 @@ const LandingLayout: React.FC = () => {
   );
 }
 
-export default LandingLayout;
+export default AdminLayout;

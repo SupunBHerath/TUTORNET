@@ -4,6 +4,8 @@ const OTP = require('../modules/Otp.js');
 const Teacher = require('../modules/teacher.js');
 const Student = require('../modules/student.js');
 const Admin = require('../modules/admin.js');
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
 
 // Configure nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -52,7 +54,7 @@ module.exports.sendOTP = async (req,res) => {
             html: `
                 <div style="font-family: Arial, sans-serif; color: #333; background-color: #f5f5f5; padding: 20px;">
                     <h1 style="color: #007bff;">OTP for Password Reset</h1>
-                    <p>Dear User,</p>
+                    <p>Dear ${email},</p>
                     <p>Your OTP for resetting your password on TUTORNET is:</p>
                     <h2 style="background-color: #007bff; color: #fff; padding: 10px; border-radius: 5px;">${otp}</h2>
                     <p>Please use this OTP to reset your password. If you did not request a password reset, please ignore this email.</p>
@@ -107,12 +109,12 @@ module.exports.verifyOTP = async (req , res)=>{
 
 
 module.exports.updatePassword = async (req, res) => {
-    const { email, newPassword ,Id } = req.body;
+    const { email, password ,Id } = req.body;
     
     try {
         const OTPId = await OTP.findOne({ id:Id });
         if (!OTPId) {
-            return res.status(404).send({ error: "Can't find OTP!" });
+            return res.status(404).json({ error: "Can't find OTP!" });
         }
         let user;
         let userType;
@@ -128,17 +130,17 @@ module.exports.updatePassword = async (req, res) => {
         }
 
         if (!user) {
-            return res.status(404).send({ error: "User not found." });
+            return res.status(404).json({ error: "User not found." });
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         user.password = hashedPassword;
         await user.save();
 
-        return res.status(200).send({ message: "Password updated successfully." });
+        return res.status(200).json({ message: "Password updated successfully." });
     } catch (error) {
         console.error(error);
-        return res.status(500).send({ error: "Internal server error." });
+        return res.status(500).json({ error: "Internal server error." });
     }
 };

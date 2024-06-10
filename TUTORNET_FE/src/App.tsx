@@ -19,6 +19,7 @@ import AdsWall from './Account/Admin/Components/AdsWall/AdsWall';
 import LandingLayout from './Layout/Landing';
 import StudentLayout from './Layout/Student';
 import TeacherLayout from './Layout/Teacher';
+import AdminLayout from './Layout/Admin';
 
 const App = () => {
   axios.defaults.baseURL = 'http://localhost:8080/'
@@ -61,7 +62,7 @@ const App = () => {
 
 
         {/* ----------Admin  route -------------------------*/}
-        <Route path="/admin" element={<StudentLayout />}>
+        <Route path="/admin" element={<AdminLayout />}>
           <Route  index element={<AdminMain />} />
         </Route>
 

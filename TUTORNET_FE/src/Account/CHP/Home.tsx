@@ -68,7 +68,7 @@ const Home = () => {
                         <div className="space" style={{ height: "50px" }}></div>
 
                         <h1 data-aos="zoom-in-down"
-                            className="display-1 p-4"
+                            className="display-1 p-5 mt-3"
                             style={{
                                 fontFamily: Font.PrimaryFont,
                                 color: "white",
