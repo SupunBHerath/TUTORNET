@@ -22,7 +22,7 @@ import TeacherLayout from './Layout/Teacher';
 import AdminLayout from './Layout/Admin';
 
 const App = () => {
-  axios.defaults.baseURL = 'http://localhost:8080/'
+  axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
   return (
     <div>
       <Routes>
