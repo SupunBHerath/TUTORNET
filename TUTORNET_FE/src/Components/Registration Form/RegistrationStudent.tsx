@@ -82,8 +82,8 @@ export default function RegistrationStudent(prop: any) {
     handleInputChange(e);
     setFail(false)
 
-    const password = formData.password; // Get the value of the password field
-    const cpassword = e.target.value; // Get the value of the confirm password field
+    const password = formData.password; 
+    const cpassword = e.target.value; 
     console.log(password, cpassword)
     if (e.target.validity.valid && password === cpassword) {
       setCPasswordError(false);
@@ -101,6 +101,7 @@ export default function RegistrationStudent(prop: any) {
       const response = await axios.post('/student/register', { ...formData });
       if (response.status === 200) {
         setSuccess(true);
+        
         setTimeout(() => {
           navigate('/');
         }, 2000);

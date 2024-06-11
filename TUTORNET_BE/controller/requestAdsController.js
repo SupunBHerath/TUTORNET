@@ -15,50 +15,6 @@ function getRandomInt(min, max) {
 
 
 
-//     destination: function (req, file, cb) {
-//         cb(null, 'public/images');
-//     },
-//     filename: function (req, file, cb) {
-//         const randomNumber = getRandomInt(1000, 9999); // Generate a random number between 1000 and 9999
-//         const extension = path.extname(file.originalname); // Get the file extension
-//         const basename = path.basename(file.originalname, extension); // Get the original name without the extension
-//         cb(null, `TUTORNET-${basename}-${randomNumber}${extension}`);
-//     }
-// });
-
-
-// router.post('/', upload.fields([{ name: 'ads', maxCount: 1 }, { name: 'rec', maxCount: 1 }]), async (req, res) => {
-//     const { userId, payDay, location, payment } = req.body;
-
-//     if (!userId || !payDay || !location || !payment || !req.files['ads'] || !req.files['rec']) {
-//         return res.status(400).send('Insufficient data or number of images.');
-//     }
-
-//     const ads = req.files['ads'][0].path;
-//     const rec = req.files['rec'][0].path;
-
-//     const currentDate = new Date();
-//     const dateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-
-//     try {
-//         const adsData = new Ads({
-//             userId: userId,
-//             payDay: payDay,
-//             location: location,
-//             payment: parseFloat(payment),
-//             ads: ads,
-//             rec: rec,
-//             uploadedDay: dateOnly,
-//             status: 'pending'
-//         });
-
-//         await adsData.save();
-//         res.send({ imagePath: rec });
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).send('Error while saving data.');
-//     }
-// });
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {

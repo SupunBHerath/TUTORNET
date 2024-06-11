@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -12,9 +11,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import { Alert } from '@mui/material';
+import { Alert, Snackbar } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import axios from 'axios';
 import { Color, Font } from '../CSS/CSS';
+import ForgotPassword from '../Modal/ForgotPassword';
 
 function Copyright(props: any) {
   return (
@@ -29,13 +30,13 @@ function Copyright(props: any) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+
 function isValidEmail(email: string): boolean {
-  // Regular expression to validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
+
 export default function LoginForm() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
@@ -44,38 +45,50 @@ export default function LoginForm() {
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState('');
+  const [alertSeverity, setAlertSeverity] = React.useState<'success' | 'error'>('success');
+  const [loading, setLoading] = React.useState(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError('');
+    setEmailError(false);
+    setPasswordError(false);
+    setLoading(true);
+
     if (!email || !password) {
       setError('Please fill in all required fields.');
+      setAlertMessage('Please fill in all required fields.');
+      setAlertSeverity('error');
+      setOpenSnackbar(true);
+      setLoading(false);
       return;
     }
+
     if (!isValidEmail(email)) {
       setEmailError(true);
       setError('Please enter a valid email address.');
+      setAlertMessage('Please enter a valid email address.');
+      setAlertSeverity('error');
+      setOpenSnackbar(true);
+      setLoading(false);
       return;
     }
+
     try {
-      const response = await fetch('http://localhost:8080/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await axios.post('/api/login', { email, password });
+      const data = await response.data;
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (data.ok) {
         setSuccess(true);
+        setAlertMessage('Login Successful');
+        setAlertSeverity('success');
+        setOpenSnackbar(true);
+
         setTimeout(() => {
-          // Assuming you're using JavaScript in the frontend
           localStorage.setItem('token', data.token);
-          console.log(data.token);
           const userRole = data.role;
-          console.log(userRole);
-          // Perform actions based on the user's role
           switch (userRole) {
             case 'Teacher':
               navigate('/teacher');
@@ -90,23 +103,29 @@ export default function LoginForm() {
               navigate('/');
               break;
           }
-
-
+          setLoading(false);
         }, 1000);
       } else {
-
-        setError(data.error); // Set the error message
+        setError(data.error);
+        setAlertMessage(data.error);
+        setAlertSeverity('error');
+        setOpenSnackbar(true);
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error:', error);
-      setError("connection error");
+      setError('Connection error');
+      setAlertMessage('Connection error');
+      setAlertSeverity('error');
+      setOpenSnackbar(true);
+      setLoading(false);
     }
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setEmailError(false);
-    setSuccess(false)
+    setSuccess(false);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,25 +133,31 @@ export default function LoginForm() {
     setPasswordError(false);
   };
 
-  return (
-    <>
-      <ThemeProvider theme={defaultTheme}>
-        {success && <Alert severity="success">Login Successful</Alert>}
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
 
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Snackbar open={openSnackbar}  autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={alertSeverity} sx={{ width: '100%' }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography
               variant="h4"
               noWrap
               component="div"
@@ -141,62 +166,52 @@ export default function LoginForm() {
               TUTOR<span style={{ color: Color.SecondaryColor }}>NET </span> Login
             </Typography>
             <br /><br />
-            <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
-              <Toaster position='top-center' reverseOrder={false}></Toaster>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                error={emailError}
-                onChange={handleEmailChange}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                error={passwordError}
-                onChange={handlePasswordChange}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              {error && <Alert severity="error">{error}</Alert>} {/* Render error if exists */}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Login
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link to="#">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link to="">
-                    {"Don't have an account? Sign Up"}
-
-                  </Link>
-                </Grid>
+          <Box component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              error={emailError}
+              onChange={handleEmailChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              error={passwordError}
+              onChange={handlePasswordChange}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <LoadingButton
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              loading={loading}
+            >
+              Login
+            </LoadingButton>
+            <Grid container>
+              <Grid item xs>
+                <ForgotPassword/>
               </Grid>
-            </Box>
+            </Grid>
           </Box>
-          <Copyright sx={{ mt: 8, mb: 4 }} />
-        </Container>
-      </ThemeProvider>
-    </>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
   );
 }

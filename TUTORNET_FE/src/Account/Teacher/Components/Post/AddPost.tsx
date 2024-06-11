@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import useCookie from '../../../../Hook/UserAuth';
+import axios from 'axios';
 
 const AddPost = () => {
     const [locationFilter, setLocationFilter] = useState<string>('');
@@ -55,51 +56,48 @@ const AddPost = () => {
         fileInput?.click();
     };
 
+
     const handleSubmit = async () => {
-
-        try {
-            const formData = new FormData();
-             setProgress(true);
-            formData.append('image', uploadedFile!);
-            formData.append('username', userData.username); 
-            formData.append('userId', userData.userId);
-            formData.append('title', title);
-            formData.append('description', description);
-            const response = await fetch('http://localhost:8080/post/upload', {
-                method: 'POST',
-                body: formData
-            });
-         
-            if (response.ok) {
-                setProgress(false)
-                console.log(response)
-                setSuccess(true);
-                setError(false);
-                setTimeout(() => {
-                  window.location.reload();
-                }, 1000);
-                console.log('Image uploaded successfully.');
-            } else {
-                console.error('Failed to upload image.');
-                setError(true);
-            }
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            setError(true);
-            setProgress(false)
-
-
+      try {
+        const formData = new FormData();
+        setProgress(true);
+        formData.append('image', uploadedFile!);
+        formData.append('username', userData.username);
+        formData.append('userId', userData.userId);
+        formData.append('title', title);
+        formData.append('description', description);
+    
+        const response = await axios.post('/post/upload', formData);
+         console.log(response.data);
+         const message = response.data.message;
+        if (message === 'Successfully uploaded post') {
+          setProgress(false);
+          setSuccess(true);
+          setError(false);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          console.log('Image uploaded successfully.');
+        } else {
+          console.error('Failed to upload image.');
+          setError(true);
         }
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        setError(true);
+        setProgress(false);
+      }
     };
+    
 
     return (
         <div className='container w-100 '>
-            <Box>
+            <Box >
                 {progress && (<LinearProgress />)}
                 {success && <Alert severity="success">uploaded successfully.</Alert>}
                 {error && <Alert severity="error">Failed to upload </Alert>}
                 <br />
-                <TextField
+                {/* <TextField
                     id="title"
                     label="Title"
                     value={title}
@@ -107,7 +105,7 @@ const AddPost = () => {
                     variant="outlined"
                     fullWidth
                     style={{ marginBottom: '16px' }}
-                />
+                /> */}
                 <TextField
                     id="description"
                     label="Description"
@@ -117,7 +115,7 @@ const AddPost = () => {
                     fullWidth
                     multiline
                     rows={4}
-                    style={{ marginBottom: '16px' }}
+                    style={{ marginBottom: '16px',width:'400px' }}
                 />
                
             </Box>
@@ -159,7 +157,7 @@ const AddPost = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                disabled={!uploadedFile  || !title || !description }
+                disabled={!uploadedFile   || !description }
                 style={{ marginTop: '16px',width: '100%'  }}
             >
                 Submit

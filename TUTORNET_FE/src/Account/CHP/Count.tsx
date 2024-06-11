@@ -10,16 +10,15 @@ const Counter: React.FC<CounterProps> = ({ maxCount }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (count < maxCount) {
-        setCount(count + 1); // Increase count by 50 every interval
+        setCount(count + 1);
       }
-    }, 50); // Decreased interval to make it faster
-
+    }, 50); 
     return () => clearInterval(interval);
   }, [count, maxCount]);
 
   return (
     <span className="counter">
-      {count.toLocaleString()} {/* Adds commas to large numbers for better readability */}
+      {count.toLocaleString()} 
     </span>
   );
 };

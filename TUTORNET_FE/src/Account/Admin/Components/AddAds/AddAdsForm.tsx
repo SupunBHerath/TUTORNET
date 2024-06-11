@@ -1,25 +1,26 @@
-import { Alert, Box, Button, MenuItem, TextField } from '@mui/material';
-import React, { useState } from 'react';
+import { Alert, Box, Button, LinearProgress, MenuItem, TextField } from '@mui/material';
+import React, { useState, useRef } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import axios from 'axios';
 
 const AddAdsForm = () => {
+    type FileType = File | null;
+    const [uploadedFile, setUploadedFile] = useState<FileType>(null);
     const [locationFilter, setLocationFilter] = useState<string>('');
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
-    const handleLocationFilterChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const [success, setSuccess] = useState<boolean>(false);
+    const [error, setError] = useState<string | boolean>(false);
+    const [prosses, setProgress] = useState(false);
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleLocationFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocationFilter(event.target.value);
     };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files && event.target.files[0];
+        setUploadedFile(event.target.files && event.target.files[0]);
         setError(false);
-        if (file) {
-            setUploadedFile(file);
-        }
     };
 
     const VisuallyHiddenInput = styled('input')({
@@ -35,47 +36,49 @@ const AddAdsForm = () => {
     });
 
     const handleClick = () => {
-        const fileInput = document.getElementById('fileInput');
-        setError(false);
-        fileInput?.click();
+        fileInputRef.current?.click();
     };
 
     const handleSubmit = async () => {
         try {
+            if (!uploadedFile) {
+                throw new Error('No file uploaded');
+            }
+             setProgress(true)
             const formData = new FormData();
-            formData.append('image', uploadedFile!);
-            formData.append('location', locationFilter); // Add location to form data
-            const response = await fetch('http://localhost:8080/ads/upload', {
-                method: 'POST',
-                body: formData
+            formData.append('image', uploadedFile);
+            formData.append('location', locationFilter);
+
+            const response = await axios.post('/ads/create', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
-            if (response.ok) {
-                console.log(response)
+
+            if (response.status === 201) {
+             setProgress(false)
+                
                 setSuccess(true);
                 setError(false);
                 setTimeout(() => {
-                  
+                    setSuccess(false);
+                    setUploadedFile(null);
                 }, 1000);
-                console.log('Image uploaded successfully.');
-                // Handle success response here, such as displaying a success message
             } else {
-                console.error('Failed to upload image.');
-                // Handle failure response here, such as displaying an error message
-                setError(true);
+                setError('Unexpected response status: ' + response.status);
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error uploading image:', error);
-            // Handle network or other errors
-            setError(true);
-
+            setError(error.message || 'Failed to upload image');
         }
     };
 
     return (
-        <div className='container '>
+        <div className="container">
             <Box>
-                {success && <Alert severity="success">uploaded successfully.</Alert>}
-                {error && <Alert severity="error">Failed to upload </Alert>}
+                {success && <Alert severity="success">Uploaded successfully.</Alert>}
+                {error && <Alert severity="error">{typeof error === 'string' ? error : 'Failed to upload.'}</Alert>}
+                {prosses && <LinearProgress />}
                 <br />
                 <TextField
                     required
@@ -86,10 +89,9 @@ const AddAdsForm = () => {
                     variant="outlined"
                     sx={{ width: '200px', height: '10px' }}
                 >
-                    <MenuItem value="Landing Page">Landing page</MenuItem>
+                    <MenuItem value="Landing Page">Landing Page</MenuItem>
                     <MenuItem value="Wall Page">Wall Page</MenuItem>
                     <MenuItem value="Search Page">Search Page</MenuItem>
-                    {/* Add more locations if needed */}
                 </TextField>
             </Box>
             <br /><br />
@@ -103,26 +105,25 @@ const AddAdsForm = () => {
                 }}
                 onClick={handleClick}
             >
-                {uploadedFile ? (
+                {!uploadedFile ? (
+                    <>
+                        <CloudUploadIcon style={{ fontSize: 48, marginBottom: '8px' }} />
+                        <p>Click to upload photo</p>
+                    </>
+                ) : (
                     <img
                         src={URL.createObjectURL(uploadedFile)}
                         alt="Uploaded"
                         style={{ maxWidth: '100%', maxHeight: '200px' }}
                     />
-                ) : (
-                    <>
-                        <CloudUploadIcon
-                            style={{ fontSize: 48, marginBottom: '8px' }}
-                        />
-                        <p>Click to upload photo</p>
-                    </>
                 )}
             </div>
 
             <VisuallyHiddenInput
                 id="fileInput"
                 type="file"
-                style={{ display: 'none' }}
+                accept="image/*" 
+                ref={fileInputRef}
                 onChange={handleFileChange}
             />
 
@@ -130,7 +131,7 @@ const AddAdsForm = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                disabled={!uploadedFile  || !locationFilter}
+                disabled={!uploadedFile || !locationFilter}
                 style={{ marginTop: '16px' }}
             >
                 Submit

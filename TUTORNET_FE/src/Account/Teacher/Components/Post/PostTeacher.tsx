@@ -24,6 +24,7 @@ import TimeDifference from '../../../../Components/TimeDifference/TimeDifference
 import { LinearProgress } from '@mui/material';
 import { color } from 'html2canvas/dist/types/css/types/color';
 import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
+import { Font } from '../../../../Components/CSS/CSS';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -47,6 +48,7 @@ interface Post {
     uploadedDay: string;
     description: string;
     image: string;
+    username:string;
 }
 
 const PostTeacher: React.FC = () => {
@@ -178,8 +180,8 @@ const PostTeacher: React.FC = () => {
     return (
         <div>
             {posts.map(post => (
-                <Card key={post.id} sx={{ maxWidth: 345, marginBottom: 2 }}>
-                    <CardHeader
+                <Card key={post.id} sx={{ maxWidth: 345, marginBottom: 2,height:'auto' }}>
+                    <CardHeader style={{fontStyle:Font.PrimaryFont}}
                         avatar={
                             <Avatar sx={{ }} aria-label="recipe">
                                   <img src={userData.profile} alt="0" style={{backgroundPositionX:'center', backgroundSize:'cover',width:'55px'}}/>
@@ -190,7 +192,7 @@ const PostTeacher: React.FC = () => {
                                 <MoreVertIcon />
                             </IconButton>
                         }
-                        title={userData.username}
+                        title={post.username}
                         subheader={<TimeDifference time={post.uploadedDay}/>}
                     />
                     <CardContent>
@@ -200,7 +202,7 @@ const PostTeacher: React.FC = () => {
                     </CardContent>
                     <CardMedia
                         component="img"
-                        height="194"
+                        height="auto"
                         image={post.image}
                         alt={post.title}
                     />

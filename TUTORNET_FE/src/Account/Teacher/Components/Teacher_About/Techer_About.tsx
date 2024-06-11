@@ -23,8 +23,8 @@ const fieldOrder = [
   { key: 'education', label: 'Education', icon: <School /> },
   { key: 'subject', label: 'subject', icon: <AccountCircle /> },
   { key: 'location', label: 'Class locations ', icon: <LocationOn /> },
-  { key: 'mobile', label: 'Mobile', icon: <AccountCircle /> },
-  { key: 'landline', label: 'Landline', icon: <AccountCircle /> },
+  // { key: 'mobile', label: 'Mobile', icon: <AccountCircle /> },
+  // { key: 'landline', label: 'Landline', icon: <AccountCircle /> },
 
 ];
 
@@ -87,10 +87,13 @@ const AboutPage: React.FC = () => {
       console.error('Error updating data:', error);
     }
   };
-
-  if (loading) {
-    return <CircularProgress color="primary" />;
-  }
+  const blockNumericInput = (e: any) => {
+    const charCode = e.which ? e.which : e.keyCode;
+    if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
+      e.preventDefault();
+    }
+  };
+ 
 
   return (
     <Box
@@ -126,6 +129,7 @@ const AboutPage: React.FC = () => {
               fullWidth
               variant="outlined"
               name={field.key}
+              onKeyDown={blockNumericInput}
               value={formValues[field.key as keyof FormValues]}
               onChange={handleInputChange}
               sx={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none', marginTop: '5px' }}

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Grid} from '@mui/material';
 import Post from '../../Components/Post/Post';
 import Logo from '../../../public/logo/Logo_t.png';
 import axios from 'axios';
-import CircularProgress from '@mui/material/CircularProgress';
 import Facebook from '../../Components/LodingPost/LodingPost';
+import TimeDifference from '../../Components/TimeDifference/TimeDifference';
 
 interface PostData {
   userId: string;
@@ -34,27 +35,28 @@ const StudentPost: React.FC = () => {
     };
 
     fetchData();
-  }, [isLoading]);
+  }, []);
 
   return (
     <div>
       {isLoading ? (
         <>
-          <CircularProgress />
           <Facebook />
         </>
-
       ) : (
-        postData.map((post, index) => (
-          <Post
-            key={index}
-            pp={Logo}
-            img={post.image}
-            title={post.title}
-            date={post.uploadedDay}
-            description={post.description}
-          />
-        ))
+        <Grid container spacing={2}>
+          {postData.map((post, index) => (
+            <Grid item xs={12} sm={12} key={index}>
+              <Post
+                pp={Logo}
+                img={post.image}
+                title={post.username}
+                date={<TimeDifference time ={post.uploadedDay}/>}
+                description={post.description}
+              />
+            </Grid>
+          ))}
+        </Grid>
       )}
     </div>
   );

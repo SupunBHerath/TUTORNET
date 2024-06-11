@@ -112,6 +112,13 @@ const Profile: React.FC = () => {
       setNewCoverPhoto(event.target.files[0]);
     }
   };
+  
+  const blockNumericInput = (e: any) => {
+    const charCode = e.which ? e.which : e.keyCode;
+    if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <>
@@ -188,6 +195,7 @@ const Profile: React.FC = () => {
                 fullWidth
                 variant="outlined"
                 value={newName}
+                onKeyDown={blockNumericInput}
                 placeholder={name}
                 onChange={(e) => setNewName(e.target.value)}
               />
@@ -202,6 +210,7 @@ const Profile: React.FC = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
+                onKeyDown={blockNumericInput}
                 variant="outlined"
                 value={newOccupation}
                 placeholder={occupation}

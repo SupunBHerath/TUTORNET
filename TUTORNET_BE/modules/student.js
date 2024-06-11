@@ -17,7 +17,12 @@ const studentSchema = new Schema({
     role:{
         type:String,
         required:true
-    },
+    }, 
+      date: {
+        type: Date,
+        required: true,
+        default: Date.now
+    }
   
 });
 

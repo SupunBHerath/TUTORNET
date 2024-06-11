@@ -98,7 +98,7 @@ const Feedback: React.FC = () => {
             handleClose();
         } catch (error) {
             console.error('Error adding feedback:', error);
-            setError(true)
+            // setError(true)
 
         }
     };
