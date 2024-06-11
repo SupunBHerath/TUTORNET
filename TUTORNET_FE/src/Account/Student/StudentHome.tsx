@@ -1,15 +1,13 @@
-import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import StudentPost from './StudentPost';
 import AdsHome from './Componets/Ads/AdsHome';
-import SNavi_Bar from './Componets/Nav_bar/Navi_Bar';
 import ProfileCard from './Componets/ProfileCard';
 
 
 const AppLayout = () => {
   return (
     <div>
-      <SNavi_Bar />
+      {/* <SNavi_Bar /> */}
       <Box display="flex" justifyContent="space-between" className="bg-body-tertiary" style={{ height: '100vh' }}>
         <Box component="aside" style={{ width: '30%', backgroundColor: '#f0f0f0', overflowY: 'auto',margin:'20px'}} >
             <br />

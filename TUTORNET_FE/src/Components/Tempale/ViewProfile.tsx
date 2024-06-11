@@ -27,7 +27,7 @@ const ViewProfile: React.FC = () => {
     const fetchTeacher = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/teacher/${id}`);
+        const response = await axios.get(`teacher/${id}`);
         setTeacher(response.data);
         setLoading(false);
       } catch (error) {
@@ -41,7 +41,7 @@ const ViewProfile: React.FC = () => {
   }, [id]);
 
   if (loading) {
-    return <> <br /><LinearProgress/>
+    return <> <br /><br /><br /><LinearProgress/>
     </>;
   }
 

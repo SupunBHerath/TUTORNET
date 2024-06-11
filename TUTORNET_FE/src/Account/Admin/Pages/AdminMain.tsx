@@ -35,7 +35,7 @@ const AdminMain = () => {
   
   return (
     <div>
-      <AdminNavbar/>
+      {/* <AdminNavbar/> */}
     </div>
   )
 }

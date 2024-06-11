@@ -11,9 +11,9 @@ import RatingSize from '../../Components/Rating/Raating';
 export default function CHPCard(prop: any) {
   return (
     <div className="col-md-3   ">
-      <Card sx={{ maxWidth: 270 , borderRadius:20 }} className='CHPCard mt-4 mx-auto  ' style={{borderColor:Color.PrimaryColor}}>
+      <Card sx={{ maxWidth: 370 , borderRadius:20 ,minHeight:300,minWidth:300}} className='CHPCard mt-4 mx-auto  ' style={{borderColor:Color.PrimaryColor}}>
         <CardMedia
-          sx={{ height: 200 }}
+          sx={{ height: 250 }}
           image={prop.image}
           title="green iguana"
           style={{backgroundPosition:'top'}}

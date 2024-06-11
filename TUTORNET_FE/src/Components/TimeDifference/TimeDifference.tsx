@@ -58,7 +58,7 @@ const TimeDifference: React.FC<Props> = (props) => {
 
     return (
         <div>
-            <p>{formattedGivenDate} {timeDifferenceString}</p>
+            <p>{formattedGivenDate} [ {timeDifferenceString} ago]</p>
         </div>
     );
 };

@@ -10,7 +10,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import Register from '../../../../Components/Modal/Register';
 import LoginModal from '../../../../Components/Modal/LoginModal';
@@ -24,7 +23,7 @@ const pages = [
 
 
 
-function STNavi_Bar() {
+function LNavi_Bar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -148,4 +147,4 @@ function STNavi_Bar() {
   );
 }
 
-export default STNavi_Bar;
+export default LNavi_Bar;

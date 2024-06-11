@@ -1,10 +1,7 @@
-import {  Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import StudentHome from './Account/Student/StudentHome';
 import Home from './Account/CHP/Home';
 import LoginForm from './Components/Login Form/LoginForm';
-import UserManage from './Account/Admin/Pages/UserManage';
-import Landing from './Account/Landing_page/Pages/Landing';
-import PaymentManage from './Account/Admin/Pages/PaymentManage';
 import axios from 'axios';
 import TeacherRegister from './Pages/TeacherRegister';
 import StudentRegister from './Pages/StudentRegister';
@@ -18,47 +15,60 @@ import TeacherProfile from './Components/Tempale/TeacherProfile';
 import FrogetPassword from './Components/Login Form/FrogetPassword';
 import Profile from './Account/Student/Profile';
 import SearchPageT from './Account/Teacher/Pages/search';
-
-
-
+import AdsWall from './Account/Admin/Components/AdsWall/AdsWall';
+import LandingLayout from './Layout/Landing';
+import StudentLayout from './Layout/Student';
+import TeacherLayout from './Layout/Teacher';
+import AdminLayout from './Layout/Admin';
 
 const App = () => {
-  axios.defaults.baseURL ='https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+  axios.defaults.baseURL = 'http://localhost:8080/'
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/fp" element={<FrogetPassword/>} />
-        <Route path="/Landing" element={<Landing />} />
-        <Route path="/reg/teacher" element={<TeacherRegister />} />
-        <Route path="/reg/student" element={<StudentRegister />} />
-        <Route path="/teacher/:id/:name" element={<TeacherProfile />} />
-    
 
-        {/* ----------student  route -------------------------*/}
-        <Route path="/student" element={<StudentHome />} />
-        <Route path="/search" element={<SearchPage/>} />
-        <Route path="/student/profile" element={<Profile/>} />
+        {/* ----------Landing  route -------------------------*/}
+        <Route path="/" element={<LandingLayout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<LoginForm />} />
+          <Route path="fp" element={<FrogetPassword />} />
+          <Route path="reg/teacher" element={<TeacherRegister />} />
+          <Route path="reg/student" element={<StudentRegister />} />
+          <Route path="Ads" element={<AdsWall />} />
+        </Route>
 
 
-        {/* ----------teacher  route -------------------------*/}
-        <Route path="/teacher" element={<TeacherWall />} />
-        <Route path="/teacher/ads" element={<Ads/>} />
-        <Route path="/teacher/post" element={<PostPage/>} />
-        <Route path="/teacher/profile" element={<TecherHome/>} />
-        <Route path="/teacher/search" element={<SearchPageT/>} />
+        {/* ----------Student  route -------------------------*/}
+        <Route path="/student" element={<StudentLayout />}>
+          <Route index element={<StudentHome />} />
+          <Route path="search" element={<SearchPage />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
+        </Route>
 
-       
 
-        {/* ----------admin  route -------------------------*/}
-        <Route path="/admin" element={<AdminMain/>} />
-        <Route path="/admin/user" element={<UserManage />} />
-        <Route path="/admin/payment" element={<PaymentManage />} />
-       
+        {/* ----------Teacher  route -------------------------*/}
+        <Route path="/teacher" element={< TeacherLayout/>}>
+          <Route index element={<TeacherWall />} />
+          <Route path="Ads" element={<Ads />} />
+          <Route path="search" element={<SearchPage />} />
+          <Route path="post" element={<PostPage />} />
+          <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
+
+          <Route path="profile" element={<TecherHome />} />
+          <Route path="search" element={<SearchPageT />} />
+        </Route>
+
+
+
+        {/* ----------Admin  route -------------------------*/}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route  index element={<AdminMain />} />
+        </Route>
+
 
       </Routes>
-      
+
 
     </div>
 

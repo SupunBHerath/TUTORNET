@@ -5,104 +5,113 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 import 'aos/dist/aos.js'
 import './CHP.css'
-import HederImg1 from '../../../public/Lanading/image 5.png'
+import l3 from '../../../public/Lanading/w.jpg'
 import { Color, Font } from '../../Components/CSS/CSS'
 import Counter from './Count'
 import { CHPAboutUS } from './CHPAboutUS'
 import UserCommentCard from './Components/UserCommentCard'
-import Footer from './Components/Footer'
 import { Feedback } from './Components/Feedback'
 import t1 from '../../../public/Teacher/t1.jpg'
 import t2 from '../../../public/Teacher/t2.jpg'
-import t3 from '../../../public/Teacher/t3.jpg'
-import t4 from '../../../public/Teacher/t4.jpg'
 import u1 from '../../../public/Users/u1.jpg'
 import u2 from '../../../public/Users/u2.jpg'
 import u4 from '../../../public/Users/u4.jpg'
 import u5 from '../../../public/Users/u5.jpg'
 import { AdsCarousel } from './Components/AdsCarousel'
-import STNavi_Bar from '../Landing_page/Components/Navi_Bar/STNavi_Bar'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import useCookie from '../../Hook/UserAuth'
-import { logout } from '../../Hook/Logout'
+
 interface UserData {
     userId: string;
-    username: string;
-    email: string;
+    name: string;
+    subject: string;
     role: string;
-    profile: string;
+    profilePicture: string;
 }
 
 const Home = () => {
     const [teacher, setTeacher] = useState(0)
     const [student, setStudent] = useState(0)
-    const navigate = useNavigate();
-   
+    const [teacherData, setTeacherData] = useState<UserData[]>([])
+
     useEffect(() => {
         AOS.init({
             duration: 2000,
         })
     }, [])
-    useEffect(  ()=>{
-            const feachData = async () =>{
-                try{
+    useEffect(() => {
+        const feachData = async () => {
+            try {
                 const res = await axios.get('/teacher/all')
-                .then((res=>{
-                    setTeacher(res.data.length)
-                    console.log(res.data.length);
-                    
-                }))
+                    .then((res => {
+                        setTeacher(res.data.length)
+                        console.log(res.data.length);
+                        setTeacherData(res.data)
+                        console.log(res.data)
+
+                    }))
                 const res2 = await axios.get('/student/all')
-                .then((res2=>{
-                    setStudent(res2.data.length)
-                }))
-            }catch(err){
+                    .then((res2 => {
+                        setStudent(res2.data.length)
+                    }))
+            } catch (err) {
                 console.log(err)
-            }}
-            feachData()
-    },[])
+            }
+        }
+        feachData()
+    }, [])
     return (
         <div className=''>
-            <STNavi_Bar />
-            <div className="container-fluid  ">
-
-                <div className="headerSesion bg-dark w-100 text-center  " style={{ minHeight: "100vh", backgroundImage: `url(${HederImg1})` }} data-aos="zoom-in-down">
+            <div className="container-fluid ">
+                <div className="headerSesion bg-dark w-100   " style={{ minHeight: "100vh", backgroundImage: `url(${l3})` }} data-aos="zoom-in-down">
                     <div className="sapces h-25"></div>
                     <div className="header-text">
-                        <h1 className="display-1 p-4" style={{ fontFamily: Font.PrimaryFont, color: "white" }}> Welcome to TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span></h1>
-                        <h3 className="display-5 p-4" style={{ fontFamily: Font.PrimaryFont, color: "white" }}>SPACE TO CHOOSE YOUR TEACHER</h3>
+                        <div className="space" style={{ height: "50px" }}></div>
 
-                        <section className="about-counter text-center " style={{ marginTop: "180px" }}>
-                            <div className="container">
-                                <div className="row justify-content-around display-4 " style={{ fontFamily: Font.PrimaryFont }} >
-                                    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-6 mb-4 mb-xl-0">
-                                        <div className="">
-                                            <div>
-                                                <span style={{ color: Color.PrimaryColor }}>[ </span  >
-                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={student} /></span>
-                                                <span style={{ color: Color.PrimaryColor }}>+ ]</span>
-                                            </div>
-                                            <h2 className='text-white mt-3'>Students</h2>
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-3 col-lg-6 col-md-6 col-sm-6 mb-4 mb-xl-0">
-                                        <div className="">
-                                            <div>
-                                                <span style={{ color: Color.PrimaryColor }}>[ </span  >
-                                                <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={teacher} /></span>
-                                                <span style={{ color: Color.PrimaryColor }}>+ ]</span>
-                                            </div>
-                                            <h2 className='text-white mt-3'>Teachers</h2>
-                                        </div>
-                                    </div>
+                        <h1 data-aos="zoom-in-down"
+                            className="display-1 p-5 mt-3"
+                            style={{
+                                fontFamily: Font.PrimaryFont,
+                                color: "white",
+                                textShadow: "5px 8px 4px " + Color.PrimaryColor,
+                                WebkitTextStroke: "1px black"
+                            }}
+                        >
+                            Welcome To <br />
+                            TUTOR<span style={{ color: Color.SecondaryColor }}> NET</span>
+                        </h1>
 
-                                </div>
-                            </div>
-                        </section>
+
+
                     </div>
                 </div>
-                <div className="space" style={{ height: "150px" }}></div>
+                <section className="about-counter text-center " style={{ marginTop: "70px" }}>
+                    <div className="container">
+                        <div className="row justify-content-around display-4 " style={{ fontFamily: Font.PrimaryFont }} >
+                            <div className="col-xl-3 col-lg-6 col-md-6 col-sm-6 mb-4 mb-xl-0">
+                                <div className="">
+                                    <div>
+                                        <span style={{ color: Color.PrimaryColor }}>[ </span  >
+                                        <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={student} /></span>
+                                        <span style={{ color: Color.PrimaryColor }}>+ ]</span>
+                                    </div>
+                                    <h2 className=' mt-3'>Students</h2>
+                                </div>
+                            </div>
+                            <div className="col-xl-3 col-lg-6 col-md-6 col-sm-6 mb-4 mb-xl-0">
+                                <div className="">
+                                    <div>
+                                        <span style={{ color: Color.PrimaryColor }}>[ </span  >
+                                        <span style={{ color: Color.SecondaryColor }} className="num" data-to="500000" data-time="2000">   <Counter maxCount={teacher} /></span>
+                                        <span style={{ color: Color.PrimaryColor }}>+ ]</span>
+                                    </div>
+                                    <h2 className=' mt-3'>Teachers</h2>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+                <div className="space" style={{ height: "70px" }}></div>
 
                 <CHPAboutUS />
                 <div className="space" style={{ height: "150px" }}></div>
@@ -110,12 +119,20 @@ const Home = () => {
                 <div className="text-center mt-5  " data-aos="zoom-in-down">
                     <h1 id='PT' className='display-2 '> [ Popular Teachers ]</h1>
                 </div>
-                <div className='row mt-5  justify-content-center ' data-aos="zoom-in-down">
-                    <CHPCard image={t1} name=" Amith Pussella  " description="Physics Lecturer in Sri Lanka" rating={5} />
-                    <CHPCard image={t2} name=" Tissa Jananayake " description="Biology Lecturer in Sri Lanka" rating={4.5} />
-                    <CHPCard image={t3} name=" Dinesh Muthugala " description="Biology Lecturer in Sri Lanka" rating={4} />
-                    <CHPCard image={t4} name=" Herath Abeysinghe " description="Maths Lecturer in Sri Lanka" rating={4} />
+
+                <div className='row d-flex justify-content-center'>
+                    {teacherData.slice(0, 4).map((teacher, index) => (
+                        <div className='col-md-3  mt-5    ' data-aos="zoom-in-down" key={index}>
+                            <CHPCard
+                                image={teacher.profilePicture}
+                                name={teacher.name}
+                                description={teacher.subject}
+                                rating={5}
+                            />
+                        </div>
+                    ))}
                 </div>
+
 
                 <div className="space" style={{ height: "150px" }}></div>
                 <AdsCarousel />
@@ -170,7 +187,6 @@ const Home = () => {
 
             </div>
             <div className="space" style={{ height: "150px" }}></div>
-            <Footer />
         </div>
     )
 }

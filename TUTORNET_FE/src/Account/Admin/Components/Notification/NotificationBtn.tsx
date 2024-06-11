@@ -4,10 +4,9 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import NotificationAddIcon from '@mui/icons-material/NotificationAdd';
 import CloseIcon from '@mui/icons-material/Close';
-import AddAdsForm from './AddAdsForm';
-import { LinearProgress } from '@mui/material';
+import NotificationForm from './NotificationForm';
 
 
 const style = {
@@ -23,27 +22,22 @@ const style = {
     p: 4,
 };
 
-export default function AdsBtnAdmin() {
+export default function NotificationBtn() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [prosses, setProsses] = React.useState(false);
 
+    
+    
     return (
         <div>
-            <div className="rightBtn justify-content-end  d-flex  w-100  ">
-                
-           
             <Button
                 variant="contained"
                 style={{ marginBottom: '10px' }}
                 onClick={handleOpen}
-                className=''
-                startIcon={<AddCircleIcon />}>
-               ADS
+                startIcon={<NotificationAddIcon />}>
+                 Send Notification
             </Button>
-            </div>
-           
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -66,7 +60,7 @@ export default function AdsBtnAdmin() {
                             startIcon={<CloseIcon />}>
                                 
                         </Button>
-                        <AddAdsForm/>
+                        <NotificationForm />
                     </Box>
                 </Fade>
             </Modal>
