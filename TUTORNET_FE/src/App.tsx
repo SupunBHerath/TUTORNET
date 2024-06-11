@@ -2,6 +2,10 @@ import { Route, Routes } from 'react-router-dom';
 import StudentHome from './Account/Student/StudentHome';
 import Home from './Account/CHP/Home';
 import LoginForm from './Components/Login Form/LoginForm';
+import UserManage from './Account/Admin/Pages/UserManage';
+import Landing from './Account/Landing_page/Landing';
+import PaymentManage from './Account/Admin/Pages/PaymentManage';
+
 import axios from 'axios';
 import TeacherRegister from './Pages/TeacherRegister';
 import StudentRegister from './Pages/StudentRegister';
