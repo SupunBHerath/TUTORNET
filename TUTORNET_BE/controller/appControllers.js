@@ -111,3 +111,37 @@ module.exports.updatePassword = async (req, res) => {
         return res.status(500).send({ error: "Internal server error." });
     }
 };
+
+module.exports.DeleteUser = async (req, res) => {
+    const { id } = req.params;
+
+
+    try {
+        let user;
+        let userType;
+
+        user = await Teacher.findById(id);
+        userType = 'teacher';
+
+        if (!user) {
+            user = await Student.findById(id);
+            userType = 'student';
+        }
+
+        if (!user) {
+            user = await Admin.findById(id);
+            userType = 'admin';
+        }
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        await user.constructor.findByIdAndDelete(id);
+
+        return res.status(200).json({ message: `User (${userType}) deleted successfully.` });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error." });
+    }
+};

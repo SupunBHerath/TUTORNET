@@ -10,7 +10,6 @@ var count = 0;
 interface type {
     username: string;
     email: string;
-    password: string;
 }
 export default function RegisteredForm() {
     const navigate = useNavigate();
@@ -25,8 +24,7 @@ export default function RegisteredForm() {
 
     const [formData, setFormData] = useState({
         username: '',
-        email: '',
-        password: 'admin',
+        email: ''
     });
 
     const handleInputChange = (event: any) => {
@@ -181,7 +179,7 @@ export default function RegisteredForm() {
                         component="div"
                         style={{ fontFamily: Font.PrimaryFont, textAlign: "center" }}
                     >
-                        Re-enter <span style={{ color: 'red' }}>Your</span> password
+                        Enter <span style={{ color: 'red' }}>Your</span> password
                     </Typography>
                     <br />
                     <form onSubmit={handleSubmitPassword}>
