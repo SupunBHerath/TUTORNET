@@ -29,7 +29,7 @@ const reqAdsSchema = new Schema({
     uploadedDay: {
       type: Date,
       required: true,
-      default: Date.now // Set default value to current date
+      default: Date.now 
     },
    
     status: {

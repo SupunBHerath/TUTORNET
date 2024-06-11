@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import AddAdsForm from './AddAdsForm';
+import { LinearProgress } from '@mui/material';
 
 
 const style = {
@@ -26,10 +27,13 @@ export default function AdsBtnAdmin() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [prosses, setProsses] = React.useState(false);
 
     return (
         <div>
             <div className="rightBtn justify-content-end  d-flex  w-100  ">
+                
+           
             <Button
                 variant="contained"
                 style={{ marginBottom: '10px' }}

@@ -13,17 +13,19 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Color, Font } from '../../../../Components/CSS/CSS';
+import { logout } from '../../../../Hook/Logout';
+
 
 const pages = [
   { name: 'Home', path: '/student' },
-  { name: 'Search', path: '/search' }
+  { name: 'Search', path: 'search' }
 
  
 ];
 
 const settings = [
-  { name: 'Profile', path: '/profile' },
-  { name: 'Logout', path: '/' }
+  { name: 'Profile', path: 'profile' },
+  { name: 'Logout', path: '/', onclick:logout}
 ];
 
 function SNavi_Bar() {

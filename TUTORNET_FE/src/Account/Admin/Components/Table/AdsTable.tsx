@@ -23,8 +23,9 @@ const AdsTable: React.FC = () => {
     const [remainingDays, setRemainingDays] = useState<number[]>([]);
     const [status, setStatus] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
+    const [prosses, setProsses] = React.useState(true);
 
-//get data--------------------
+    //get data--------------------
     useEffect(() => {
         axios.get('/ads/all')
             .then(response => {
@@ -37,9 +38,9 @@ const AdsTable: React.FC = () => {
                 setAds(data);
                 setFilteredAds(data);
                 setTimeout(() => {
-                  setLoading(true);
+                    setLoading(true);
                 }, 1000)
-                
+
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -47,9 +48,12 @@ const AdsTable: React.FC = () => {
     }, []);
 
     const confirmDeleteAd = () => {
+        setError(false);
+
         axios.delete(`/ads/delete/${idToDelete}`)
+
             .then(response => {
-                if (response.status === 200) {
+                if (response) {
                     setSuccess(true);
                     console.log('Advertisement deleted successfully');
                     setTimeout(() => {
@@ -60,11 +64,13 @@ const AdsTable: React.FC = () => {
                 } else {
                     console.error('Failed to delete advertisement');
                     setError(true);
+
                 }
             })
             .catch(error => {
                 console.error('Error deleting advertisement:', error);
                 setError(true);
+
             })
             .finally(() => {
                 setConfirmationOpen(false);
@@ -127,19 +133,20 @@ const AdsTable: React.FC = () => {
             </div>
             <div className="Tablebtn mt-3 justify-content-between" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div>
-                    <TextField
-                        select
-                        label="Filter by Location"
-                        value={locationFilter}
-                        onChange={handleLocationFilterChange}
-                        variant="outlined"
-                        sx={{ width: '200px' }}
-                    >
-                        <MenuItem value="">All</MenuItem>
-                        <MenuItem value="Landing page">Landing page</MenuItem>
-                        <MenuItem value="Wall Page">Wall Page</MenuItem>
-                        <MenuItem value="Search Page">Search Page</MenuItem>
-                    </TextField>
+                        <TextField
+                            select
+                            label="Filter by Location"
+                            value={locationFilter}
+                            onChange={handleLocationFilterChange}
+                            variant="outlined"
+                            sx={{ width: '200px' }}
+                        >
+                            <MenuItem value="">All</MenuItem>
+                            <MenuItem value="Landing page">Landing page</MenuItem>
+                            <MenuItem value="Wall Page">Wall Page</MenuItem>
+                            <MenuItem value="Search Page">Search Page</MenuItem>
+                        </TextField>
+                        
                     <br />
                 </div>
             </div>

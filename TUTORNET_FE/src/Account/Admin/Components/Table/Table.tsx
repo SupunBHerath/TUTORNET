@@ -10,7 +10,8 @@ import AddUser from '../Add User/AddUser';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
+import NotificationBtn from '../Notification/NotificationBtn';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -27,6 +28,7 @@ const style = {
 
 type RoleDetails = {
   id: number;
+  _id: string;
   name: string;
   email: string;
   role: string;
@@ -73,13 +75,20 @@ export default function UserTable() {
     }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: string) => {
     console.log('Delete user with id:', id);
-    // Add your delete logic here
+    try{
+      const deleteUser = await axios.delete(`/api/delete/${id}`)
+      if(deleteUser){
+        alert('User deleted successfully')
+      }
+    }catch(error) {
+      console.error('Error deleting user:', error);
+    }
   };
 
   const downloadPdf = () => {
-    const doc = new jsPDF() as any; // Cast jsPDF to any to avoid TypeScript error
+    const doc = new jsPDF() as any; 
 
     doc.setFontSize(20);
     doc.text('TUTORNET User Details', 50, 20);
@@ -112,7 +121,11 @@ export default function UserTable() {
 
   return (
     <>
-      <AddUser />
+    <div className=" justify-content-between d-flex mt-4">
+    <AddUser />
+    <NotificationBtn/>
+    </div>
+     
 
       <div className="Tablebtn mb-2 mt-3" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <Button onClick={() => setOpenFilterModal(true)} startIcon={<FilterListIcon />}>Filter</Button>
@@ -163,7 +176,7 @@ export default function UserTable() {
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.role}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleDelete(row.id)} aria-label="delete">
+                  <IconButton onClick={() => handleDelete(row._id)} aria-label="delete">
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

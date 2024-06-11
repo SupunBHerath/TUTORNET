@@ -5,7 +5,6 @@ const Ads = require('../modules/ads.js');
 const router = express.Router();
 const fs = require('fs');
 
-// Define storage for the uploaded images
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         // Set the destination folder to 'uploads' in the root directory

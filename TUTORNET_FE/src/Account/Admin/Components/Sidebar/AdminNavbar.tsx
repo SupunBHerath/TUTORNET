@@ -23,7 +23,7 @@ import Badge from '@mui/material/Badge';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import UserManage from '../../Pages/UserManage';
 import ADashboard from '../../Pages/ADashboard';
 import PaymentManage from '../../Pages/PaymentManage';
@@ -31,12 +31,19 @@ import { Color, Font } from '../../../../Components/CSS/CSS';
 import AdsManagePage from '../../Pages/AdsManage';
 import Notification from '../../Pages/Notification';
 import SubjectTable from '../Table/SubjectTable';
-
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import { logout } from '../../../../Hook/Logout';
+import axios from 'axios';
 // Define your custom font
+
 
 const drawerWidth = 240;
 
+const handleLogout = () => {
+const navigation = useNavigate()
 
+  logout(navigation);
+};
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -64,7 +71,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -112,24 +118,18 @@ export default function AdminNavbar() {
   const [open, setOpen] = React.useState(false);
   const [activeComponent, setActiveComponent] = React.useState('dashboard');
   const [row, setRow] = React.useState(null);
+  
   React.useEffect(() => {
-    fetch('http://localhost:8080/reqads/pending')
+    axios.get('/reqads/pending')
       .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-    
-        setRow(data.length)
-       
-        console.log(row)
+        setRow(response.data.length);
+        console.log(row);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  },[activeComponent])
+  }, [activeComponent]);
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -248,7 +248,7 @@ export default function AdminNavbar() {
           <br />
           <ListItemButton onClick={notification}>
             <ListItemIcon>
-              <AddAlertIcon sx={activeComponent === 'notification' ? { color: Color.SecondaryColor } : {}} />
+              <FeedbackIcon sx={activeComponent === 'notification' ? { color: Color.SecondaryColor } : {}} />
 
             </ListItemIcon>
             <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Notification</span>} sx={activeComponent === 'notification' ? { color: Color.SecondaryColor } : {}} />
@@ -266,7 +266,7 @@ export default function AdminNavbar() {
           </ListItemButton>
           <br />
           <br />
-          <Link to='/'>
+          <Link to='/' onClick={handleLogout}>
             <ListItemButton>
               <ListItemIcon>
                 <LogoutIcon />

@@ -63,7 +63,6 @@ export default function RegisteredForm(prop: any) {
     });
   };
 
-  // Block numeric input including number pad
   const blockNumericInput = (e: any) => {
     const charCode = e.which ? e.which : e.keyCode;
     if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
@@ -98,7 +97,7 @@ export default function RegisteredForm(prop: any) {
  
   const handlePasswordChange = (e: any) => {
     handleInputChange(e);
-    setPasswordError(e.target.value.length < 6);
+    setPasswordError(e.target.value.length < 8);
   };
 
   const handleConfPasswordChange = (e: any) => {
@@ -113,8 +112,9 @@ export default function RegisteredForm(prop: any) {
     try {
       const response = await axios.post('/teacher/register', { ...formData });
       if (response.status === 200) {
+        setFail(false);
+        setEmailError(false);
         setSuccess(true);
-      setEmailError(false);
         setTimeout(() => {
           navigate('/');
         }, 2200);

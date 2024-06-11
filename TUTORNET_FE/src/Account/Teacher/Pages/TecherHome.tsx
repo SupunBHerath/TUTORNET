@@ -1,4 +1,4 @@
-import Navi_Bar from '../Components/Navi_Bar/Navi_Bar';
+// import Navi_Bar from '../Components/Navi_Bar/Navi_Bar';
 import ColorTabs from '../Components/Tabs/Tabs';
 import Profile from '../Components/Profile';
 import useCookie from '../../../Hook/UserAuth';
@@ -29,7 +29,7 @@ const TecherHome = () => {
 
   return (
     <div className='bg-body-tertiary'>
-      <Navi_Bar />
+      {/* <Navi_Bar /> */}
       {progress ? (
         <>
         <div className="center mt-5 " >

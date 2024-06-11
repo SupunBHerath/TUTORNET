@@ -6,6 +6,7 @@ import Tabs1 from './Tabs1';
 import Tabs2 from './Tabs2';
 import Tabs4 from './Tabs4';
 import Tabs3 from './Tabs3';
+import Tabs5 from './Tabs5';
 
 
 
@@ -31,12 +32,14 @@ export default function ColorTabs() {
                 <Tab value="About" label="About" />
                 <Tab value="Results" label="Results" />
                 <Tab value="Time Tables" label="Time Tables" />
+                <Tab value="Feed Back" label="FeedBack" />
             </Tabs>
             {/* Render content based on selected tab */}
             {value === 'Post' && <Tabs1 />}
             {value === 'About' && <Tabs2/>}
             {value === 'Results' && <Tabs3/>}
             {value === 'Time Tables' && <Tabs4 />}
+            {value === 'Feed Back' && <Tabs5/>}
         </Box>
     );
 }
