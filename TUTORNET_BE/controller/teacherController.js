@@ -7,6 +7,8 @@ const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const path = require('path');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+require = require("esm")(module /*, options*/);
+const XLSX = require('xlsx'); 
 
 dotenv.config();
 
@@ -77,8 +79,8 @@ module.exports.teacher = async (req, res) => {
         if (!teacher) {
             return res.status(404).json({ message: 'Teacher not found' });
         }
-        res.json(teacher);
-        console.log(teacher);
+        res.status(201).json(teacher);
+       
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });
@@ -136,3 +138,50 @@ module.exports.updateTeacherProfile = [
     }
   }
 ];
+
+module.exports.Delete = async (req , res) =>{
+  const { teacherId, resultId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(teacherId) || !mongoose.Types.ObjectId.isValid(resultId)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+  }
+
+  try {
+      const teacher = await Teacher.findById(teacherId);
+      if (!teacher) {
+          return res.status(404).json({ message: 'Teacher not found' });
+      }
+
+      teacher.results = teacher.results.filter(result => result._id.toString() !== resultId);
+      await teacher.save();
+ 
+
+      res.status(200).json({ message: 'Result deleted successfully', results: teacher.results });
+  } catch (error) {
+      console.error('Error deleting result:', error);
+      res.status(500).send('Error deleting result: ' + error.message);
+  }
+}
+
+module.exports.DeleteAllresult = async (req, res) => {
+  const { teacherId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(teacherId)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+  }
+
+  try {
+      const teacher = await Teacher.findById(teacherId);
+      if (!teacher) {
+          return res.status(404).json({ message: 'Teacher not found' });
+      }
+
+      teacher.results = []; 
+      await teacher.save();
+
+      res.status(200).json({ message: 'All results deleted successfully', results: teacher.results });
+  } catch (error) {
+      console.error('Error deleting all results:', error);
+      res.status(500).send('Error deleting all results: ' + error.message);
+  }
+}

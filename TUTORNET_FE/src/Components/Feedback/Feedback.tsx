@@ -1,11 +1,9 @@
-import "../CHP.css";
-import { useNavigate } from "react-router-dom";
-import { Color } from "../../../Components/CSS/CSS";
-import image from '../../../../public/Lanading/istockphoto-1410789354-612x612.jpg'
+import "../../Account/CHP/CHP.css";
+import image from '../../../public/Lanading/istockphoto-1410789354-612x612.jpg'
 import ContactUsForm from "./ContactUsForm";
+import { Color } from "../CSS/CSS";
 
 export const Feedback = () => {
-  const navigate = useNavigate();
   return (
     <>
       <div className="container">

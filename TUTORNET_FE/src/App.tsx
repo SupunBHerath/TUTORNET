@@ -2,10 +2,6 @@ import { Route, Routes } from 'react-router-dom';
 import StudentHome from './Account/Student/StudentHome';
 import Home from './Account/CHP/Home';
 import LoginForm from './Components/Login Form/LoginForm';
-import UserManage from './Account/Admin/Pages/UserManage';
-import Landing from './Account/Landing_page/Landing';
-import PaymentManage from './Account/Admin/Pages/PaymentManage';
-
 import axios from 'axios';
 import TeacherRegister from './Pages/TeacherRegister';
 import StudentRegister from './Pages/StudentRegister';
@@ -24,9 +20,12 @@ import LandingLayout from './Layout/Landing';
 import StudentLayout from './Layout/Student';
 import TeacherLayout from './Layout/Teacher';
 import AdminLayout from './Layout/Admin';
+import Landing from './Account/Landing_page/Landing';
+import About from './Account/Landing_page/Components/About_Us/About_us';
+import FeedbackPage from './Pages/FeedbackPage';
 
 const App = () => {
-  axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+  axios.defaults.baseURL = 'http://localhost:8080/'
   return (
     <div>
       <Routes>
@@ -39,6 +38,7 @@ const App = () => {
           <Route path="reg/teacher" element={<TeacherRegister />} />
           <Route path="reg/student" element={<StudentRegister />} />
           <Route path="Ads" element={<AdsWall />} />
+          <Route path="about" element={<About />} />
         </Route>
 
 
@@ -47,6 +47,7 @@ const App = () => {
           <Route index element={<StudentHome />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="feedback" element={<FeedbackPage />} />
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
         </Route>
 
@@ -55,10 +56,11 @@ const App = () => {
         <Route path="/teacher" element={< TeacherLayout/>}>
           <Route index element={<TeacherWall />} />
           <Route path="Ads" element={<Ads />} />
+          <Route path="about" element={<About />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="post" element={<PostPage />} />
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
-
+          <Route path="feedback" element={<FeedbackPage />} />
           <Route path="profile" element={<TecherHome />} />
           <Route path="search" element={<SearchPageT />} />
         </Route>

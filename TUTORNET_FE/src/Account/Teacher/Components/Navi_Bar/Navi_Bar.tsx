@@ -19,9 +19,9 @@ import { logout } from '../../../../Hook/Logout';
 
 const pages = [
   { name: 'Home', path: '/teacher' },
-  { name: 'About us', path: '/teacher/about' },
   { name: 'Search ', path: '/teacher/search' },
-  { name: 'Ads', path: '/teacher/Ads' }
+  { name: 'Ads', path: '/teacher/Ads' },
+  { name: 'About us', path: '/teacher/about' }
 ];
 
 const settings = [

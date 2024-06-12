@@ -19,6 +19,7 @@ const path =    require('path');
 const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
 const Ads = require('./router/ads.js');
+
 const FP = require('./router/ForgotpasswordRoute.js');
 
 
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
 /** api routers  */
 app.use('/api',router)
 app.use('/teacher',teacher)
+
 app.use('/student',Student)
 app.use('/admin',admin)
 // app.use('/ads',ads)

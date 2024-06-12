@@ -16,8 +16,7 @@ import LoginModal from '../../../../Components/Modal/LoginModal';
 
 const pages = [
   { name: 'Home', path: '/' },
-  { name: 'About us', path: '/' },
-  { name: 'Contact Us', path: '/' },
+  { name: 'About us', path: '/about' },
   { name: 'Ads', path: '/Ads' },
 ];
 

@@ -10,7 +10,7 @@ import { Color, Font } from '../../Components/CSS/CSS'
 import Counter from './Count'
 import { CHPAboutUS } from './CHPAboutUS'
 import UserCommentCard from './Components/UserCommentCard'
-import { Feedback } from './Components/Feedback'
+import { Feedback } from '../../Components/Feedback/Feedback'
 import t1 from '../../../public/Teacher/t1.jpg'
 import t2 from '../../../public/Teacher/t2.jpg'
 import u1 from '../../../public/Users/u1.jpg'
@@ -19,6 +19,7 @@ import u4 from '../../../public/Users/u4.jpg'
 import u5 from '../../../public/Users/u5.jpg'
 import { AdsCarousel } from './Components/AdsCarousel'
 import axios from 'axios'
+import ContactUsPage from './Components/ContactUs'
 
 interface UserData {
     userId: string;
@@ -178,12 +179,13 @@ const Home = () => {
                 </div>
 
                 <div className="space" style={{ height: "150px" }}></div>
-                <div className="text-center mt-5  " data-aos="zoom-in-down">
-                    <h1 id='PT' className='display-2 '> [ Feedback session ]</h1>
+                <div className="text-center mt-5  " data-aos="zoom-in-down" id='cu'>
+                    <h1 id='PT' className='display-2 '> [ Contact Us ]</h1>
+                    <br /><br /><br />
                 </div>
                 <br /><br />
 
-                <Feedback />
+                <ContactUsPage />
 
             </div>
             <div className="space" style={{ height: "150px" }}></div>

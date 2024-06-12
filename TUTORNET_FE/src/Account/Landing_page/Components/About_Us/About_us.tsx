@@ -1,96 +1,121 @@
 // src/App.tsx
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-import leftImage from './HD-wallpaper-never-stop-learning-calm-positive-quotes-stay-word-thumbnail.jpg';
-import rightImage from './HD-wallpaper-never-stop-learning-calm-positive-quotes-stay-word-thumbnail.jpg';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import logo from '../../../../../public/logo/Tutor logo.png'; // Import the logo image
 
 // Global styles
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Oswald', sans-serif;
     color: #333;
-    background-color: #f5f5f5;
+    background-color: #fafafa;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+  }
+`;
+
+// Keyframes for animations
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 `;
 
 // Styled components
 const Container = styled.div`
   position: relative;
-  width: 55%; /* Decreased page width */
+  width: 80%;
   margin: 0 auto;
   padding: 20px;
+  animation: ${fadeIn} 1s ease-in;
 `;
 
 const Header = styled.header`
-  background-color: #004aad;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: #fff;
-  padding: 20px 0;
+  padding: 40px 0;
   text-align: center;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: ${fadeIn} 1.5s ease-in;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Logo = styled.img`
+  width: 120px; /* Adjust the width as needed */
+  height: auto;
+  margin-bottom: 20px;
 `;
 
 const Title = styled.h1`
   margin: 0;
-  font-size: 2.5em;
-  color: #f6921e; /* Added color */
+  font-size: 3em;
+  color: #fff;
 `;
 
 const SectionBox = styled.div`
   background-color: #fff;
-  padding: 20px;
+  padding: 30px;
   margin: 20px 0;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: ${fadeIn} 2s ease-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 const SubTitle = styled.h2`
-  color: #004aad;
-  font-size: 2em;
-  margin-bottom: 10px;
-  text-align: center; /* Center the subtitle */
+  color: #333;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-align: center;
+  animation: ${fadeIn} 2.5s ease-in;
 `;
 
 const Paragraph = styled.p`
   font-size: 1.2em;
-  line-height: 1.6;
+  line-height: 1.8;
+  color: #555;
+  animation: ${fadeIn} 3s ease-in;
 `;
 
 const List = styled.ul`
   list-style-type: disc;
   padding-left: 20px;
+  animation: ${fadeIn} 3.5s ease-in;
 `;
 
 const ListItem = styled.li`
   margin: 10px 0;
   font-size: 1.2em;
-  line-height: 1.6;
+  line-height: 1.8;
+  color: #555;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #333;
+  }
 `;
 
 const JoinUsSection = styled(SectionBox)`
-  background-color: #f6921e; /* Added color */
+  background: linear-gradient(135deg, #f6921e, #f8b500);
   color: #fff;
   text-align: center;
 `;
 
 const Strong = styled.strong`
   font-size: 1.5em;
-`;
-
-const LeftImage = styled.img`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 200px; /* Adjust size as needed */
-  height: auto;
-`;
-
-const RightImage = styled.img`
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 200px; /* Adjust size as needed */
-  height: auto;
+  color: #333;
 `;
 
 const AboutUs: React.FC = () => {
@@ -98,10 +123,10 @@ const AboutUs: React.FC = () => {
     <Container>
       <GlobalStyle />
       <Header>
+        <Logo src={logo} alt="TUTORNET Logo" /> {/* Add the logo here */}
         <Title>About Us</Title>
       </Header>
-      <LeftImage src={leftImage} alt="Left Image" />
-      <RightImage src={rightImage} alt="Right Image" />
+
       <SectionBox>
         <SubTitle>Our Mission</SubTitle>
         <Paragraph>
@@ -174,23 +199,11 @@ const AboutUs: React.FC = () => {
           </ListItem>
         </List>
       </SectionBox>
-      <JoinUsSection>
-        <SubTitle>Contact Us</SubTitle>
-        <Paragraph>
-          We invite you to join our growing community of students and educators. Whether you are a student looking for guidance or a teacher aiming to share your expertise, TUTORNET is here to support your educational journey.
-        </Paragraph>
-        <Paragraph>
-          Stay connected with us through our social media channels, [Social Media Links], or reach out to us at [Contact Information] for any inquiries or support.
-        </Paragraph>
-        <Paragraph>
-          <Strong>Get Started Today!</Strong> Sign up now and be part of an innovative platform designed to enhance education and foster a thriving learning community.
-        </Paragraph>
-      </JoinUsSection>
     </Container>
   );
 };
 
-const App: React.FC = () => {
+const About: React.FC = () => {
   return (
     <div>
       <GlobalStyle />
@@ -199,4 +212,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default About;
