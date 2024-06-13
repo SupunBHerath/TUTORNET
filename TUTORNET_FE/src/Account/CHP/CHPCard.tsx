@@ -1,41 +1,61 @@
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import 'bootstrap/dist/css/bootstrap.css'
-import { Color } from '../../Components/CSS/CSS';
 import RatingSize from '../../Components/Rating/Raating';
+import { Color } from '../../Components/CSS/CSS';
 
 export default function CHPCard(prop: any) {
-  return (
-    <div className="col-md-3   ">
-      <Card sx={{ maxWidth: 370 , borderRadius:20 ,minHeight:300,minWidth:300}} className='CHPCard mt-4 mx-auto  ' style={{borderColor:Color.PrimaryColor}}>
-        <CardMedia
-          sx={{ height: 250 }}
-          image={prop.image}
-          title="green iguana"
-          style={{backgroundPosition:'top'}}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div" className='text-center '>
-           {prop.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" className='text-center  '>
-           {prop.description}
-           
-           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"10px"}}> {/* Inline styles to center the RatingSize component */}
-          <RatingSize rating={prop.rating} />
-        </div>
-          </Typography>
-        </CardContent>
-        <CardActions className='justify-content-center '>
-     
-          <Button size="small" variant='outlined'>View</Button>
-        </CardActions>
-      </Card>
-    </div>
+  const cardStyles = {
+    maxWidth: 370,
+    borderRadius: 20,
+    minHeight: 300,
+    minWidth: 300,
+    borderColor: Color.PrimaryColor,
+    margin: 'auto',
+    marginTop: '1rem',
+    transition: 'transform 0.3s, box-shadow 0.3s', 
+    '&:hover': {
+      transform: 'scale(1.05)', 
+      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.15)', 
+    }
+  };
 
+  const mediaStyles = {
+    height: 250,
+    backgroundPosition: 'top'
+  };
+
+  const ratingContainerStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '10px'
+  };
+
+  return (
+    <Card sx={cardStyles}>
+      <CardMedia
+        sx={mediaStyles}
+        image={prop.image}
+        title="Profile Picture"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div" className='text-center'>
+          {prop.name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" className='text-center'>
+          {prop.description}
+          <div style={ratingContainerStyles}>
+            <RatingSize rating={prop.rating} />
+          </div>
+        </Typography>
+        <br />
+      </CardContent>
+      
+    </Card>
   );
 }
