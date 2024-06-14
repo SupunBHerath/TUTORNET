@@ -1,12 +1,9 @@
-import React from 'react';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import RatingSize from '../../Components/Rating/Raating';
 import { Color } from '../../Components/CSS/CSS';
+import { Typography } from '@mui/material';
 
 export default function CHPCard(prop: any) {
   const cardStyles = {

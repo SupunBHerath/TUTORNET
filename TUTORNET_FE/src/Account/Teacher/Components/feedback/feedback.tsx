@@ -1,11 +1,8 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
-import { Box, Typography, Grid, Paper, Avatar, Rating, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Alert } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Grid, Paper, Avatar, Rating, Alert, CircularProgress } from '@mui/material';
 import axios from 'axios';
-
-import { useParams } from 'react-router-dom';
 import useCookie from '../../../../Hook/UserAuth';
 import TimeDifference from '../../../../Components/TimeDifference/TimeDifference';
-
 
 interface FeedbackData {
     userName: string;
@@ -15,45 +12,51 @@ interface FeedbackData {
     teacherId: string;
     uploadedDay: string;
     teacherName: string;
- 
-
 }
 
 const Feedback: React.FC = () => {
     const { userData } = useCookie();
     const username = userData.username;
-   const id = userData.userId
+    const id = userData.userId;
     const [feedbackData, setFeedbackData] = useState<FeedbackData[]>([]);
-   
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchFeedback = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(`/feedback/${id}`);
                 setFeedbackData(response.data);
+                setLoading(false);
             } catch (error) {
-                <Alert severity="error">Error fetching feedback data</Alert>
+                console.error('Error fetching feedback data:', error);
+                setError('Error fetching feedback data');
+                setLoading(false);
             }
         };
 
         fetchFeedback();
-    }, []);
+    }, [id]);
 
-  
-  
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
 
-
-
+    if (error) {
+        return <Alert severity="error">{error}</Alert>;
+    }
 
     return (
-        <Box sx={{ padding: '20px', maxWidth: '1200px', margin: 'auto', backgroundColor: '#f9f9f9', borderRadius: '10px', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', height: 'auto', }}>
+        <Box sx={{ padding: '20px', maxWidth: '1200px', margin: 'auto', backgroundColor: '#f9f9f9', borderRadius: '10px', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', height: 'auto' }}>
             <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', fontFamily: 'Oswald', color: '#333' }}>
                 User Feedback
             </Typography>
 
-            <Box sx={{ textAlign: 'center', marginTop: '20px', marginBottom: '30px' }}>
-              
-            </Box>
             <Grid container spacing={4}>
                 {feedbackData.map((feedback, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
@@ -69,8 +72,6 @@ const Feedback: React.FC = () => {
                     </Grid>
                 ))}
             </Grid>
-
-        
         </Box>
     );
 };

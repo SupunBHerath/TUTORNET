@@ -22,8 +22,6 @@ import axios from 'axios';
 import useCookie from '../../../../Hook/UserAuth';
 import TimeDifference from '../../../../Components/TimeDifference/TimeDifference';
 import { LinearProgress } from '@mui/material';
-import { color } from 'html2canvas/dist/types/css/types/color';
-import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
 import { Font } from '../../../../Components/CSS/CSS';
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -69,7 +67,8 @@ const PostTeacher: React.FC = () => {
             try {
                 const response = await axios.get(`/post/${userData.userId}`);
                 if (response.status === 200) {
-                    setPosts(response.data);
+                    const reversedData = response.data.reverse();
+                    setPosts(reversedData);
                     
                 }
             } catch (err) {

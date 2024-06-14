@@ -5,6 +5,11 @@ import Post from '../../Post/Post';
 import { useParams } from 'react-router-dom';
 import TimeDifference from '../../TimeDifference/TimeDifference';
 
+interface Teacher {
+  username: string;
+  profileImage: string;
+}
+
 interface PostData {
   userId: string;
   _id: string;
@@ -15,7 +20,7 @@ interface PostData {
   description: string;
   uploadedDay: string;
   profileImage: string;
-
+  teacher: Teacher;
 }
 
 const TemPost: React.FC = () => {
@@ -28,8 +33,7 @@ const TemPost: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get<PostData[]>(`/post/${id}`);
-        console.log(response.data);
-        setPostData(response.data);
+        setPostData(response.data.reverse());
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -38,24 +42,20 @@ const TemPost: React.FC = () => {
     };
 
     fetchData();
-  }, [isLoading]);
+  }, [id]);
 
   return (
     <div>
       {isLoading ? (
-        <>
-        
-          <Facebook />
-        </>
-
+        <Facebook />
       ) : (
-        postData.map((post, index) => (
+        postData.map((post) => (
           <Post
-            key={index}
-            pp={post.profileImage}
+            key={post._id}
+            pp={post.teacher.profileImage}
             img={post.image}
-            title={post.username}
-            date={<TimeDifference time={post.uploadedDay}/>}
+            title={post.teacher.username}
+            date={<TimeDifference time={post.uploadedDay} />}
             description={post.description}
           />
         ))

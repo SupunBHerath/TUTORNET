@@ -4,14 +4,11 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AddCommentRoundedIcon from '@mui/icons-material/AddCommentRounded';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -63,14 +60,14 @@ export default function Post(props:any) {
             {props.description}
         </Typography>
       </CardContent>
-      <CardMedia
+      <CardMedia className='p-3'
         component="img"
         height="auto"
         image={props.img}
       
       />
      
-      <CardActions disableSpacing>
+      {/* <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
@@ -79,7 +76,7 @@ export default function Post(props:any) {
         </IconButton>
        
       </CardActions>
-      
+       */}
     </Card>
   );
 }

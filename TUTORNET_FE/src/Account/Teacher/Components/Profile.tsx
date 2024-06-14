@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, Button, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton, Divider, useMediaQuery, CircularProgress, Alert } from '@mui/material';
+import { Grid, Typography, Button, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton, Divider, useMediaQuery, CircularProgress, Alert, Box, Rating } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import useCookie from '../../../Hook/UserAuth';
 import axios from 'axios';
+import { Font } from '../../../Components/CSS/CSS';
 
 const Profile: React.FC = () => {
   const { userData } = useCookie();
@@ -19,7 +20,8 @@ const Profile: React.FC = () => {
   const [newOccupation, setNewOccupation] = useState("");
   const [newProfilePicture, setNewProfilePicture] = useState<File | null>(null);
   const [newCoverPhoto, setNewCoverPhoto] = useState<File | null>(null);
-
+  const [currentRating, setCurrentRating] = useState<number | null>(null);
+  const [ratingLoading, setRatingLoading] = useState(false);
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -36,6 +38,8 @@ const Profile: React.FC = () => {
       try {
         setLoading(true);
         const response = await axios.get(`teacher/${userData.userId}`);
+        const ratingResponse = await axios.get(`feedback/rating/${userData.userId}`);
+        setCurrentRating(ratingResponse.data.userTotalRatings);
         const data = response.data;
         setName(data.name);
         setOccupation(data.subject);
@@ -112,7 +116,7 @@ const Profile: React.FC = () => {
       setNewCoverPhoto(event.target.files[0]);
     }
   };
-  
+
   const blockNumericInput = (e: any) => {
     const charCode = e.which ? e.which : e.keyCode;
     if ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105)) {
@@ -137,6 +141,7 @@ const Profile: React.FC = () => {
               border: '2px solid #fff',
             }}
           />
+        
           <Button
             variant="contained"
             color="primary"
@@ -148,8 +153,13 @@ const Profile: React.FC = () => {
           </Button>
         </Grid>
         <Grid item xs={12} alignItems="center" style={{ textAlign: 'center', marginTop: isSmallScreen ? 70 : 30, marginLeft: isSmallScreen ? 0 : 130 }}>
-          <Typography variant="h3">{name}</Typography>
-          <Typography variant="h4">{occupation}</Typography>
+          <Typography variant="h3" style={{fontFamily:Font.PrimaryFont}}>{name}</Typography>
+          <Typography variant="h4" style={{fontFamily:Font.PrimaryFont,color:'#0019'}}>{occupation}</Typography>
+          {currentRating !== null && (
+            <Box sx={{ marginTop: 2 }}>
+              <Rating name="read-only" value={currentRating} readOnly />
+            </Box>
+          )}
         </Grid>
       </Grid>
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>

@@ -4,16 +4,16 @@ const jwt = require('jsonwebtoken');
 const FeedBack = require('../modules/feedback');
 const controller = require('../controller/feedBackController');
 
-module.exports.all = async(req , res )=>{
-    try{
-      const feedback = await FeedBack.find();
-      res.status(200).json(feedback);
-    }catch{
-    console.error(error);
+module.exports.all = async (req, res) => {
+    try {
+        const feedback = await FeedBack.find();
+        res.status(200).json(feedback);
+    } catch {
+        console.error(error);
     }
-}; 
+};
 
-module.exports.post =  async (req , res) => {
+module.exports.post = async (req, res) => {
     const feedback = new FeedBack({
         teacherName: req.body.teacherName,
         userName: req.body.userName,
@@ -21,9 +21,9 @@ module.exports.post =  async (req , res) => {
         rating: req.body.rating,
         avatarUrl: req.body.avatarUrl,
         teacherId: req.body.teacherId,
-        status:'Visible'
+        status: 'Visible'
     });
-console.log(feedback);
+    console.log(feedback);
     try {
         const newFeedback = await feedback.save();
         res.status(201).json(newFeedback);
@@ -31,7 +31,7 @@ console.log(feedback);
         res.status(400).json({ message: error.message });
     }
 }
-module.exports.get =  async (req , res) => {
+module.exports.get = async (req, res) => {
     try {
         const feedback = await FeedBack.find({ teacherId: req.params.id, status: 'Visible' }).sort({ uploadedDay: -1 });
         res.status(200).json(feedback);
@@ -40,6 +40,29 @@ module.exports.get =  async (req , res) => {
         res.status(500).json({ error: error.message || 'Internal Server Error' });
     }
 }
+module.exports.userRatingPercentage = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+
+        const allFeedback = await FeedBack.find();
+        let totalRating = 0;
+        allFeedback.forEach(rating => {
+            totalRating += rating.rating;
+        });
+        const userFeedback = await FeedBack.find({ teacherId: id });
+        let userRating = 0;
+        userFeedback.forEach(rating => {
+            userRating += rating.rating;
+        });
+        const userTotalRating = (userRating / totalRating)*10;
+        res.status(200).json({ totalRatings: totalRating, userTotalRatings: userTotalRating});
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message || 'Internal Server Error' });
+    }
+};
 
 module.exports.update = async (req, res) => {
     const { id } = req.params;
@@ -60,7 +83,7 @@ module.exports.update = async (req, res) => {
         console.error('Error updating document', err);
         res.status(500).send('Internal server error');
     }
-  };
+};
 module.exports.Delete = async (req, res) => {
     const { id } = req.params;
 
@@ -76,4 +99,4 @@ module.exports.Delete = async (req, res) => {
         console.error('Error updating document', err);
         res.status(500).send('Internal server error');
     }
-  };
+};

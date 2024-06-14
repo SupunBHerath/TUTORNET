@@ -10,6 +10,7 @@ import './Top.css';
 import { Color } from '../../../../Components/CSS/CSS';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Box, Rating } from '@mui/material';
 
 interface Teacher {
     _id: string;
@@ -18,6 +19,7 @@ interface Teacher {
     profileLink: string;
     profilePicture: string;
     classType: string;
+    rating: number;
 }
 
 const SearchBar: React.FC<{ onSearch: (search: { name: string; subject: string; classType: string }) => void }> = ({ onSearch }) => {
@@ -70,16 +72,21 @@ const SearchBar: React.FC<{ onSearch: (search: { name: string; subject: string; 
 const TeacherProfile: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
     return (
         <div className="teacher-card">
-        <Avatar alt={teacher.name} src={teacher.profilePicture} sx={{ width: 150, height: 150 }} />
-        <div className="teacher-info">
-          <h2>{teacher.name}</h2>
-          <p>Subject: {teacher.subject}</p>
-          <p>Class Type: {teacher.classType}</p>
+            <Avatar alt={teacher.name} src={teacher.profilePicture} sx={{ width: 150, height: 150 }} className='border border-dark' />
+            <div className="teacher-info">
+                <h2><span style={{ color: Color.PrimaryColor }}>{teacher.name}</span></h2>
+                <p>Subject: <span style={{ color: Color.SecondaryColor }}>{teacher.subject}</span></p>
+                <p>Class Type: <span style={{ color: Color.SecondaryColor }}>{teacher.classType}</span></p>
+                {teacher.rating !== null && (
+                    <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+                        <Rating name="read-only" value={teacher.rating} readOnly />
+                    </Box>
+                )}
+            </div>
+            <div className="profile-link text-center">
+                <Link to={`teacher/${teacher._id}/&${encodeURIComponent(teacher.name)}`}>View Profile</Link>
+            </div>
         </div>
-        <div className="profile-link">
-          <Link to={`teacher/${teacher._id}/&${encodeURIComponent(teacher.name)}`}>View Profile</Link>
-        </div>
-      </div>
     );
 };
 
@@ -104,14 +111,22 @@ const TopTeachers: React.FC = () => {
             try {
                 const response = await axios.get('/teacher/all');
                 if (response.status === 200) {
-                    const teachersData: Teacher[] = response.data.map((teacher: any) => ({
-                        _id: teacher._id,
-                        name: teacher.name,
-                        subject: teacher.subject,
-                        profileLink: teacher.profileLink || "/teacher" + teacher._id,
-                        profilePicture: teacher.profilePicture || "https://via.placeholder.com/150",
-                        classType: teacher.classType,
-                    }));
+                    const teachersData: Teacher[] = await Promise.all(
+                        response.data.map(async (teacher: any) => {
+                            const ratingResponse = await axios.get(`feedback/rating/${teacher._id}`);
+                            return {
+                                _id: teacher._id,
+                                name: teacher.name,
+                                subject: teacher.subject,
+                                profileLink: teacher.profileLink || `/teacher/${teacher._id}`,
+                                profilePicture: teacher.profilePicture || "https://via.placeholder.com/150",
+                                classType: teacher.classType,
+                                rating: ratingResponse.data.userTotalRatings || 0,
+                            };
+                        })
+                    );
+                    // Sort teachers by rating in descending order
+                    teachersData.sort((a, b) => b.rating - a.rating);
                     setAllTeachers(teachersData);
                     setFilteredTeachers(teachersData);
                 } else {
@@ -139,7 +154,7 @@ const TopTeachers: React.FC = () => {
     };
 
     if (loading) {
-        return <div className="loading-spinner"><CircularProgress /></div>;
+        return <CircularProgress />;
     }
 
     if (error) {

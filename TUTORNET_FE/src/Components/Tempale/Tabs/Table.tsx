@@ -1,9 +1,9 @@
-import React from 'react'
+import VTimeTable from '../Components/VTimeTable'
 
 const Table = () => {
   return (
     <div>
-      
+      <VTimeTable/>
     </div>
   )
 }

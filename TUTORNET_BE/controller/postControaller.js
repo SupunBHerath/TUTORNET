@@ -1,4 +1,5 @@
 const Post = require('../modules/post.js');
+const Teacher = require('../modules/teacher.js');
 const dotenv = require('dotenv');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
@@ -36,18 +37,16 @@ const post = async (req, res) => {
       const result = await cloudinary.uploader.upload(req.file.path);
 
       const newPost = new Post({
-        profileImage: req.body.profileImage,
         uploadImageId: result.public_id,
         userId: req.body.userId,
         title: req.body.title,
-        username: req.body.username,
         image: result.secure_url,
         description: req.body.description,
         status: req.body.status || 'visible',
       });
 
       const savedPost = await newPost.save();
-
+     
       res.status(201).json({ message: 'Successfully uploaded post', data: savedPost });
     });
   } catch (error) {
@@ -58,18 +57,44 @@ const post = async (req, res) => {
 
 const all = async (req, res) => {
   try {
+    // Fetch all posts
     const posts = await Post.find();
-    res.status(200).json(posts);
+
+    // Fetch teacher details for each post's userId
+    const response = await Promise.all(posts.map(async (post) => {
+      const teacher = await Teacher.findById(post.userId);
+      return {
+        ...post.toObject(),
+        teacher: {
+          username: teacher.name,
+          profileImage: teacher.profilePicture,
+        },
+      };
+    }));
+
+    res.status(200).json(response);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message || 'Internal Server Error' });
   }
 };
 
+
 const owersData = async (req, res) => {
   try {
     const posts = await Post.find({ userId: req.params.id });
-    res.status(200).json(posts);
+    const response = await Promise.all(posts.map(async (post) => {
+      const teacher = await Teacher.findById(post.userId);
+      return {
+        ...post.toObject(),
+        teacher: {
+          username: teacher.name,
+          profileImage: teacher.profilePicture,
+        },
+      };
+    }));
+    res.status(200).json(response);
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message || 'Internal Server Error' });
