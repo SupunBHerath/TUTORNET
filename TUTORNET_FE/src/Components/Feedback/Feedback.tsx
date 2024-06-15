@@ -27,7 +27,7 @@ export const Feedback = () => {
             className="col-lg-6 rounded-1 m-0 p-0 overflow-hidden shadow-lg "
             data-aos="fade-left"
           >
-            <div className="youtube-iframe embed-responsive embed-responsive-1by1 justify-content-center  ">
+            <div className=" justify-content-center  ">
               <div className="image">
                 <img src={image} alt="" style={{ width: '100%', height: 'auto' }} />
               </div>

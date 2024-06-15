@@ -47,6 +47,7 @@ const App = () => {
           <Route index element={<StudentHome />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="Ads" element={<AdsWall />} />
           <Route path="feedback" element={<FeedbackPage />} />
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
         </Route>
@@ -62,6 +63,7 @@ const App = () => {
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
           <Route path="feedback" element={<FeedbackPage />} />
           <Route path="profile" element={<TecherHome />} />
+          <Route path="Ads" element={<AdsWall />} />
           <Route path="search" element={<SearchPageT />} />
         </Route>
 

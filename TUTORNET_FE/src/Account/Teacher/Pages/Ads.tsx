@@ -1,11 +1,16 @@
 import AdDescription from '../../Admin/Components/AddAds/AdDescription'
+import AdsWall from '../../Admin/Components/AdsWall/AdsWall'
+import LabTabs from './LabTab'
 
 
 const Ads = () => {
   return (
     <div>
       <br /><br /><br />
-      <AdDescription/>
+      <LabTabs/>
+      {/* <AdDescription/> */}
+
+      {/* <AdsWall/> */}
     </div>
   )
 }

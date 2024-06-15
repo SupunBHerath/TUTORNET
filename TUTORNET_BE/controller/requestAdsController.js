@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const Ads = require('../modules/requestAds');
+const Teacher = require('../modules/teacher.js')
 const router = express.Router();
 const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
@@ -51,7 +52,6 @@ router.post('/', upload.fields([{ name: 'ads' }, { name: 'rec' }]), async (req, 
         const adsResult = await cloudinary.uploader.upload(ads[0].path);
         const recResult = await cloudinary.uploader.upload(rec[0].path);
 
-        // Save data to MongoDB
         const newAd = new Ads({
             userId,
             ads: adsResult.secure_url, 
@@ -71,8 +71,10 @@ router.post('/', upload.fields([{ name: 'ads' }, { name: 'rec' }]), async (req, 
 
 router.route('/all').get((req, res) => {
     Ads.find()
+        .populate('userId', 'name profilePicture email')
         .then(data => {
-            res.json(data);
+            res.status(201).json(data);
+            console.log(data);
         })
         .catch(err => {
             console.error(err);
@@ -83,6 +85,7 @@ router.route('/all').get((req, res) => {
 router.put('/update', async (req, res) => {
     try {
       const updates = req.body;
+      const _id  = req.params.id;
   
       
       const updatePromises = updates.map(async (update) => {
@@ -97,6 +100,23 @@ router.put('/update', async (req, res) => {
       }
   
       res.json(updatedDocs);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  router.put('/status/update/:id', async (req, res) => {
+    try {
+      const { status2 } = req.body;
+      const _id = req.params.id;
+  
+      const updatedAd = await Ads.findByIdAndUpdate(_id, { status2 }, { new: true });
+  
+      if (!updatedAd) {
+        return res.status(404).json({ error: 'Advertisement not found' });
+      }
+  
+      res.status(200).json(updatedAd);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Internal Server Error' });

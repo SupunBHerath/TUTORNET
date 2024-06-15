@@ -20,7 +20,7 @@ import { logout } from '../../../../Hook/Logout';
 const pages = [
   { name: 'Home', path: '/teacher' },
   { name: 'Search ', path: '/teacher/search' },
-  { name: 'Ads', path: '/teacher/Ads' },
+  { name: 'Advertise', path: '/teacher/Ads' },
   { name: 'About us', path: '/teacher/about' }
 ];
 
@@ -111,7 +111,6 @@ function Navi_Bar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -128,7 +127,8 @@ function Navi_Bar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+           TUTOR<span style={{ color: Color.SecondaryColor }}>NET</span>
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

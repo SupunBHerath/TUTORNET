@@ -155,16 +155,16 @@ const Home = () => {
                 <div className="space" style={{ height: "150px" }}></div>
                 <AdsCarousel />
                 <div className="Comment_session d-none d-lg-block">
-                    <div className="space" style={{ height: "150px" }}></div>
+                    {/* <div className="space" style={{ height: "150px" }}></div>
 
                     <div className="text-center mt-5" data-aos="zoom-in-down">
                         <h1 id="PT" className="display-2">
                             [ User Comment ]
                         </h1>
                     </div>
-                    <br />
-                    <br />
-                    <div className="commentSession">
+                    <br /> */}
+                    {/* <br /> */}
+                    {/* <div className="commentSession">
                         <div id="carouselExampleInterval" className="carousel slide" data-bs-ride="carousel">
                             <div className="carousel-inner">
                                 <div className="carousel-item active" data-bs-interval="8000">
@@ -191,7 +191,7 @@ const Home = () => {
                                 <span className="visually-hidden">Next</span>
                             </button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="space" style={{ height: "150px" }}></div>

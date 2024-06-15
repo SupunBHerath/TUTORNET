@@ -21,5 +21,5 @@ const ads = new Schema({
 
 });
 
-const Ads =mongoose.model('Ads',ads) ;
+const Ads =mongoose.model('Ads2',ads) ;
 module.exports = Ads;

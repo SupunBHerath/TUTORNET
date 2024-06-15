@@ -3,7 +3,6 @@ import AdCard from './AdCard';
 import { Grid, Box } from '@mui/material';
 import axios from 'axios';
 import TimeDifference from '../../../../Components/TimeDifference/TimeDifference';
-import Facebook from '../../../../Components/LodingPost/LodingPost';
 
 interface Ad {
   title: string;
@@ -12,6 +11,7 @@ interface Ad {
   link: string;
   location: string;
   uploadedDay: string;
+  status: string;
 }
 
 const AdsWall: React.FC = () => {
@@ -21,18 +21,21 @@ const AdsWall: React.FC = () => {
     const fetchAds = async () => {
       try {
         const response = await axios.get('/ads/all'); 
-        const filteredAds = response.data.reverse();
+        const filteredAds = response.data.filter((ad:Ad) => ad.status === 'running').reverse();
         setAds(filteredAds);
         console.log(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);
       }
     };
-
+  
     fetchAds();
   }, []);
+  
 
   return (
+    <>
+    <br /><br />
     <Box sx={{ padding: 4 }}>
       <Grid container spacing={2} justifyContent="center">
 
@@ -48,6 +51,7 @@ const AdsWall: React.FC = () => {
         ))}
       </Grid>
     </Box>
+    </>
   );
 };
 

@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const reqAdsSchema = new Schema({
-    userId: {
-      type: String,
-      required: true 
-    },
+  userId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
     payDay: {
       type: String,
       required: true 
@@ -35,9 +32,15 @@ const reqAdsSchema = new Schema({
     status: {
       type: String,
       required: true,
-      default: "pending" 
+      default: "Pending" 
+    },
+   
+    status2: {
+      type: String,
+      required: true,
+      default: "Running"  
     }
 });
 
-const ReqAds = mongoose.model('ReqAds', reqAdsSchema);
+const ReqAds = mongoose.model('Advertise', reqAdsSchema);
 module.exports = ReqAds;

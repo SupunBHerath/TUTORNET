@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Box, Button, Card, CardContent, Grid, MenuItem, TextField, Typography, InputAdornment } from '@mui/material';
+import { Alert, Box, Button, Card, CardContent, Grid, MenuItem, TextField, Typography, InputAdornment, CircularProgress } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import useCookie from '../../../../Hook/UserAuth';
+import axios from 'axios';
 
 const AddAdsFormTeacher = () => {
     const { userData } = useCookie();
@@ -15,21 +16,20 @@ const AddAdsFormTeacher = () => {
     const [error, setError] = useState(false);
     const [payDay, setPayDay] = useState<string>('');
     const [payment, setPayment] = useState<number | ''>('');
-   
-
+    const [loading, setLoading] = useState(false); // Loading state
 
     const getCurrentDate = () => {
         const currentDate = new Date();
         const maxDate = new Date(currentDate);
-        maxDate.setDate(currentDate.getDate()-14 ); 
-        return maxDate.toISOString().split('T')[0]; 
+        maxDate.setDate(currentDate.getDate() - 14);
+        return maxDate.toISOString().split('T')[0];
     };
-    
+
     const getMaxDate = () => {
         const currentDate = new Date();
         const maxDate = new Date(currentDate);
-        maxDate.setDate(currentDate.getDate() ); 
-        return maxDate.toISOString().split('T')[0];   
+        maxDate.setDate(currentDate.getDate());
+        return maxDate.toISOString().split('T')[0];
     };
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const AddAdsFormTeacher = () => {
             setUploadeAds(file);
         }
     };
-    const handleReceipt= (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleReceipt = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         setError(false);
         if (file) {
@@ -67,12 +67,8 @@ const AddAdsFormTeacher = () => {
         }
     };
 
-   
-
     const handlePayDayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      // Set maximum date to 15 days in the futur
-            setPayDay(event.target.value);
-        
+        setPayDay(event.target.value);
     };
 
     const handleClick = () => {
@@ -87,6 +83,7 @@ const AddAdsFormTeacher = () => {
     };
 
     const handleSubmit = async () => {
+        setLoading(true);
         try {
             const formData = new FormData();
             formData.append('ads', uploadedAds!);
@@ -96,12 +93,8 @@ const AddAdsFormTeacher = () => {
             formData.append('payDay', payDay);
             formData.append('payment', payment.toString());
 
-            const response = await fetch('https://tutornet-5v7a-supunbheraths-projects.vercel.app/reqads', {
-                method: 'POST',
-                body: formData
-            });
-            if (response.ok) {
-                // const mail = await fetch('http://localhost:8080/mail/submit', { method: 'POST' ,body:formData});
+            const response = await axios.post('/ads', formData);
+            if (response.status === 201) {
                 setSuccess(true);
                 setError(false);
                 setTimeout(() => {
@@ -115,6 +108,8 @@ const AddAdsFormTeacher = () => {
         } catch (error) {
             console.error('Error submitting form:', error);
             setError(true);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -131,18 +126,17 @@ const AddAdsFormTeacher = () => {
     });
 
     return (
-        <Box className='' sx={{ display: 'flex', justifyContent: 'center',  width: 'max-content ' }} >
+        <Box className='' sx={{ display: 'flex', justifyContent: 'center', width: 'max-content ' }} >
             <Card sx={{ width: 'max-content ', maxWidth: 400, height: 'auto' }}>
                 <CardContent>
                     <Typography variant="h5" gutterBottom style={{ fontFamily: Font.PrimaryFont }} className='text-center '>
                         Add New Advertisement
-                        
+
                     </Typography>
-                    <div className="alet " style={{height:'58px'}}>
-                    {success && <Alert severity="success">Form submitted successfully.</Alert>}
-                    {error && <Alert severity="error">Failed to submit form.</Alert>}
+                    <div className="alet " style={{ height: '58px' }}>
+                        {success && <Alert severity="success">Form submitted successfully.</Alert>}
+                        {error && <Alert severity="error">Failed to submit form.</Alert>}
                     </div>
-                  
 
                     <Box component="form" noValidate autoComplete="off">
                         <Grid container spacing={3}>
@@ -186,12 +180,12 @@ const AddAdsFormTeacher = () => {
                                     fullWidth
                                     InputLabelProps={{ shrink: true }}
                                     inputProps={{
-                                        min: getCurrentDate(), // Call a function to get the current date
-                                        max: getMaxDate(),     // Call a function to get the maximum allowed date
+                                        min: getCurrentDate(),
+                                        max: getMaxDate(),
+                                      
                                     }}
                                 />
                             </Grid>
-                          
                             <Grid item xs={6}>
                                 <div
                                     style={{
@@ -214,7 +208,7 @@ const AddAdsFormTeacher = () => {
                                             <CloudUploadIcon
                                                 style={{ fontSize: 48, marginBottom: '8px' }}
                                             />
-                                            <p>Upload <span style={{color:Color.PrimaryColor}}>Receipt</span></p>
+                                            <p>Upload <span style={{ color: Color.PrimaryColor }}>Receipt</span></p>
                                         </>
                                     )}
                                 </div>
@@ -246,7 +240,7 @@ const AddAdsFormTeacher = () => {
                                             <CloudUploadIcon
                                                 style={{ fontSize: 48, marginBottom: '8px' }}
                                             />
-                                                <p>Upload <span style={{color:Color.PrimaryColor}}>Ads</span></p>
+                                            <p>Upload <span style={{ color: Color.PrimaryColor }}>Ads</span></p>
                                         </>
                                     )}
                                 </div>
@@ -261,11 +255,11 @@ const AddAdsFormTeacher = () => {
                             variant="contained"
                             color="primary"
                             onClick={handleSubmit}
-                            disabled={!uploadedRec ||!uploadedAds || !locationFilter || !payDay || payment === ''}
+                            disabled={loading || !uploadedRec || !uploadedAds || !locationFilter || !payDay || payment === ''}
                             sx={{ mt: 3 }}
                             fullWidth
                         >
-                            Submit
+                            {loading ? <CircularProgress size={24} color="inherit" /> : 'Submit'}
                         </Button>
                     </Box>
                 </CardContent>
