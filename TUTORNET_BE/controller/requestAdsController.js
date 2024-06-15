@@ -8,7 +8,6 @@ const fs = require('fs');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const nodemailer = require('nodemailer');
-const { log } = require('console');
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);

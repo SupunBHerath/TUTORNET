@@ -24,8 +24,8 @@ import About from './Account/Landing_page/Components/About_Us/About_us';
 import FeedbackPage from './Pages/FeedbackPage';
 
 const App = () => {
-  // axios.defaults.baseURL = 'http://localhost:8080/'
-  axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+  axios.defaults.baseURL = 'http://localhost:8080/'
+  // axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
 
   return (
     <div>
