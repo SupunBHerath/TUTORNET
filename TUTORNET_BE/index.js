@@ -2,7 +2,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser'); // json format eken ena eka javascript object ekak bawat convert krna eka
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 require("dotenv").config();
 const app = express();
@@ -14,11 +14,10 @@ const ads = require('./router/uploadImage.js');
 const reqads = require('./controller/requestAdsController.js');
 const validate = require('./router/validate.js');
 const post = require('./router/postRoute.js');
-const mail = require('./Mail/adsSubmit.js');
 const path =    require('path');
 const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
-const Ads = require('./router/ads.js');
+// const Ads = require('./router/ads.js');
 const webfeedbaack = require('./router/webFeedbackRoute.js');
 
 const FP = require('./router/ForgotpasswordRoute.js');
@@ -42,7 +41,6 @@ app.get('/', (req, res) => {
 /** api routers  */
 app.use('/api',router)
 app.use('/teacher',teacher)
-
 app.use('/student',Student)
 app.use('/admin',admin)
 app.use('/webfeedbaack',webfeedbaack)
@@ -52,8 +50,6 @@ app.use('/post',post)
 app.use('/feedback',feedBack)
 app.use('/subject',Subject)
 app.use('/otp',FP)
-//mail
-app.use('/mail',mail)
 
 app.use('/uploads', express.static(path.join(__dirname)));
 const URL = process.env.MONGODB_URL
