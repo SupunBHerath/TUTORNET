@@ -7,11 +7,11 @@ import TimeDifference from '../../../../Components/TimeDifference/TimeDifference
 interface Ad {
   title: string;
   description: string;
-  image: string;
+  ads: string;
   link: string;
   location: string;
   uploadedDay: string;
-  status: string;
+  status2: string;
 }
 
 const AdsWall: React.FC = () => {
@@ -21,7 +21,7 @@ const AdsWall: React.FC = () => {
     const fetchAds = async () => {
       try {
         const response = await axios.get('/ads/all'); 
-        const filteredAds = response.data.filter((ad:Ad) => ad.status === 'running').reverse();
+        const filteredAds = response.data.filter((ad:Ad) => ad.status2 === 'Running').reverse();
         setAds(filteredAds);
         console.log(filteredAds);
       } catch (error) {
@@ -44,7 +44,7 @@ const AdsWall: React.FC = () => {
             <AdCard
               title={ad.title}
               description={<TimeDifference time={ad.uploadedDay} />}
-              imageUrl={ad.image}
+              imageUrl={ad.ads}
               link={ad.link}
             />
           </Grid>

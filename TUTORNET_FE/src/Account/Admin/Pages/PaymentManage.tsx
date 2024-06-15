@@ -14,7 +14,7 @@ const PaymentManage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('reqads/Done');
+        const response = await axios.get('ads/Done');
         if (response.status === 200) {
           const data = response.data;
           let totalRevenue = 0; 

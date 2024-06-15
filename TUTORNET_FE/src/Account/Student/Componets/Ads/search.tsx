@@ -6,14 +6,15 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import CircularProgress from '@mui/material/CircularProgress';
 import Fade from '@mui/material/Fade';
 import axios from 'axios';
+import log from '../../../../../public/logo/Tutor logo.png'
 
 interface Ad {
   image: string;
   location: string;
   uploadedDay: string;
+  status2: string;
   _id: string;
   __v: number;
 }
@@ -44,10 +45,7 @@ function AdsSearch() {
     const fetchAds = async () => {
       try {
         const response = await axios.get('/ads/all');
-        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Search Page');
-      
-        
-        
+        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Search Page' && ad.status2 === 'Running');
         setAds(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);
@@ -92,7 +90,23 @@ function AdsSearch() {
           overflow: 'hidden',
         }}
       >
-        {loading && <CircularProgress />}
+        {loading && 
+          <Fade in={loading} timeout={500}>
+          <Box
+            component="img"
+            sx={{
+              height: '100%',
+              width: '100%',
+              maxHeight: 400,
+              maxWidth: 600,
+              objectFit: 'cover',
+              display: !loading ? 'none' : 'block',
+            }}
+            src={log}
+            alt={`Advertisement ${activeStep + 1}`}
+          />
+        </Fade>
+        }
         <Fade in={!loading} timeout={500}>
           <Box
             component="img"

@@ -181,7 +181,7 @@ const PaymentTable: React.FC = () => {
           throw new Error('Network response was not ok');
         }
 
-        const data = response.data;
+        const data = response.data.reverse();
         console.log(data);
 
         setRows(data);

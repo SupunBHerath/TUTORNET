@@ -9,10 +9,13 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fade from '@mui/material/Fade';
 import axios from 'axios';
+import { Color, Font } from '../../../Components/CSS/CSS';
+import { useNavigate } from 'react-router-dom';
 
 interface Ad {
-  image: string;
+  ads: string;
   location: string;
+  status2: string;
   uploadedDay: string;
   _id: string;
   __v: number;
@@ -24,7 +27,11 @@ function Ads() {
   const [loading, setLoading] = React.useState(true);
   const [ads, setAds] = React.useState<Ad[]>([]);
   const maxSteps = ads.length;
+  const navigate = useNavigate()
 
+  const next = () =>{
+    navigate('/Ads')
+  }
   const handleNext = () => {
     setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
   };
@@ -43,8 +50,10 @@ function Ads() {
   React.useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await axios.get('/ads/all'); 
-        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Landing Page');
+        const response = await axios.get('/ads/all');
+        const filteredAds = response.data.filter((ad: Ad) => ad.status2 === 'Running' && ad.location === 'Landing Page').reverse();
+        console.log(filteredAds);
+
         setAds(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);
@@ -58,7 +67,7 @@ function Ads() {
     if (ads.length > 0) {
       setLoading(true);
       const img = new Image();
-      img.src = ads[activeStep]?.image;
+      img.src = ads[activeStep]?.ads;
       img.onload = () => setLoading(false);
     }
   }, [activeStep, ads]);
@@ -98,10 +107,10 @@ function Ads() {
               width: '100%',
               maxHeight: 400,
               maxWidth: 600,
-              objectFit: 'cover',
+              objectFit: 'content',
               display: loading ? 'none' : 'block',
             }}
-            src={ads[activeStep]?.image}
+            src={ads[activeStep]?.ads}
             alt={`Advertisement ${activeStep + 1}`}
           />
         </Fade>
@@ -121,6 +130,10 @@ function Ads() {
           </Button>
         }
       />
+      <div className="d-flex justify-content-center">
+        <Button variant='outlined' style={{ color: Color.PrimaryColor, fontFamily: Font.PrimaryFont }} onClick={next}>More Advertise </Button>
+
+      </div>
     </Box>
   );
 }

@@ -26,7 +26,7 @@ const AdsChart: React.FC = () => {
     try {
       const response = await axios.get<PostData[]>('ads/all');
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         const postData = processPostData(response.data);
         console.log("dddd");
         
