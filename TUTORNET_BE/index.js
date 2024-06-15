@@ -10,16 +10,13 @@ const router = require('./router/router.js')
 const teacher = require('./router/teacherRouter.js');
 const Student = require('./router/student.js');
 const admin = require('./router/admin.js');
-const ads = require('./router/uploadImage.js');
 const reqads = require('./controller/requestAdsController.js');
 const validate = require('./router/validate.js');
 const post = require('./router/postRoute.js');
 const path =    require('path');
 const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
-// const Ads = require('./router/ads.js');
 const webfeedbaack = require('./router/webFeedbackRoute.js');
-
 const FP = require('./router/ForgotpasswordRoute.js');
 
 
