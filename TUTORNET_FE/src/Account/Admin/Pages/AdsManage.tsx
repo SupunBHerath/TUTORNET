@@ -9,6 +9,8 @@ import axios from 'axios';
 
 interface Ad {
   location: string;
+  status2: string;
+  status: string;
 }
 
 const AdsManagePage: React.FC = () => {
@@ -30,9 +32,9 @@ const AdsManagePage: React.FC = () => {
     <div>
       <div className="AdsManage">
         <div className="d-flex AdsCountCard justify-content-evenly ">
-          <HeaderCard icon={landingIcon} title="Landing" count={rows.filter(ad => ad.location === 'Landing Page').length} />
-          <HeaderCard icon={Wall} title="Wall" count={rows.filter(ad => ad.location === 'Wall Page').length} />
-          <HeaderCard icon={search} title="Searcher" count={rows.filter(ad => ad.location === 'Search Page').length} />
+          <HeaderCard icon={landingIcon} title="Landing" count={rows.filter(ad => ad.location === 'Landing Page' && ad.status2==='Running' && ad.status==='Done' ).length} />
+          <HeaderCard icon={Wall} title="Wall" count={rows.filter(ad => ad.location === 'Wall Page' && ad.status2==='Running'&& ad.status==='Done' ).length} />
+          <HeaderCard icon={search} title="Searcher" count={rows.filter(ad => ad.location === 'Search Page' && ad.status2==='Running'&& ad.status==='Done' ).length} />
         </div>
         <br />
         <div className="" >

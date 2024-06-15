@@ -2,12 +2,10 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-// Define the structure of the role data
 interface RoleData {
-  date: string; // Assuming date is in ISO 8601 format (e.g., 2024-06-04T11:05:37.723+00:00)
+  date: string; 
 }
 
-// Define the structure of the chart data state
 interface ChartData {
   admin: number[];
   teacher: number[];
@@ -33,13 +31,11 @@ const UserChart: React.FC = () => {
       const teacherResponse = await axios.get<RoleData[]>('teacher/all');
       const studentResponse = await axios.get<RoleData[]>('student/all');
 
-      // Check if all responses are successful
       if (adminResponse.status === 200 && teacherResponse.status === 200 && studentResponse.status === 200) {
         const adminData = processRoleData(adminResponse.data);
         const teacherData = processRoleData(teacherResponse.data);
         const studentData = processRoleData(studentResponse.data);
 
-        // Assuming processRoleData returns an object with counts per date and an array of dates
         const dates = getLastThreeDays();
 
         setChartData({
@@ -61,7 +57,7 @@ const UserChart: React.FC = () => {
     const dateCounts: { [key: string]: number } = {};
 
     data.forEach(item => {
-      const date = item.date.split('T')[0]; // Extract the date part (YYYY-MM-DD) from the ISO string
+      const date = item.date.split('T')[0]; 
       if (!dateCounts[date]) {
         dateCounts[date] = 0;
       }

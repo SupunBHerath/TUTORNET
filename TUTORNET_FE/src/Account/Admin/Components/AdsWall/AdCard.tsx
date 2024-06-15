@@ -18,7 +18,7 @@ const AdCard: React.FC<AdCardProps> = ({ title, description, imageUrl, link }) =
             {description}
           </Typography>
         </CardContent>
-        <CardMedia component="img" height="300" image={imageUrl} alt={title} />
+        <CardMedia component="img" height="auto" image={imageUrl} alt={title} />
 
       </CardActionArea>
     </Card>

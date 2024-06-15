@@ -1,9 +1,9 @@
-import React from 'react'
+import VResult from '../Components/VResult'
 
 const Result = () => {
   return (
     <div>
-      
+      <VResult/>
     </div>
   )
 }

@@ -6,7 +6,8 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import CircularProgress from '@mui/material/CircularProgress';
+import log from '../../../../../public/logo/Tutor logo.png'
+
 import Fade from '@mui/material/Fade';
 import axios from 'axios';
 
@@ -14,6 +15,7 @@ interface Ad {
   image: string;
   location: string;
   uploadedDay: string;
+  status2: string;
   _id: string;
   __v: number;
 }
@@ -46,7 +48,7 @@ function AdsHome() {
         const response = await axios.get('/ads/all'); 
         console.log(response.data);
         
-        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Wall Page');
+        const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Wall Page' && ad.status2 === 'Running');
         console.log(filteredAds);
         setAds(filteredAds);
       } catch (error) {
@@ -92,7 +94,22 @@ function AdsHome() {
           overflow: 'hidden',
         }}
       >
-        {loading && <CircularProgress />}
+        {loading && 
+         <Fade in={loading} timeout={500}>
+          <Box
+            component="img"
+            sx={{
+              height: '100%',
+              width: '100%',
+              maxHeight: 400,
+              maxWidth: 600,
+              objectFit: 'cover',
+              display: !loading ? 'none' : 'block',
+            }}
+            src={log}
+            alt={`Advertisement ${activeStep + 1}`}
+          />
+        </Fade>}
         <Fade in={!loading} timeout={500}>
           <Box
             component="img"

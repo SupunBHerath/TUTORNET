@@ -22,8 +22,6 @@ import axios from 'axios';
 import useCookie from '../../../../Hook/UserAuth';
 import TimeDifference from '../../../../Components/TimeDifference/TimeDifference';
 import { LinearProgress } from '@mui/material';
-import { color } from 'html2canvas/dist/types/css/types/color';
-import { float } from 'html2canvas/dist/types/css/property-descriptors/float';
 import { Font } from '../../../../Components/CSS/CSS';
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -40,6 +38,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
+interface teacher {
+    username:string;
+    teacher: string;
+}
 
 interface Post {
     id: number;
@@ -49,6 +51,7 @@ interface Post {
     description: string;
     image: string;
     username:string;
+    teacher: teacher;
 }
 
 const PostTeacher: React.FC = () => {
@@ -69,7 +72,10 @@ const PostTeacher: React.FC = () => {
             try {
                 const response = await axios.get(`/post/${userData.userId}`);
                 if (response.status === 200) {
-                    setPosts(response.data);
+                    const reversedData = response.data.reverse();
+                    setPosts(reversedData);
+                    console.log(reversedData);
+                    
                     
                 }
             } catch (err) {
@@ -180,7 +186,7 @@ const PostTeacher: React.FC = () => {
     return (
         <div>
             {posts.map(post => (
-                <Card key={post.id} sx={{ maxWidth: 345, marginBottom: 2,height:'auto' }}>
+                <Card key={post.id} sx={{ maxWidth: 400, marginBottom: 2,height:'auto' }}>
                     <CardHeader style={{fontStyle:Font.PrimaryFont}}
                         avatar={
                             <Avatar sx={{ }} aria-label="recipe">
@@ -192,7 +198,7 @@ const PostTeacher: React.FC = () => {
                                 <MoreVertIcon />
                             </IconButton>
                         }
-                        title={post.username}
+                        title={<span className='h6'>{post.teacher.username}</span>}
                         subheader={<TimeDifference time={post.uploadedDay}/>}
                     />
                     <CardContent>

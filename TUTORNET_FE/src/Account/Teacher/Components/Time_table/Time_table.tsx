@@ -1,84 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Typography, IconButton, Menu, MenuItem, Modal } from '@mui/material';
 import { Add, MoreVert } from '@mui/icons-material';
+import axios from 'axios';
+import useCookie from '../../../../Hook/UserAuth';
 
-interface Post {
-    id: number;
+interface TimeTableEntry {
+    _id: string; 
     description: string;
-    photo: string;
+    image: string;
 }
 
-const PostWallPage: React.FC = () => {
-    const [posts, setPosts] = useState<Post[]>([]);
+const TimeTablePage: React.FC = () => {
+    const [timeTableEntries, setTimeTableEntries] = useState<TimeTableEntry[]>([]);
     const [description, setDescription] = useState('');
-    const [photo, setPhoto] = useState<File | null>(null);
-    const [isAddingPost, setIsAddingPost] = useState(false);
-    const [editingPostId, setEditingPostId] = useState<number | null>(null);
+    const [image, setImage] = useState<File | null>(null);
+    const [isAddingEntry, setIsAddingEntry] = useState(false);
+    const [editingEntryId, setEditingEntryId] = useState<string | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+    const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
+    const {userData,isValidToken} =useCookie()
+    const userId=userData.userId
+    useEffect(() => {
+        fetchTimeTableEntries();
+    }, [isValidToken]);
 
-    const handleAddPost = () => {
-        if (posts.length >= 6) {
-            alert('You cannot add more than 6 posts. Please delete one or edit an existing post.');
-            return;
+    const fetchTimeTableEntries = async () => {
+        try {
+            const response = await axios.get(`teacher/timeTable/${userId}`);  
+            setTimeTableEntries(response.data.data);
+        } catch (error) {
+            console.error('Error fetching time table entries:', error);
         }
-        setIsAddingPost(true);
     };
 
-    const handleCancelPost = () => {
+    const handleAddEntry = () => {
+        setIsAddingEntry(true);
+    };
+
+    const handleCancelEntry = () => {
         setDescription('');
-        setPhoto(null);
-        setIsAddingPost(false);
-        setEditingPostId(null);
+        setImage(null);
+        setIsAddingEntry(false);
+        setEditingEntryId(null);
     };
 
-    const handleSubmitPost = () => {
-        if (description.trim() === '' && !photo && editingPostId === null) {
-            alert('Please enter a description or upload a photo.');
+    const handleSubmitEntry = async () => {
+        if (description.trim() === '' && !image && editingEntryId === null) {
+            alert('Please enter a description or upload an image.');
             return;
         }
 
-        const photoURL = photo ? URL.createObjectURL(photo) : '';
-
-        if (editingPostId !== null) {
-            const updatedPosts = posts.map(post => {
-                if (post.id === editingPostId) {
-                    return { ...post, description: description || post.description, photo: photo ? photoURL : post.photo };
-                }
-                return post;
-            });
-            setPosts(updatedPosts);
-            setDescription('');
-            setPhoto(null);
-            setEditingPostId(null);
-        } else {
-            const newPost: Post = { id: Date.now(), description, photo: photoURL };
-            setPosts([newPost, ...posts]);  // Prepend new post to the posts array
-            setDescription('');
-            setPhoto(null);
+        const formData = new FormData();
+        formData.append('description', description);
+        if (image) {
+            formData.append('image', image);
         }
-        setIsAddingPost(false);
+
+        try {
+
+            let response;
+            if (editingEntryId) {
+                response = await axios.put(`/teacher/timeTable/${userId}/${editingEntryId}`, formData); 
+                setTimeTableEntries([...timeTableEntries]);
+            } else {
+                response = await axios.post(`/teacher/timeTable/${userId}`, formData); 
+                setTimeTableEntries([...timeTableEntries, response.data.data]);
+            }
+           
+            setDescription('');
+            setImage(null);
+        } catch (error) {
+            console.error('Error submitting time table entry:', error);
+        }
+
+        setIsAddingEntry(false);
     };
 
-    const handleEditPost = (postId: number) => {
-        const postToEdit = posts.find(post => post.id === postId);
-        if (postToEdit) {
-            setDescription(postToEdit.description);
-            setEditingPostId(postId);
-            setIsAddingPost(true);
+    const handleEditEntry = (entryId: string) => {
+        const entryToEdit = timeTableEntries.find(entry => entry._id === entryId);
+        if (entryToEdit) {
+            setDescription(entryToEdit.description);
+            setEditingEntryId(entryId);
+            setIsAddingEntry(true);
         }
         setAnchorEl(null);
     };
 
-    const handleDeletePost = (postId: number) => {
-        const updatedPosts = posts.filter(post => post.id !== postId);
-        setPosts(updatedPosts);
+    const handleDeleteEntry = async (entryId: string) => {
+        try {
+            await axios.delete(`/teacher/timeTable/${userId}/${entryId}`);
+            const updatedEntries = timeTableEntries.filter(entry => entry._id !== entryId);
+            setTimeTableEntries(updatedEntries);
+        } catch (error) {
+            console.error('Error deleting time table entry:', error);
+        }
         setAnchorEl(null);
     };
 
-    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, postId: number) => {
+    const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>, entryId: string) => {
         setAnchorEl(event.currentTarget);
-        setSelectedPostId(postId);
+        setSelectedEntryId(entryId);
     };
 
     const handleMenuClose = () => {
@@ -91,16 +112,16 @@ const PostWallPage: React.FC = () => {
             <Button 
                 variant="contained" 
                 startIcon={<Add />} 
-                onClick={handleAddPost} 
+                onClick={handleAddEntry} 
                 sx={{ position: 'absolute', top: 0, right: 0, marginTop: '10px', marginRight: '10px' }}
             >
                 Add
             </Button>
             <Modal
-                open={isAddingPost}
-                onClose={handleCancelPost}
-                aria-labelledby="add-post-modal-title"
-                aria-describedby="add-post-modal-description"
+                open={isAddingEntry}
+                onClose={handleCancelEntry}
+                aria-labelledby="add-entry-modal-title"
+                aria-describedby="add-entry-modal-description"
             >
                 <Box sx={{
                     position: 'absolute',
@@ -113,8 +134,8 @@ const PostWallPage: React.FC = () => {
                     boxShadow: 24,
                     p: 4,
                 }}>
-                    <Typography id="add-post-modal-title" variant="h6" component="h2">
-                        Add New Post
+                    <Typography id="add-entry-modal-title" variant="h6" component="h2">
+                        {editingEntryId ? 'Edit Entry' : 'Add New Entry'}
                     </Typography>
                     <TextField
                         label="Description"
@@ -123,17 +144,17 @@ const PostWallPage: React.FC = () => {
                         fullWidth
                         sx={{ marginBottom: '10px', marginTop: '10px' }}
                     />
-                    <input type="file" accept="image/*" onChange={(e) => setPhoto(e.target.files ? e.target.files[0] : null)} />
+                    <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} />
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                        <Button variant="outlined" onClick={handleCancelPost}>Cancel</Button>
-                        <Button variant="contained" onClick={handleSubmitPost}>Submit</Button>
+                        <Button variant="outlined" onClick={handleCancelEntry}>Cancel</Button>
+                        <Button variant="contained" onClick={handleSubmitEntry}>Submit</Button>
                     </Box>
                 </Box>
             </Modal>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
-                {posts.map((post, index) => (
+                {timeTableEntries.map((entry, _index) => (
                     <Box 
-                        key={post.id} 
+                        key={entry._id} 
                         sx={{ 
                             backgroundColor: '#ffffff', 
                             padding: '10px', 
@@ -150,16 +171,16 @@ const PostWallPage: React.FC = () => {
                         }}
                     >
                         <Box sx={{ position: 'absolute', top: '5px', right: '5px' }}>
-                            <IconButton onClick={(e) => handleMenuOpen(e, post.id)}>
+                            <IconButton onClick={(e) => handleMenuOpen(e, entry._id)}>
                                 <MoreVert />
                             </IconButton>
                             <Menu
                                 anchorEl={anchorEl}
-                                open={Boolean(anchorEl) && selectedPostId === post.id}
+                                open={Boolean(anchorEl) && selectedEntryId === entry._id}
                                 onClose={handleMenuClose}
                             >
-                                <MenuItem onClick={() => handleEditPost(post.id)}>Edit</MenuItem>
-                                <MenuItem onClick={() => handleDeletePost(post.id)}>Delete</MenuItem>
+                                <MenuItem onClick={() => handleEditEntry(entry._id)}>Edit</MenuItem>
+                                <MenuItem onClick={() => handleDeleteEntry(entry._id)}>Delete</MenuItem>
                             </Menu>
                         </Box>
                         <Typography 
@@ -170,11 +191,11 @@ const PostWallPage: React.FC = () => {
                                 wordWrap: 'break-word' 
                             }}
                         >
-                            {post.description}
+                            {entry.description}
                         </Typography>
                         <img 
-                            src={post.photo} 
-                            alt="Post" 
+                            src={entry.image} 
+                            alt="Time Table Entry" 
                             style={{ 
                                 maxWidth: '100%', 
                                 height: 'auto', 
@@ -189,4 +210,4 @@ const PostWallPage: React.FC = () => {
     );
 }
 
-export default PostWallPage;
+export default TimeTablePage;

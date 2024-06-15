@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Grid} from '@mui/material';
+import { Grid } from '@mui/material';
 import Post from '../../Components/Post/Post';
 import Logo from '../../../public/logo/Logo_t.png';
 import axios from 'axios';
 import Facebook from '../../Components/LodingPost/LodingPost';
 import TimeDifference from '../../Components/TimeDifference/TimeDifference';
+
+interface Teacher {
+  username: string;
+  profileImage: string;
+}
 
 interface PostData {
   userId: string;
@@ -15,6 +20,8 @@ interface PostData {
   username: string;
   description: string;
   uploadedDay: string;
+  profileImage: string;
+  teacher: Teacher;
 }
 
 const StudentPost: React.FC = () => {
@@ -25,8 +32,8 @@ const StudentPost: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get<PostData[]>('/post/all');
-        console.log(response.data);
-        setPostData(response.data);
+        const reversedData = response.data.reverse();
+        setPostData(reversedData);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -40,18 +47,16 @@ const StudentPost: React.FC = () => {
   return (
     <div>
       {isLoading ? (
-        <>
-          <Facebook />
-        </>
+        <Facebook />
       ) : (
-        <Grid container spacing={2}>
-          {postData.map((post, index) => (
-            <Grid item xs={12} sm={12} key={index}>
-              <Post
-                pp={Logo}
+        <Grid container spacing={2} className='shadow-lg'>
+          {postData.map((post) => (
+            <Grid item xs={12} sm={12} key={post._id}>
+              <Post 
+                pp={post.teacher.profileImage}
                 img={post.image}
-                title={post.username}
-                date={<TimeDifference time ={post.uploadedDay}/>}
+                title={post.teacher.username}
+                date={<TimeDifference time={post.uploadedDay} />}
                 description={post.description}
               />
             </Grid>

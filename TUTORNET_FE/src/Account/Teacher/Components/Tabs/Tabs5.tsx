@@ -1,4 +1,3 @@
-import React from 'react'
 import Feedback from '../feedback/feedback'
 
 const Tabs5 = () => {

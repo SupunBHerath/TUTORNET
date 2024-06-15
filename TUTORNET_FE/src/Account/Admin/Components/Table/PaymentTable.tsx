@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, LinearProgress } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, Grid, FormControl, InputLabel, Select, MenuItem, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, LinearProgress, Avatar } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { jsPDF } from 'jspdf';
@@ -14,6 +14,8 @@ import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import MuiAlert from "@mui/material/Alert";
 import axios from 'axios';
+import { Cancel } from '@mui/icons-material';
+import { Color, Font } from '../../../../Components/CSS/CSS';
 
 interface SnackbarAlertProps {
   open: boolean;
@@ -48,7 +50,7 @@ function AlertDialogSlide(prop: any) {
 
   const handleAgree = async () => {
     try {
-      const response = await axios.delete(`/reqads/delete/${prop.id}`);
+      const response = await axios.delete(`/ads/delete/${prop.id}`);
 
       if (response.status === 200) {
         console.log('Advertisement deleted successfully');
@@ -134,11 +136,13 @@ const style = {
   boxShadow: 24,
   p: 3,
 };
-
-// Define the user type
+type UserId = {
+  profilePicture: string;
+  name: string;
+}
 type User = {
   id: number;
-  userId: string;
+  userId: UserId;
   _id: string;
   email: string;
   payDay: string;
@@ -148,6 +152,7 @@ type User = {
   rec: string;
   ads: string;
   status: string;
+
 
 };
 type update = {
@@ -160,20 +165,24 @@ const PaymentTable: React.FC = () => {
   const [tem, setTem] = useState<User[]>([]);
   const [dbdata, setDbdata] = useState<User[]>([]);
   const [location, setLocation] = useState<string>('');
-  const [update, setUpdate] = useState<update[]>([])
+  const [update, setUpdate] = useState<User[]>([])
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [openImageModal, setOpenImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string>('');
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/reqads/all');
+        const response = await axios.get('/ads/all');
 
         if (!response) {
           throw new Error('Network response was not ok');
         }
 
-        const data = response.data;
+        const data = response.data.reverse();
+        console.log(data);
 
         setRows(data);
         setTem(data);
@@ -190,7 +199,7 @@ const PaymentTable: React.FC = () => {
     fetchData();
   }, []);
 
-  
+
   const handleSaveChanges = () => {
     const postData = async () => {
       try {
@@ -199,7 +208,7 @@ const PaymentTable: React.FC = () => {
           return correspondingDBData && row.status !== correspondingDBData.status;
         });
         console.log('Update Data:', updateData);
-        const response = await axios.put('/reqads/update', updateData, {
+        const response = await axios.put('/ads/update', updateData, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -210,7 +219,7 @@ const PaymentTable: React.FC = () => {
         }
         const data = response.data;
         setIsChange(false);
-        console.log('Received Data:', data);
+        setConfirmationOpen(false);
         setOpenSnackbar(true);
         setTimeout(() => {
           setOpenSnackbar(false);
@@ -273,13 +282,11 @@ const PaymentTable: React.FC = () => {
     );
   };
 
-  // Function to handle the delete action
   const handleDelete = (_id: string) => {
     const updatedRows = rows.filter(row => row._id !== _id);
     setRows(updatedRows);
   };
 
-  // Function to download the table as a PDF
   const downloadPdf = () => {
     const doc = new jsPDF() as any;
 
@@ -298,7 +305,6 @@ const PaymentTable: React.FC = () => {
     doc.save('Tutornet_Payment_Details.pdf');
   };
 
-  // Function to filter payment by location
   const handleFilter = (location: string) => {
     const filteredLocation = location === 'all' ? rows : rows.filter(payment => payment.location === location);
     setRows(filteredLocation);
@@ -306,18 +312,19 @@ const PaymentTable: React.FC = () => {
 
 
   const handleImageZoom = (imageUrl: string) => {
-    console.log('Zooming image:', imageUrl);
-
+    setOpenImageModal(true);
+    setSelectedImage(imageUrl);
   };
 
-
+  const handleCloseImageModal = () => {
+    setOpenImageModal(false);
+  };
 
 
   const toggleStatus = (_id: string) => {
     setIsChange(true)
     const updatedRows = rows.map(row => {
       if (row._id === _id) {
-        // Toggle the status
         if (row.status === 'Pending') {
           return { ...row, status: 'Done' };
         } else if (row.status === 'Done') {
@@ -340,10 +347,87 @@ const PaymentTable: React.FC = () => {
     setIsChange(false)
   };
 
+  const handleDownload = () => {
+    fetch(selectedImage)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'image.jpg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error('Error downloading image:', error);
 
+      });
+  };
+  const handleCloseConfirmation = () => {
+    setConfirmationOpen(false);
+  };
+  const handleSave = () => {
+    setConfirmationOpen(true);
+  };
 
   return (
     <>
+      <Modal
+        open={openImageModal}
+        onClose={handleCloseImageModal}
+        aria-labelledby="image-modal-title"
+        aria-describedby="image-modal-description"
+      >
+        <Box
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            maxWidth: '80vw',
+            maxHeight: '80vh',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
+            padding: '20px',
+            textAlign: 'center',
+          }}
+        >     <div className="d-flex justify-content-between mt-3 mb-3">
+            <div>
+              <IconButton
+                onClick={handleDownload}
+                aria-label="download"
+                style={{ position: 'absolute', top: '10px', left: '10px', color: Color.PrimaryColor }}
+              >
+                <DownloadIcon />
+              </IconButton>
+            </div>
+            <div>
+              <IconButton
+                onClick={handleCloseImageModal}
+                aria-label="cancel"
+                style={{ position: 'absolute', top: '10px', right: '10px', color: 'red' }}
+              >
+                <Cancel />
+              </IconButton>
+            </div>
+          </div>
+          <img
+            src={selectedImage}
+            alt="Zoomed Image"
+            style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              display: 'block',
+              margin: 'auto',
+            }}
+          />
+
+        </Box>
+      </Modal>
+
+
       <div className="Tablebtn mb-2 mt-3   " style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         {BasicModal()}
         <Button
@@ -355,7 +439,7 @@ const PaymentTable: React.FC = () => {
 
         <div className="btnDiv  d-flex  justify-content-end w-100" style={{ height: '70px' }}>
           <Box sx={{ mt: 2, textAlign: 'end' }}>
-            <Button variant="outlined" onClick={handleSaveChanges} sx={{ mr: 2 }} disabled={!change}>Save</Button>
+            <Button variant="outlined" onClick={handleSave} sx={{ mr: 2 }} disabled={!change}>Save</Button>
             <Button
               variant="outlined"
               style={{
@@ -375,16 +459,17 @@ const PaymentTable: React.FC = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>No</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Payment Day</TableCell>
-              <TableCell>Upload Day</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Payment</TableCell>
-              <TableCell>Recipet</TableCell>
-              <TableCell>Ads</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }}>No</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Profile Image </TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Name</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Payment Day</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Upload Day</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Location</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Payment</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Recipet</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Ads</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Status</TableCell>
+              <TableCell style={{ fontFamily: Font.PrimaryFont }} >Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -393,8 +478,11 @@ const PaymentTable: React.FC = () => {
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell className='text-center'>{++i}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                <TableCell className='text-center'>{i++}</TableCell>
+                <TableCell>
+                  <Avatar alt={row.userId.name} src={row.userId.profilePicture} sx={{ width: 50, height: 50 }} className='border border-dark' />
+                </TableCell>
+                <TableCell>{row.userId.name}</TableCell>
                 <TableCell>{row.payDay}</TableCell>
                 <TableCell>{new Date(row.uploadedDay).toISOString().split('T')[0]}</TableCell>
                 <TableCell>{row.location}</TableCell>
@@ -417,6 +505,30 @@ const PaymentTable: React.FC = () => {
             ))}
           </TableBody>
         </Table>
+        <Dialog
+          open={confirmationOpen}
+          onClose={handleCloseConfirmation}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Confirm Action</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to proceed with this action?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleSaveChanges} color="primary" autoFocus>
+              Yes
+            </Button>
+            <Button onClick={handleCloseConfirmation} color="primary">
+              Cancel
+            </Button>
+
+
+
+          </DialogActions>
+        </Dialog>
       </TableContainer>) : (<LinearProgress />)}
       <SnackbarAlert
         open={openSnackbar}

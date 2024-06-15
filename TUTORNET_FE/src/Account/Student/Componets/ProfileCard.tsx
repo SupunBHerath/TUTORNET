@@ -41,10 +41,7 @@ const ProfileCard: React.FC = () => {
     fetchData();
   }, [studentId]);
 
-  if (loading) {
-    return <CircularProgress />;
-  }
-
+  
   if (!studentData) {
     return <LinearProgress/>
   }

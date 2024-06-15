@@ -20,9 +20,13 @@ import LandingLayout from './Layout/Landing';
 import StudentLayout from './Layout/Student';
 import TeacherLayout from './Layout/Teacher';
 import AdminLayout from './Layout/Admin';
+import About from './Account/Landing_page/Components/About_Us/About_us';
+import FeedbackPage from './Pages/FeedbackPage';
 
 const App = () => {
+  // axios.defaults.baseURL = 'http://localhost:8080/'
   axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+
   return (
     <div>
       <Routes>
@@ -35,6 +39,7 @@ const App = () => {
           <Route path="reg/teacher" element={<TeacherRegister />} />
           <Route path="reg/student" element={<StudentRegister />} />
           <Route path="Ads" element={<AdsWall />} />
+          <Route path="about" element={<About />} />
         </Route>
 
 
@@ -43,6 +48,8 @@ const App = () => {
           <Route index element={<StudentHome />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="Ads" element={<AdsWall />} />
+          <Route path="feedback" element={<FeedbackPage />} />
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
         </Route>
 
@@ -51,11 +58,13 @@ const App = () => {
         <Route path="/teacher" element={< TeacherLayout/>}>
           <Route index element={<TeacherWall />} />
           <Route path="Ads" element={<Ads />} />
+          <Route path="about" element={<About />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="post" element={<PostPage />} />
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
-
+          <Route path="feedback" element={<FeedbackPage />} />
           <Route path="profile" element={<TecherHome />} />
+          <Route path="Ads" element={<AdsWall />} />
           <Route path="search" element={<SearchPageT />} />
         </Route>
 

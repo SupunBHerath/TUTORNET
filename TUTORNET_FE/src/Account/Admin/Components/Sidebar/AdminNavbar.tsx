@@ -120,7 +120,7 @@ export default function AdminNavbar() {
   const [row, setRow] = React.useState(null);
   
   React.useEffect(() => {
-    axios.get('/reqads/pending')
+    axios.get('/ads/pending')
       .then(response => {
         setRow(response.data.length);
         console.log(row);

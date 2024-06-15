@@ -10,10 +10,6 @@ const post = new Schema({
       type: String,
       // required: true 
     },
-    username: {
-        type: String,
-        required: true
-    },
     image: {
         type: String,
         required: true
@@ -27,12 +23,6 @@ const post = new Schema({
       required: true,
       default: Date.now 
     },
-   
-    profileImage: {
-      type: String,
-      // required: true,
-    },
-   
     uploadImageId: {
       type: String,
       required: true,

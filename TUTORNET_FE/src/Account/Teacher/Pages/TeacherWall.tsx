@@ -9,23 +9,51 @@ import ProfileCard from '../Components/ProfileCard/ProfileCard';
 const TeachWall = () => {
   return (
     <div>
-      {/* <Navi_Bar /> */}
-      <Box display="flex" justifyContent="space-between" className="bg-body-tertiary" style={{ height: '100vh' }}>
-        <Box component="aside" style={{ width: '30%', backgroundColor: '#f0f0f0', overflowY: 'auto',margin:'20px'}} >
-            <br />
-            <br /><br />
+       <>
+      <br /><br /><br /> 
+       <Box
+ 
+        display="flex"
+        justifyContent="space-between"
+        sx={{ height: '100vh', flexDirection: { xs: 'column', md: 'row' }, padding: '20px', backgroundColor: '#f0f0f5' }}
+      >
+        <Box
+          component="aside"
+          sx={{
+            width: { xs: '100%', md: '30%' },
+
+            overflowY: 'auto',
+            display: { xs: 'none', md: 'block' },
+            margin: { md: '20px' }
+          }}
+        >
           <ProfileCard />
         </Box>
-        <Box component="main" style={{ width: '35%', overflowY: 'auto', height: '100%' }}>
-            <br /><br /><br /><br />
+
+        <Box
+          component="main"
+          sx={{
+            width: { xs: '100%', md: '35%' },
+            overflowY: 'auto',
+            height: '100%',
+            margin: { xs: '0', md: '0 20px' }
+          }}
+        >
           <StudentPost />
         </Box>
-        <Box component="aside" style={{ width: '30%', backgroundColor: '#f0f0f0', overflowY: 'auto',margin:'20px' }}>
-            <br />
-            <br />
+        <Box
+          component="aside"
+          sx={{
+            width: { xs: '100%', md: '30%' },
+            overflowY: 'auto',
+            display: { xs: 'none', md: 'block' },
+            margin: { md: '20px' }
+          }}
+        >
           <AdsHome />
         </Box>
       </Box>
+    </>
     </div>
   );
 };

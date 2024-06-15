@@ -11,9 +11,7 @@ const TeacherProfile = () => {
     if(userData.role=='Teacher'){
         return (
           <div>
-          {/* <Navi_Bar/> */}
           <ViewProfile/>
-          
           <div className="container mt-5" style={{ width: "1000px", justifyContent: "start" }}>
           <MainTab/>
           </div>
@@ -23,9 +21,7 @@ const TeacherProfile = () => {
     else if(userData.role=='Student'){
         return (
             <div>
-              {/* <SNavi_Bar/> */}
               <ViewProfile/>
-              
               <div className="container mt-5" style={{ width: "1000px", justifyContent: "start" }}>
               <MainTab/>
               </div>

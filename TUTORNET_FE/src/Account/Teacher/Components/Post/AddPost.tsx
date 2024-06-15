@@ -62,7 +62,6 @@ const AddPost = () => {
         const formData = new FormData();
         setProgress(true);
         formData.append('image', uploadedFile!);
-        formData.append('username', userData.username);
         formData.append('userId', userData.userId);
         formData.append('title', title);
         formData.append('description', description);
@@ -74,10 +73,6 @@ const AddPost = () => {
           setProgress(false);
           setSuccess(true);
           setError(false);
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
-          console.log('Image uploaded successfully.');
         } else {
           console.error('Failed to upload image.');
           setError(true);

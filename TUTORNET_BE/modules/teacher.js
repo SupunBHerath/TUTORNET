@@ -1,5 +1,38 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const resultSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    year: {
+        type: String,
+        required: true
+    },
+    indexNumber: {
+        type: String,
+        required: true
+    },
+    result: {
+        type: String,
+        required: true
+    }
+});
+const timeTable = new Schema({
+    description: {
+        type: String,
+        // required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+    time: {
+        type: Date,
+        required: true,
+        default: Date.now
+    }
+});
 
 const teacherSchema = new Schema({
     name: {
@@ -47,11 +80,19 @@ const teacherSchema = new Schema({
         type: String,
         required: false
     },
-    mobile: {
+    fbLink: {
         type: String,
         required: false
     },
-    landline: {
+    whatsappLink: {
+        type: String,
+        required: false
+    },
+    websiteLink: {
+        type: String,
+        required: false
+    },
+    telegramLink: {
         type: String,
         required: false
     },
@@ -63,6 +104,8 @@ const teacherSchema = new Schema({
         type: String,
         required: false
     },
+    results: [resultSchema], 
+    timeTable: [timeTable],
     date: {
         type: Date,
         required: true,
