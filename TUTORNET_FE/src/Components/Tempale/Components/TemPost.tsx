@@ -4,6 +4,8 @@ import Facebook from '../../LodingPost/LodingPost';
 import Post from '../../Post/Post';
 import { useParams } from 'react-router-dom';
 import TimeDifference from '../../TimeDifference/TimeDifference';
+import { fontFamily } from 'html2canvas/dist/types/css/property-descriptors/font-family';
+import { Font } from '../../CSS/CSS';
 
 interface Teacher {
   username: string;
@@ -50,7 +52,7 @@ const TemPost: React.FC = () => {
         <Facebook />
       ) : (
         postData.map((post) => (
-          <Post
+          <Post 
             key={post._id}
             pp={post.teacher.profileImage}
             img={post.image}

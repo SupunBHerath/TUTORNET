@@ -72,19 +72,20 @@ module.exports.validated = async (req, res) => {
 };
 
 module.exports.teacher = async (req, res) => {
-    const userId = req.params.id;
-  
-    try {
-        const teacher = await Teacher.findById(userId);
-        if (!teacher) {
-            return res.status(404).json({ message: 'Teacher not found' });
-        }
-        res.status(201).json(teacher);
-       
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
-    }
+  const { id } = req.params;
+
+
+
+  try {
+      const teacher = await Teacher.findById(id);
+      if (!teacher) {
+          return res.status(404).json({ error: 'Teacher not found' });
+      }
+      res.json(teacher);
+  } catch (error) {
+      console.error('Error fetching teacher:', error);
+      res.status(500).json({ error: 'An error occurred while fetching the teacher' });
+  }
 };
 
 const storage = new CloudinaryStorage({

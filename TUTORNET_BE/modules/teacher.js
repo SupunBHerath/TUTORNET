@@ -80,11 +80,19 @@ const teacherSchema = new Schema({
         type: String,
         required: false
     },
-    mobile: {
+    fbLink: {
         type: String,
         required: false
     },
-    landline: {
+    whatsappLink: {
+        type: String,
+        required: false
+    },
+    websiteLink: {
+        type: String,
+        required: false
+    },
+    telegramLink: {
         type: String,
         required: false
     },

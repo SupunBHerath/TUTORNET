@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Box, Divider } from '@mui/material';
-import { AccountCircle, LocationOn, Home, School } from '@mui/icons-material';
+import { Box, Divider, TextField, IconButton } from '@mui/material';
+import { AccountCircle, LocationOn, Home, School, Facebook, WhatsApp, Language, Telegram } from '@mui/icons-material';
 import useCookie from '../../../../Hook/UserAuth';
-
-
 
 const Introduction = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -13,7 +11,10 @@ const Introduction = () => {
     const [fromText, setFromText] = useState("from");
     const [Classlocations, setClasslocations] = useState("location");
     const [educationText, setEducationText] = useState("education");
-
+    const [fbLink, setFbLink] = useState("facebook");
+    const [whatsappLink, setWhatsappLink] = useState("whatsapp");
+    const [websiteLink, setWebsiteLink] = useState("website");
+    const [telegramLink, setTelegramLink] = useState("telegram");
 
     const { isValidToken, userData } = useCookie();
 
@@ -27,7 +28,10 @@ const Introduction = () => {
                 setFromText(fetchedData.from);
                 setClasslocations(fetchedData.classlocations);
                 setEducationText(fetchedData.education);
-
+                setFbLink(fetchedData.fbLink);
+                setWhatsappLink(fetchedData.whatsappLink);
+                setWebsiteLink(fetchedData.websiteLink);
+                setTelegramLink(fetchedData.telegramLink);
             } catch (error) {
                 console.log(error);
             }
@@ -38,7 +42,6 @@ const Introduction = () => {
         }
     }, [isValidToken, userData]);
 
-
     const handleSave = async () => {
         try {
             const response = await axios.put(`/teacher/up-bio/${userData.userId}`, {
@@ -46,6 +49,10 @@ const Introduction = () => {
                 livesIn: livesInText,
                 location: Classlocations,
                 education: educationText,
+                fbLink: fbLink,
+                whatsappLink: whatsappLink,
+                websiteLink: websiteLink,
+                telegramLink: telegramLink,
             });
             console.log('Data updated successfully:', response.data);
             setIsEditing(false);
@@ -75,112 +82,51 @@ const Introduction = () => {
                 <AccountCircle sx={{ color: '#004aad', marginRight: '10px' }} />
                 <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Bio</h3>
             </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    value={bioText}
-                    onChange={(e) => setBioText(e.target.value)}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{bioText}</p>
-            )}
+                <p className='px-5 text-black-50'>{bioText}</p>
             <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                 <Home sx={{ color: '#004aad', marginRight: '10px' }} />
                 <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Lives in</h3>
             </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    value={livesInText}
-                    onChange={(e) => setLivesInText(e.target.value)}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{livesInText}</p>
-            )}
+                <p className='px-5 text-black-50'>{livesInText}</p>
             <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                 <School sx={{ color: '#004aad', marginRight: '10px' }} />
                 <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Education</h3>
             </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    value={educationText}
-                    onChange={(e) => setEducationText(e.target.value)}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{educationText}</p>
-            )}
+                <p className='px-5 text-black-50'>{educationText}</p>
             <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
                 <LocationOn sx={{ color: '#004aad', marginRight: '10px' }} />
                 <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Class locations</h3>
             </Box>
-            {isEditing ? (
-                <input
-                    type="text"
-                    value={Classlocations}
-                    onChange={(e) => setClasslocations(e.target.value)}
-                    style={{ borderColor: 'transparent', outline: 'none', boxShadow: 'none' }}
-                />
-            ) : (
-                <p>{Classlocations}</p>
-            )}
+                <p className='px-5 text-black-50'>{Classlocations}</p>
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
 
-            {/* <Box sx={{ display: 'flex', justifyContent: isEditing ? 'space-between' : 'center', marginTop: '20px' }}>
-                {isEditing ? (
-                    <>
-                        <button
-                            onClick={() => setIsEditing(false)}
-                            style={{
-                                backgroundColor: '#004aad',
-                                color: 'white',
-                                borderRadius: '5px',
-                                padding: '10px 20px',
-                                border: 'none',
-                                cursor: 'pointer',
-                                fontWeight: 'normal',
-                            }}
-                        >
-                            Cancel
-                        </button>
-
-                        <button
-                            onClick={handleSave}
-                            style={{
-                                backgroundColor: '#004aad',
-                                color: 'white',
-                                borderRadius: '5px',
-                                padding: '10px 20px',
-                                border: 'none',
-                                cursor: 'pointer',
-                                fontWeight: 'normal',
-                            }}
-                        >
-                            Save
-                        </button>
-                    </>
-                ) : (
-                    <button
-                        onClick={() => setIsEditing(true)}
-                        style={{
-                            backgroundColor: '#004aad',
-                            color: 'white',
-                            borderRadius: '5px',
-                            padding: '10px 20px',
-                            border: 'none',
-                            cursor: 'pointer',
-                            fontWeight: 'normal',
-                        }}
-                    >
-                        Edit Details
-                    </button>
-                )}
-            </Box> */}
+            {/* Social Media Links */}
+            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                <Facebook sx={{ color: '#004aad', marginRight: '10px' }} />
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Facebook</h3>
+            </Box>
+                <p className='px-5 text-black-50'>{fbLink}</p>
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                <WhatsApp sx={{ color: '#004aad', marginRight: '10px' }} />
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>WhatsApp</h3>
+            </Box>
+                <p className='px-5 text-black-50'>{whatsappLink}</p>
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                <Language sx={{ color: '#004aad', marginRight: '10px' }} />
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Website</h3>
+            </Box>
+                <p className='px-5 text-black-50'>{websiteLink}</p>
+            <Divider sx={{ margin: '10px 0', borderTopWidth: '2px', borderTopStyle: 'solid' }} />
+            <Box sx={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+                <Telegram sx={{ color: '#004aad', marginRight: '10px' }} />
+                <h3 style={{ fontSize: '18px', marginBottom: '0' }}>Telegram</h3>
+            </Box>
+                <p className='px-5 text-black-50'>{telegramLink}</p>
         </Box>
     );
 };

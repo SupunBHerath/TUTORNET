@@ -38,6 +38,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
+interface teacher {
+    username:string;
+    teacher: string;
+}
 
 interface Post {
     id: number;
@@ -47,6 +51,7 @@ interface Post {
     description: string;
     image: string;
     username:string;
+    teacher: teacher;
 }
 
 const PostTeacher: React.FC = () => {
@@ -69,6 +74,8 @@ const PostTeacher: React.FC = () => {
                 if (response.status === 200) {
                     const reversedData = response.data.reverse();
                     setPosts(reversedData);
+                    console.log(reversedData);
+                    
                     
                 }
             } catch (err) {
@@ -179,7 +186,7 @@ const PostTeacher: React.FC = () => {
     return (
         <div>
             {posts.map(post => (
-                <Card key={post.id} sx={{ maxWidth: 345, marginBottom: 2,height:'auto' }}>
+                <Card key={post.id} sx={{ maxWidth: 400, marginBottom: 2,height:'auto' }}>
                     <CardHeader style={{fontStyle:Font.PrimaryFont}}
                         avatar={
                             <Avatar sx={{ }} aria-label="recipe">
@@ -191,7 +198,7 @@ const PostTeacher: React.FC = () => {
                                 <MoreVertIcon />
                             </IconButton>
                         }
-                        title={post.username}
+                        title={<span className='h6'>{post.teacher.username}</span>}
                         subheader={<TimeDifference time={post.uploadedDay}/>}
                     />
                     <CardContent>

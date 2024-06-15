@@ -9,6 +9,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Font } from '../CSS/CSS';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -33,7 +34,7 @@ export default function Post(props:any) {
   };
   
   return (
-    <Card sx={{ minWidth: 345}} style={{margin:' auto' ,marginBottom:"40px",height:'auto'}}>
+    <Card sx={{ minWidth: 345}} style={{margin:' auto' ,marginBottom:"40px",height:'auto',}}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blue[100] }} aria-label="recipe">
@@ -51,7 +52,7 @@ export default function Post(props:any) {
           </ExpandMore>
            }
         
-        title={props.title}
+        title={ <span style={{fontFamily:Font.PrimaryFont}} >{props.title}</span>}
         subheader={props.date}
       />
       

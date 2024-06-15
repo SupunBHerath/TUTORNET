@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { Font } from '../CSS/CSS';
 
 interface Teacher {
   _id: string;
@@ -92,8 +93,8 @@ const ViewProfile: React.FC = () => {
         />
       </Grid>
       <Grid item xs={12} alignItems="center" style={{ textAlign: 'center', marginTop: isSmallScreen ? 70 : 30, marginLeft: isSmallScreen ? 0 : 130 }}>
-        <Typography variant="h3">{teacher?.name}</Typography>
-        <Typography variant="h4">{teacher?.subject}</Typography>
+        <Typography variant="h3" style={{fontFamily:Font.PrimaryFont}}>{teacher?.name}</Typography>
+        <Typography variant="h4" style={{fontFamily:Font.PrimaryFont}} className='text-black-50'>{teacher?.subject}</Typography>
 
         {currentRating !== null && (
           <Box sx={{ marginTop: 2 }}>

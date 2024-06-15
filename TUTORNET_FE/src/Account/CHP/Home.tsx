@@ -10,7 +10,6 @@ import { Color, Font } from '../../Components/CSS/CSS'
 import Counter from './Count'
 import { CHPAboutUS } from './CHPAboutUS'
 import UserCommentCard from './Components/UserCommentCard'
-import { Feedback } from '../../Components/Feedback/Feedback'
 import t1 from '../../../public/Teacher/t1.jpg'
 import t2 from '../../../public/Teacher/t2.jpg'
 import u1 from '../../../public/Users/u1.jpg'
@@ -22,11 +21,13 @@ import axios from 'axios'
 import ContactUsPage from './Components/ContactUs'
 
 interface UserData {
+    _id: string;
     userId: string;
     name: string;
     subject: string;
     role: string;
     profilePicture: string;
+    rating: number;
 }
 
 const Home = () => {
@@ -40,26 +41,31 @@ const Home = () => {
         })
     }, [])
     useEffect(() => {
-        const feachData = async () => {
+        const fetchData = async () => {
             try {
-                const res = await axios.get('/teacher/all')
-                    .then((res => {
-                        setTeacher(res.data.length)
-                        console.log(res.data.length);
-                        setTeacherData(res.data)
-                        console.log(res.data)
+                const teacherResponse = await axios.get('/teacher/all');
+                const teachers = teacherResponse.data;
 
-                    }))
-                const res2 = await axios.get('/student/all')
-                    .then((res2 => {
-                        setStudent(res2.data.length)
-                    }))
+                const teacherRatings = await Promise.all(
+                    teachers.map(async (teacher:UserData) => {
+                        const ratingResponse = await axios.get(`feedback/rating/${teacher._id}`);
+                        return { ...teacher, rating: ratingResponse.data.userTotalRatings };  
+                    })
+                );
+                teacherRatings.sort((a, b) => b.rating - a.rating);
+                setTeacherData(teacherRatings);
+                setTeacher(teachers.length);
+               console.log(teacherData);
+               
+                const studentResponse = await axios.get('/student/all');
+                setStudent(studentResponse.data.length);
             } catch (err) {
-                console.log(err)
+                console.error(err);
             }
-        }
-        feachData()
-    }, [])
+        };
+
+        fetchData();
+    }, []);
     return (
         <div className=''>
             <div className="container-fluid ">
@@ -139,7 +145,7 @@ const Home = () => {
                                 image={teacher.profilePicture}
                                 name={teacher.name}
                                 description={teacher.subject}
-                                rating={5}
+                                rating={teacher.rating}
                             />
                         </div>
                     ))}
