@@ -20,12 +20,13 @@ import LandingLayout from './Layout/Landing';
 import StudentLayout from './Layout/Student';
 import TeacherLayout from './Layout/Teacher';
 import AdminLayout from './Layout/Admin';
-import Landing from './Account/Landing_page/Landing';
 import About from './Account/Landing_page/Components/About_Us/About_us';
 import FeedbackPage from './Pages/FeedbackPage';
 
 const App = () => {
-  axios.defaults.baseURL = 'http://localhost:8080/'
+  // axios.defaults.baseURL = 'http://localhost:8080/'
+  axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+
   return (
     <div>
       <Routes>
