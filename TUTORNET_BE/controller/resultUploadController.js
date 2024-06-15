@@ -3,9 +3,8 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 const XLSX = require('xlsx'); 
 
-
-const upload = multer({ dest: 'uploads/' }); // Set destination folder for uploaded files
-
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 module.exports.uploadResult = [
   upload.single('file'),
@@ -13,7 +12,6 @@ module.exports.uploadResult = [
     const { teacherId } = req.body;
     const file = req.file;
 
-  
     if (!file || file.size === 0) {
       return res.status(400).send('Empty file uploaded.');
     }
@@ -23,13 +21,12 @@ module.exports.uploadResult = [
     }
 
     try {
-
-      const workbook = XLSX.readFile(file.path);
+      // Read the file buffer with XLSX
+      const workbook = XLSX.read(file.buffer, { type: 'buffer' });
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const json = XLSX.utils.sheet_to_json(worksheet);
 
- 
       const results = json.map(item => ({
         name: item['Name'],
         indexNumber: item['Index Number'],
@@ -37,7 +34,6 @@ module.exports.uploadResult = [
         year: item['Year']
       }));
 
-    
       const teacher = await Teacher.findById(teacherId);
       if (!teacher) {
         return res.status(404).json({ message: 'Teacher not found' });
@@ -46,14 +42,12 @@ module.exports.uploadResult = [
       teacher.results.push(...results);
       await teacher.save();
 
-      res.status(200).json({ message: 'Results uploaded successfully', uploadedResults: results});
+      res.status(200).json({ message: 'Results uploaded successfully', uploadedResults: results });
     } catch (error) {
       console.error('Error processing file:', error);
       res.status(500).send('Error processing file: ' + error.message);
     }
   }
 ];
-
-
 
 
