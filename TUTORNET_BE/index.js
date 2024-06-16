@@ -18,7 +18,8 @@ const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
 const webfeedbaack = require('./router/webFeedbackRoute.js');
 const FP = require('./router/ForgotpasswordRoute.js');
-
+const AI = require('./AI/ChatBot.js')
+const axios = require('axios');
 
 app.use(express.json());
 app.use(cors());
@@ -47,6 +48,7 @@ app.use('/post',post)
 app.use('/feedback',feedBack)
 app.use('/subject',Subject)
 app.use('/otp',FP)
+app.use('/ai',AI)
 
 app.use('/uploads', express.static(path.join(__dirname)));
 const URL = process.env.MONGODB_URL
@@ -55,6 +57,38 @@ mongoose.connect(URL, {
     // useUnifiedTopology: true,
 
 });
+
+
+
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+
+app.post('/chat', async (req, res) => {
+   
+    const { prompt } = req.body
+    console.log(prompt);
+    try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        res.status(200).json({ text: text ,message: 'success' });
+    }catch(err) {
+        console.log(err);
+        res.status(500).json({ message: 'Internal server error' });
+         
+    }
+
+  
+})
+
+
+
+
+
 
 
 const connection  = mongoose.connection;
