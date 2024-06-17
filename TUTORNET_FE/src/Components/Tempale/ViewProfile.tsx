@@ -38,7 +38,6 @@ const ViewProfile: React.FC = () => {
         // Fetch rating details
         const ratingResponse = await axios.get(`feedback/rating/${id}`);
         setCurrentRating(ratingResponse.data.userTotalRatings);
-           console.log(ratingResponse.data);
            
         setLoading(false);
       } catch (error) {

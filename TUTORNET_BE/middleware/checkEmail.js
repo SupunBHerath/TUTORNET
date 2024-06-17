@@ -11,12 +11,10 @@ module.exports.checkEmail = async (req, res, next) => {
       const studentExist = await Student.findOne({ email });
       const adminExist = await Admin.findOne({ email });
       if (!teacherExist && !studentExist && !adminExist) {
-    console.log(email);
 
         next();  
        
       } else {
-        console.log(5555);
         return res.status(400).send({ error: "Please use a unique email.", status: 400 });
 
       }

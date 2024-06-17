@@ -23,7 +23,6 @@ module.exports.post = async (req, res) => {
         teacherId: req.body.teacherId,
         status: 'Visible'
     });
-    console.log(feedback);
     try {
         const newFeedback = await feedback.save();
         res.status(201).json(newFeedback);

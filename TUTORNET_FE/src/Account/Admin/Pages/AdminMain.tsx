@@ -22,7 +22,6 @@ const AdminMain = () => {
   
         if (response.status === 401) {
           navigate('/');
-          console.log("ddd")
         }
       } catch (error) {
         console.error('Error:', error);

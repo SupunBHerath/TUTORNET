@@ -104,7 +104,6 @@ const ForgotPasswordAndOtpForm: React.FC = (porp:any) => {
       setMassgen('Enter OTP Password');
       return;
     }
-    console.log(Id);
 
     try {
       const response = await axios.post('/otp/verifyOTP', { otp: enteredOtp, Id });

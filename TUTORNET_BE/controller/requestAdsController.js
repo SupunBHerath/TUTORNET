@@ -83,7 +83,6 @@ router.route('/all').get((req, res) => {
         .populate('userId', 'name profilePicture email')
         .then(data => {
             res.status(201).json(data);
-            console.log(data);
         })
         .catch(err => {
             console.error(err);
@@ -278,14 +277,11 @@ router.put('/status/update/:id', async (req, res) => {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.error(error);
-                console.log(error.message);
                 return res.status(500).json({ error: 'Internal Server Error' });
                
             } else {
-                console.log('Email sent:', info.response);
 
 
-                
                 return res.status(200).json({ message: 'sent successfully' });
             }
         });

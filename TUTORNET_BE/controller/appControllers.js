@@ -10,7 +10,6 @@ dotenv.config();
 module.exports.verifyUser = async (req, res, next) => {
     try {
         const { email } =  req.body;
-        console.log(email);
         
         const teacherExist = await Teacher.findOne({ email });
         const studentExist = await Student.findOne({ email });
@@ -30,7 +29,6 @@ module.exports.verifyUser = async (req, res, next) => {
 
 module.exports.login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(email);
     try {
         let user;
         let userType;

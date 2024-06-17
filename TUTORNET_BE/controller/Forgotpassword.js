@@ -18,7 +18,6 @@ const transporter = nodemailer.createTransport({
 module.exports.verifyUser = async (req, res, next) => {
     try {
         const { email } =  req.body;
-        console.log(email);
         
         const teacherExist = await Teacher.findOne({ email });
         const studentExist = await Student.findOne({ email });
@@ -39,8 +38,6 @@ module.exports.verifyUser = async (req, res, next) => {
 // Function to send OTP
 module.exports.sendOTP = async (req,res) => {
     const { email, id } = req.body;
-    console.log(process.env.MY_GMAIL);
-    console.log(id);
     if(!email || !id){
         return res.status(400).json({ error: "All fields are required." });
     }
@@ -75,7 +72,6 @@ module.exports.sendOTP = async (req,res) => {
                 console.error('Error sending email:', error);
                 return res.status(500).json({ error: 'Error sending OTP' });
             } else {
-                console.log('Email sent:', info.response);
                 return res.status(200).json({ message: 'OTP sent successfully' });
             }
         });
@@ -89,7 +85,6 @@ module.exports.sendOTP = async (req,res) => {
 
 module.exports.verifyOTP = async (req , res)=>{
     const {Id,otp} = req.body;
-    console.log(Id);
     try {
         const otpExist = await OTP.findOne({ id:Id });
         if (!otpExist) {

@@ -54,7 +54,6 @@ const Introduction = () => {
                 websiteLink: websiteLink,
                 telegramLink: telegramLink,
             });
-            console.log('Data updated successfully:', response.data);
             setIsEditing(false);
         } catch (error) {
             console.error('Error updating data:', error);

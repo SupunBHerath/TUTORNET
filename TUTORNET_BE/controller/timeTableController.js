@@ -67,7 +67,6 @@ const getTimeTable = async (req, res) => {
 const updateTimeTable = async (req, res) => {
   const { teacherId, timeTableId } = req.params;
   const { description } = req.body;
-  console.log(description);
   try {
     const teacher = await Teacher.findById(teacherId);
 

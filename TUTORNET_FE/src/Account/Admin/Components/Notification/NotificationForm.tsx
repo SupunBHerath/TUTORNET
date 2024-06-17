@@ -21,9 +21,7 @@ const NotificationForm = () => {
     }
     setShowAlert(false);
     setShowSuccess(true);
-    console.log('Role:', role);
-    console.log('Subject:', subject);
-    console.log('Message:', message);
+ 
     // Add your form submission logic here
   };
 

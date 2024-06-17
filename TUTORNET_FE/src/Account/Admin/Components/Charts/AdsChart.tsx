@@ -28,9 +28,7 @@ const AdsChart: React.FC = () => {
 
       if (response.status === 201) {
         const postData = processPostData(response.data);
-        console.log("dddd");
         
-console.log(postData);
 
         const dates = getLastThreeDays();
 

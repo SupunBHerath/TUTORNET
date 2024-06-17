@@ -47,7 +47,6 @@ export default function MyProfile() {
         const response = await axios.get(`/student/${id}`);
         const user = response.data;
         setUserProfile(user);
-        console.log(user);
 
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -109,7 +108,6 @@ export default function MyProfile() {
         setUserProfile(user);
         setIsLoading(false)
         setShowPasswordFields(false);
-        console.log(user);
 
 
       } else {
@@ -145,7 +143,6 @@ export default function MyProfile() {
       });
 
       const data = await response.data
-      console.log(data);
       
       if (data.ok) {
         const response = await axios.delete(`/student/${id}`)

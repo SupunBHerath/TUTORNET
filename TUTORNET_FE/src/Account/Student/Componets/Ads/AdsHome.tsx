@@ -48,7 +48,6 @@ function AdsHome() {
         const response = await axios.get('/ads/all'); 
         
         const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Wall Page' && ad.status2 === 'Running');
-        console.log(filteredAds);
         setAds(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);

@@ -18,7 +18,6 @@ const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
 const webfeedbaack = require('./router/webFeedbackRoute.js');
 const FP = require('./router/ForgotpasswordRoute.js');
-const AI = require('./AI/ChatBot.js')
 const axios = require('axios');
 
 app.use(express.json());
@@ -48,7 +47,6 @@ app.use('/post',post)
 app.use('/feedback',feedBack)
 app.use('/subject',Subject)
 app.use('/otp',FP)
-app.use('/ai',AI)
 
 app.use('/uploads', express.static(path.join(__dirname)));
 const URL = process.env.MONGODB_URL
@@ -68,7 +66,6 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
-// const chatHistory = [];
 
 app.post('/chat', async (req, res) => {
     const { prompt, history = [] } = req.body;
@@ -83,7 +80,6 @@ app.post('/chat', async (req, res) => {
                 })
             };
         });
-          console.log(formattedHistory);
         const chat = model.startChat({
             history: formattedHistory,
             generationConfig: {
@@ -94,10 +90,8 @@ app.post('/chat', async (req, res) => {
         const result = await chat.sendMessage(prompt);
         const response = await result.response;
         const text = response.text();
-        console.log(text);
         res.status(200).json({ text, message: 'success' });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: 'Internal server error' });
     }
 });

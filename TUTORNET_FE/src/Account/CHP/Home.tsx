@@ -49,7 +49,6 @@ const Home = () => {
                 teacherRatings.sort((a, b) => b.rating - a.rating);
                 setTeacherData(teacherRatings);
                 setTeacher(teachers.length);
-               console.log(teacherData);
                
                 const studentResponse = await axios.get('/student/all');
                 setStudent(studentResponse.data.length);

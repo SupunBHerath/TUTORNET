@@ -63,12 +63,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ handleClose }) => {
                 );
                 teacherRatings.sort((a, b) => b.rating - a.rating);
                 setTeacherData(teacherRatings.slice(0, 2));
-                console.log(teacherData);
 
 
             } catch (err) {
                 console.error(err);
-                console.log(err);
 
             }
         };
@@ -163,7 +161,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ handleClose }) => {
             const latestHistory = messages.slice(-5);
             const combinedHistory = [...defaultHistory, ...latestHistory];
             const history = combinedHistory.map(msg => ({ role: msg.role, parts: [{ text: msg.content }] }));
-            console.log(history);
 
 
             const response = await axios.post('/chat', { prompt: content, history });
