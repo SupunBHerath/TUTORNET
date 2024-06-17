@@ -48,7 +48,7 @@ app.use('/feedback',feedBack)
 app.use('/subject',Subject)
 app.use('/otp',FP)
 
-app.use('/uploads', express.static(path.join(__dirname)));
+// app.use('/uploads', express.static(path.join(__dirname)));
 const URL = process.env.MONGODB_URL
 mongoose.connect(URL, {
     // useNewUrlParser: true,
