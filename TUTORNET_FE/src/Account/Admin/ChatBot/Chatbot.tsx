@@ -6,7 +6,7 @@ import axios from 'axios';
 import logo from '../../../../public/logo/Tutor logo.png';
 import { Color, Font } from '../../../Components/CSS/CSS';
 import { CloseRounded } from '@mui/icons-material';
-
+import useCookie from '../../../Hook/UserAuth';
 interface Message {
     id: number;
     role: 'user' | 'bot';
@@ -24,18 +24,27 @@ interface ChatbotProps {
 }
 
 const Chatbot: React.FC<ChatbotProps> = ({handleClose}) => {
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<Message[]>([
+        {
+            id: 1,
+            role: 'bot',
+            content: 'Hello! How can I assist you today?',
+            avatar: logo,
+            type: 'text'
+        },
+        
+    ]);
     const [input, setInput] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    const userAvatarUrl = 'https://via.placeholder.com/40';
+    const {userData}=useCookie();
+    console.log(userData);
+    
+    const userAvatarUrl = `${userData.profile}`;
     const botAvatarUrl = `${logo}`;
 
     const keywords: Keyword[] = [
-        { keyword: 'Hello', defaultMessage: 'Hello! How can I assist you today?' },
-        { keyword: 'Help', defaultMessage: 'What do you need help with?' },
-        { keyword: 'Contact Us', defaultMessage: 'You can email us at <span style="color: #f6921e;">supunbherath@gmail.com</span> <br> or call us at <br> <span style="color: #f6921e;">078 250 33 87</span>.' },
+        { keyword: 'How to Contact ', defaultMessage: 'You can email us at <span style="color: #f6921e;">supunbherath@gmail.com</span> <br> or call us at <br> <span style="color: #f6921e;">078 250 33 87</span>.' },
         { keyword: 'How To Search Teacher', defaultMessage: 'To search for a teacher, <br> go to the search page, enter the teacher\'s name, location, or class type. You can then view their profile and contact details.' },
         {
             keyword: 'How To Publish Ads',
@@ -114,7 +123,7 @@ const Chatbot: React.FC<ChatbotProps> = ({handleClose}) => {
    
 
     return (
-        <Container maxWidth="sm" style={{ padding: '0', display: 'flex', flexDirection: 'column', height: '60vh', backgroundColor: '#1E1E1E' }} className='shadow-lg'>
+        <Container maxWidth="sm" style={{ padding: '0', display: 'flex', flexDirection: 'column', height: '80vh', backgroundColor: '#1E1E1E' }} className='shadow-lg'>
             <AppBar position="static" style={{ backgroundColor: Color.PrimaryColor }}>
                 <Toolbar>
                     <Typography variant="h6" style={{ flexGrow: 1, color: Color.SecondaryColor, fontFamily: Font.PrimaryFont }} className='text-center' >
@@ -143,6 +152,7 @@ const Chatbot: React.FC<ChatbotProps> = ({handleClose}) => {
                     flexDirection: 'column',
                 }}
             >
+            
                 <List style={{ flexGrow: 1 }}>
                     {messages.map((msg, index) => (
                         <ListItem
@@ -212,6 +222,7 @@ const Chatbot: React.FC<ChatbotProps> = ({handleClose}) => {
 
                     }}
                 >
+                    
                     {keywords.map((keywordObj, index) => (
                         <Button
                             key={index}
@@ -221,7 +232,7 @@ const Chatbot: React.FC<ChatbotProps> = ({handleClose}) => {
                                 backgroundColor: Color.PrimaryColor,
                                 color: Color.SecondaryColor,
                                 fontFamily: Font.PrimaryFont,
-                                minWidth: '190px',
+                                minWidth: '197px',
                             }}
                             onClick={() => handleSend(keywordObj.keyword)}
                         >

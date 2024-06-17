@@ -6,6 +6,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import logo from '../../../../public/logo/Tutor logo.png';
 import { Avatar, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import Chatbot from './Chatbot';
+import icon from '../../../../public/Icon/chatbot.png'
 
 
 const actions = [
@@ -29,19 +30,23 @@ export default function BasicSpeedDial() {
                 sx={{
                     position: 'fixed',
                    bottom:80,
-                    right:'80px',
+                    right:'150px',
                     zIndex: 1000,
+                    transform: 'scale(1.2)',
                 }}
             >
                 <SpeedDial
                     ariaLabel="SpeedDial basic example"
-                    icon={<ChatIcon />}
-                    direction="left"
+                    icon={<Avatar src={icon}></Avatar>}
+                    direction="up"
                 >
                     {actions.map((action) => (
                         <SpeedDialAction
                             key={action.name}
-                            icon={<Avatar src={logo}></Avatar>}
+                            sx={{
+                                transform: 'scale(1.2)',
+                            }}
+                            icon={<Avatar style={{border:'2px solid #f6921e'}} src={logo}></Avatar>}
                             tooltipTitle={action.name}
                             onClick={() => handleClick()}
                         />
