@@ -9,16 +9,10 @@ import l3 from '../../../public/Lanading/w.jpg'
 import { Color, Font } from '../../Components/CSS/CSS'
 import Counter from './Count'
 import { CHPAboutUS } from './CHPAboutUS'
-import UserCommentCard from './Components/UserCommentCard'
-import t1 from '../../../public/Teacher/t1.jpg'
-import t2 from '../../../public/Teacher/t2.jpg'
-import u1 from '../../../public/Users/u1.jpg'
-import u2 from '../../../public/Users/u2.jpg'
-import u4 from '../../../public/Users/u4.jpg'
-import u5 from '../../../public/Users/u5.jpg'
 import { AdsCarousel } from './Components/AdsCarousel'
 import axios from 'axios'
 import ContactUsPage from './Components/ContactUs'
+import BasicSpeedDial from '../Admin/ChatBot/SpeedDial'
 
 interface UserData {
     _id: string;
@@ -55,7 +49,6 @@ const Home = () => {
                 teacherRatings.sort((a, b) => b.rating - a.rating);
                 setTeacherData(teacherRatings);
                 setTeacher(teachers.length);
-               console.log(teacherData);
                
                 const studentResponse = await axios.get('/student/all');
                 setStudent(studentResponse.data.length);
@@ -69,6 +62,7 @@ const Home = () => {
     return (
         <div className=''>
             <div className="container-fluid ">
+                <BasicSpeedDial/>
                 <div
                     className="headerSesion bg-dark w-100"
                     style={{

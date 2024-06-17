@@ -82,10 +82,8 @@ export default function RegisteredForm() {
                             }, 2000);
 
                         } else {
-                            console.log(response.data);
                         }
                     } catch (error) {
-                        console.log(error)
                         setFail(true)
                     }
                 } else {

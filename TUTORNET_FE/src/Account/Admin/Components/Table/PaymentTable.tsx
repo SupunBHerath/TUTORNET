@@ -53,7 +53,6 @@ function AlertDialogSlide(prop: any) {
       const response = await axios.delete(`/ads/delete/${prop.id}`);
 
       if (response.status === 200) {
-        console.log('Advertisement deleted successfully');
         setOpen(false);
         setDeleteAlert(true);
 
@@ -182,7 +181,6 @@ const PaymentTable: React.FC = () => {
         }
 
         const data = response.data.reverse();
-        console.log(data);
 
         setRows(data);
         setTem(data);
@@ -207,7 +205,6 @@ const PaymentTable: React.FC = () => {
           const correspondingDBData = dbdata.find(item => item._id === row._id);
           return correspondingDBData && row.status !== correspondingDBData.status;
         });
-        console.log('Update Data:', updateData);
         const response = await axios.put('/ads/update', updateData, {
           headers: {
             'Content-Type': 'application/json'

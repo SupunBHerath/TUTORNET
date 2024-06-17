@@ -59,7 +59,6 @@ module.exports.register = async (req, res) => {
                 console.error('Error sending email:', error);
                 return res.status(500).json({ error: 'Error sending email.', msg: 'User registered successfully. Email failed to send.' });
             }
-            console.log('Email sent:', info.response);
             return res.status(200).json({ msg: "User registered successfully. Email sent with password.", password: randomPassword });
         });
     } catch (error) {
@@ -75,6 +74,5 @@ module.exports.all = async (req, res) => {
             res.status(200).json(admin)
         }).catch(err => {
             res.status(400).json({ message: err.message })
-            console.log("error", err)
         })
 }

@@ -84,7 +84,6 @@ export default function RegistrationStudent(prop: any) {
 
     const password = formData.password; 
     const cpassword = e.target.value; 
-    console.log(password, cpassword)
     if (e.target.validity.valid && password === cpassword) {
       setCPasswordError(false);
     } else {

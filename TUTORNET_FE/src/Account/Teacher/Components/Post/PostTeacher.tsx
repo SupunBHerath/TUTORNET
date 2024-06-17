@@ -74,7 +74,6 @@ const PostTeacher: React.FC = () => {
                 if (response.status === 200) {
                     const reversedData = response.data.reverse();
                     setPosts(reversedData);
-                    console.log(reversedData);
                     
                     
                 }
@@ -176,7 +175,6 @@ const PostTeacher: React.FC = () => {
                   
                 }
             } catch (err) {
-                console.log(err);
                 setProgress(false)
 
             }

@@ -47,7 +47,6 @@ const Profile: React.FC = () => {
         setCoverPhoto(data.coverPhoto);
         setLoading(false);
       } catch (error) {
-        console.log('Error fetching profile data:', error);
         setLoading(false);
       }
     };
@@ -75,7 +74,6 @@ const Profile: React.FC = () => {
       });
 
       if (response.status === 200) {
-        console.log('Data updated successfully');
         setName(newName || name);
         setOccupation(newOccupation || occupation);
         if (newProfilePicture) {

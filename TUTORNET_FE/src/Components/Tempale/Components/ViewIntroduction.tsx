@@ -24,7 +24,6 @@ const ViewIntroduction = () => {
             try {
                 const response = await axios.get(`/teacher/${id}`);
                 const fetchedData = response.data;
-                console.log(fetchedData);
                 
                 // Check the data structure
                 if (fetchedData) {

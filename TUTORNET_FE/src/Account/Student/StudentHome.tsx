@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import StudentPost from './StudentPost';
 import ProfileCard from './Componets/ProfileCard';
 import AdsHome from './Componets/Ads/AdsHome';
+import BasicSpeedDial from '../Admin/ChatBot/SpeedDial';
 
 
 const StudentHome = () => {
@@ -48,6 +49,7 @@ const StudentHome = () => {
           }}
         >
           <AdsHome />
+          <BasicSpeedDial/>
         </Box>
       </Box>
     </>

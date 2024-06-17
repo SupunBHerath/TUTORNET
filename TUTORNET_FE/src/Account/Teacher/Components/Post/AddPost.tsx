@@ -67,7 +67,6 @@ const AddPost = () => {
         formData.append('description', description);
     
         const response = await axios.post('/post/upload', formData);
-         console.log(response.data);
          const message = response.data.message;
         if (message === 'Successfully uploaded post') {
           setProgress(false);

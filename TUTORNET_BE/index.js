@@ -18,7 +18,7 @@ const feedBack = require('./router/feedbackRoute.js');
 const Subject = require('./router/subject.js');
 const webfeedbaack = require('./router/webFeedbackRoute.js');
 const FP = require('./router/ForgotpasswordRoute.js');
-
+const axios = require('axios');
 
 app.use(express.json());
 app.use(cors());
@@ -55,6 +55,50 @@ mongoose.connect(URL, {
     // useUnifiedTopology: true,
 
 });
+
+
+
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { log } = require('console');
+
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+
+
+app.post('/chat', async (req, res) => {
+    const { prompt, history = [] } = req.body;
+
+    try {
+      
+        const formattedHistory = history.map(msg => {
+            return {
+                role: msg.role,
+                parts: msg.parts.map(part => {
+                    return { text: part.text };
+                })
+            };
+        });
+        const chat = model.startChat({
+            history: formattedHistory,
+            generationConfig: {
+                maxOutputTokens: 4096,
+            },
+        });
+
+        const result = await chat.sendMessage(prompt);
+        const response = await result.response;
+        const text = response.text();
+        res.status(200).json({ text, message: 'success' });
+    } catch (err) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+
+
+
 
 
 const connection  = mongoose.connection;

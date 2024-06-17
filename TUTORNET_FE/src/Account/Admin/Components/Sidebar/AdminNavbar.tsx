@@ -123,7 +123,6 @@ export default function AdminNavbar() {
     axios.get('/ads/pending')
       .then(response => {
         setRow(response.data.length);
-        console.log(row);
       })
       .catch(error => {
         console.error('Error fetching data:', error);

@@ -11,7 +11,7 @@ import axios from 'axios';
 import log from '../../../../../public/logo/Tutor logo.png'
 
 interface Ad {
-  image: string;
+  ads: string;
   location: string;
   uploadedDay: string;
   status2: string;
@@ -59,7 +59,7 @@ function AdsSearch() {
     if (ads.length > 0) {
       setLoading(true);
       const img = new Image();
-      img.src = ads[activeStep]?.image;
+      img.src = ads[activeStep]?.ads;
       img.onload = () => setLoading(false);
     }
   }, [activeStep, ads]);
@@ -118,7 +118,7 @@ function AdsSearch() {
               objectFit: 'cover',
               display: loading ? 'none' : 'block',
             }}
-            src={ads[activeStep]?.image}
+            src={ads[activeStep]?.ads}
             alt={`Advertisement ${activeStep + 1}`}
           />
         </Fade>

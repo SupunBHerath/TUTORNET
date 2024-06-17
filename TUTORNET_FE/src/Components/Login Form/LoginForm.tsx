@@ -114,7 +114,7 @@ export default function LoginForm() {
       }
     } catch (error) {
       console.error('Error:', error);
-      setError('Connection error');
+      setError('Invalid Password');
       setAlertMessage('Connection error');
       setAlertSeverity('error');
       setOpenSnackbar(true);

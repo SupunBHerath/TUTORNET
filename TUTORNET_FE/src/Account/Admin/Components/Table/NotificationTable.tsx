@@ -53,7 +53,6 @@ export default function NotificationTable() {
     try {
       await axios.delete(`/feedback/${id}`);
       setUsers(users.filter(user => user._id == id));
-      console.log(users);
       
       setLoading(false);
     } catch (error) {

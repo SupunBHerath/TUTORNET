@@ -47,7 +47,6 @@ const AdsTable: React.FC = () => {
         const fetchAds = async () => {
             try {
                 const response = await axios.get('/ads/all');
-                console.log(response.data);
 
                 if (response.data.length < 0) {
                     throw new Error('Data empty');
@@ -55,7 +54,6 @@ const AdsTable: React.FC = () => {
                 const data = response.data.filter((ad: Ad) => ad.status === 'Done');
                 setAds(data);
                 setFilteredAds(data);
-                console.log(data);
 
                 setTimeout(() => {
                     setLoading(true);
@@ -75,7 +73,6 @@ const AdsTable: React.FC = () => {
             .then(response => {
                 if (response) {
                     setSuccess(true);
-                    console.log('Advertisement deleted successfully');
                     setTimeout(() => {
                         setSuccess(false);
                     }, 1000);
@@ -99,7 +96,6 @@ const AdsTable: React.FC = () => {
         setError(false);
 
         const { id, newStatus , name , email } = statusToUpdate;
-        console.log(newStatus);
         
         axios.put(`/ads/status/update/${id}`, { status2: newStatus , name: name , email: email})
             .then(response => {

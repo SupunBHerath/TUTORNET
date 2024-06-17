@@ -100,7 +100,6 @@ const AddAdsFormTeacher = () => {
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
-                console.log('Form submitted successfully.');
             } else {
                 console.error('Failed to submit form.');
                 setError(true);

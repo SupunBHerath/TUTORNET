@@ -52,7 +52,6 @@ function Ads() {
       try {
         const response = await axios.get('/ads/all');
         const filteredAds = response.data.filter((ad: Ad) => ad.status2 === 'Running' && ad.location === 'Landing Page').reverse();
-        console.log(filteredAds);
 
         setAds(filteredAds);
       } catch (error) {

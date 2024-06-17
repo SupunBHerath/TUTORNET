@@ -68,7 +68,6 @@ const ResultUploadPage: React.FC = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log('File uploaded successfully:', response.data);
             setResults(response.data.uploadedResults);
         } catch (error) {
             console.error('Error uploading file:', error);

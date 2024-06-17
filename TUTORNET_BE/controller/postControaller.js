@@ -57,10 +57,8 @@ const post = async (req, res) => {
 
 const all = async (req, res) => {
   try {
-    // Fetch all posts
     const posts = await Post.find();
 
-    // Fetch teacher details for each post's userId
     const response = await Promise.all(posts.map(async (post) => {
       const teacher = await Teacher.findById(post.userId);
       return {
@@ -109,7 +107,6 @@ const Delete = async (req, res) => {
       return res.status(404).json({ error: 'Post not found' });
     }
 
-    // const deletedImage = await cloudinary.uploader.destroy(deletedPost.uploadImageId);
 
     res.status(200).json({ message: 'Post deleted successfully' });
   } catch (error) {

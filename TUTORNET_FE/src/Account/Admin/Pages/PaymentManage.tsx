@@ -22,7 +22,6 @@ const PaymentManage = () => {
             totalRevenue += data[i].payment;
           }
           setRevenue(totalRevenue);
-          console.log(totalRevenue);
         } else {
           throw new Error('Network response was not ok');
         }

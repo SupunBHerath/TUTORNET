@@ -78,7 +78,6 @@ const UserChart: React.FC = () => {
   };
 
   // Debugging logs
-  console.log('Chart Data:', chartData);
 
   return (
     <BarChart

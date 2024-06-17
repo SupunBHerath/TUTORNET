@@ -76,7 +76,6 @@ export default function UserTable() {
   };
 
   const handleDelete = async (id: string) => {
-    console.log('Delete user with id:', id);
     try{
       const deleteUser = await axios.delete(`/api/delete/${id}`)
       if(deleteUser){

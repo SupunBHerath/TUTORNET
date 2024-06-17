@@ -44,7 +44,6 @@ module.exports.all = async (req, res) => {
 
         }).catch(err => {
             res.status(400).json({ message: err.message })
-            console.log("error", err)
         })
 }
 
@@ -55,7 +54,6 @@ module.exports.findId = async (req, res) => {
 
         }).catch(err => {
             res.status(400).json({ message: err.message })
-            console.log("error", err)
         })
 }
 
@@ -65,7 +63,6 @@ module.exports.update = async (req, res) => {
             res.status(200).json(student)
         }).catch(err => {
             res.status(400).json({ message: err.message })
-            console.log("error", err)
         })
 }
 module.exports.Delete = async (req, res) => {
@@ -74,6 +71,5 @@ module.exports.Delete = async (req, res) => {
             res.status(200).json(student)
         }).catch(err => {
             res.status(400).json({ message: err.message })
-            console.log("error", err)
         })
 }

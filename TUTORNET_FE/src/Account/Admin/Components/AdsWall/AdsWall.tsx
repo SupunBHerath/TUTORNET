@@ -23,7 +23,6 @@ const AdsWall: React.FC = () => {
         const response = await axios.get('/ads/all'); 
         const filteredAds = response.data.filter((ad:Ad) => ad.status2 === 'Running').reverse();
         setAds(filteredAds);
-        console.log(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);
       }

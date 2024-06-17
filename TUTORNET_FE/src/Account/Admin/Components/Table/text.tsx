@@ -145,7 +145,6 @@ const UserDataTable: React.FC<UserDataTableProps> = (props: any) => {
     const handleFreeze = async () => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            console.log(`Freezing user with ID: ${selectedUserId}`);
             const updatedDataSet = dataSet.map((row) => {
                 if (row.userId === selectedUserId) {
                     return { ...row, status: "freeze" };
@@ -163,7 +162,6 @@ const UserDataTable: React.FC<UserDataTableProps> = (props: any) => {
     const handleUnfreeze = async () => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            console.log(`Unfreezing user with ID: ${selectedUserId}`);
             const updatedDataSet = dataSet.map((row) => {
                 if (row.userId === selectedUserId) {
                     return { ...row, status: "active" };
@@ -185,7 +183,6 @@ const UserDataTable: React.FC<UserDataTableProps> = (props: any) => {
     const handleSave = async () => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            console.log("Saving changes:", editingRow);
             const updatedDataSet = dataSet.map((row) => {
                 if (row.userId === editingRow?.userId) {
                     return editingRow;

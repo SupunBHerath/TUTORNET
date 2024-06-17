@@ -12,7 +12,7 @@ import Fade from '@mui/material/Fade';
 import axios from 'axios';
 
 interface Ad {
-  image: string;
+  ads: string;
   location: string;
   uploadedDay: string;
   status2: string;
@@ -46,10 +46,8 @@ function AdsHome() {
     const fetchAds = async () => {
       try {
         const response = await axios.get('/ads/all'); 
-        console.log(response.data);
         
         const filteredAds = response.data.filter((ad:Ad) => ad.location === 'Wall Page' && ad.status2 === 'Running');
-        console.log(filteredAds);
         setAds(filteredAds);
       } catch (error) {
         console.error('Error fetching ads:', error);
@@ -63,7 +61,7 @@ function AdsHome() {
     if (ads.length > 0) {
       setLoading(true);
       const img = new Image();
-      img.src = ads[activeStep]?.image;
+      img.src = ads[activeStep]?.ads;
       img.onload = () => setLoading(false);
     }
   }, [activeStep, ads]);
@@ -77,7 +75,7 @@ function AdsHome() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: 50,
+          // height: 10,
           pl: 2,
           bgcolor: 'background.default',
         }}
@@ -92,6 +90,8 @@ function AdsHome() {
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
+          p:2,
+          backgroundColor:'white'
         }}
       >
         {loading && 
@@ -121,7 +121,7 @@ function AdsHome() {
               objectFit: 'cover',
               display: loading ? 'none' : 'block',
             }}
-            src={ads[activeStep]?.image}
+            src={ads[activeStep]?.ads}
             alt={`Advertisement ${activeStep + 1}`}
           />
         </Fade>
