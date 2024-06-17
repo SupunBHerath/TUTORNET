@@ -29,11 +29,9 @@ interface Keyword {
     defaultMessage: string;
 }
 
-interface ChatbotProps {
-    handleClose: () => void;
-}
 
-const Chatbot: React.FC<ChatbotProps> = ({ handleClose }) => {
+
+const ChatbotPage: React.FC = () => {
     const nav = useNavigate()
     const [teacher, setTeacher] = useState(0)
     const [student, setStudent] = useState(0)
@@ -200,18 +198,8 @@ const Chatbot: React.FC<ChatbotProps> = ({ handleClose }) => {
     };
 
     return (
-        <Container maxWidth="sm" style={{ padding: '0', display: 'flex', flexDirection: 'column', height: '80vh', backgroundColor: '#1E1E1E' }} className='shadow-lg'>
+        <Container  style={{ marginTop:'100px', padding: '10px', display: 'flex', flexDirection: 'column', height: '80vh', backgroundColor: '#1E1E1E' }} className='shadow-lg rounded-3'>
             <AppBar position="static" style={{ backgroundColor: Color.PrimaryColor }}>
-                <Toolbar>
-                    <Typography variant="h6" style={{ flexGrow: 1, color: Color.SecondaryColor, fontFamily: Font.PrimaryFont }} className='text-center' >
-                        TUTORNET Chatbot
-                    </Typography>
-                    <div className=" text-danger  ">
-                        <IconButton onClick={handleClose} style={{ color: 'red' }} >
-                            <CloseRounded />
-                        </IconButton>
-                    </div>
-                </Toolbar>
             </AppBar>
             <Paper
                 elevation={0}
@@ -342,5 +330,5 @@ const Chatbot: React.FC<ChatbotProps> = ({ handleClose }) => {
     );
 };
 
-export default Chatbot;
+export default ChatbotPage;
 

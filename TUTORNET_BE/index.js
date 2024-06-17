@@ -62,29 +62,45 @@ mongoose.connect(URL, {
 
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { log } = require('console');
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
+// const chatHistory = [];
+
 app.post('/chat', async (req, res) => {
-   
-    const { prompt } = req.body
-    console.log(prompt);
+    const { prompt, history = [] } = req.body;
+
     try {
-        const result = await model.generateContent(prompt);
+      
+        const formattedHistory = history.map(msg => {
+            return {
+                role: msg.role,
+                parts: msg.parts.map(part => {
+                    return { text: part.text };
+                })
+            };
+        });
+          console.log(formattedHistory);
+        const chat = model.startChat({
+            history: formattedHistory,
+            generationConfig: {
+                maxOutputTokens: 4096,
+            },
+        });
+
+        const result = await chat.sendMessage(prompt);
         const response = await result.response;
         const text = response.text();
-        res.status(200).json({ text: text ,message: 'success' });
-    }catch(err) {
+        console.log(text);
+        res.status(200).json({ text, message: 'success' });
+    } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Internal server error' });
-         
     }
-
-  
-})
-
+});
 
 
 

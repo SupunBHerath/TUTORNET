@@ -12,7 +12,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Color, Font } from '../../../../Components/CSS/CSS';
 import useCookie from '../../../../Hook/UserAuth';
 import { logout } from '../../../../Hook/Logout';
@@ -21,7 +20,9 @@ const pages = [
   { name: 'Home', path: '/teacher' },
   { name: 'Search ', path: '/teacher/search' },
   { name: 'Advertise', path: '/teacher/Ads' },
-  { name: 'About us', path: '/teacher/about' }
+  { name: 'About us', path: '/teacher/about' },
+  { name: 'TUTOR AI', path: '/teacher/ai' },
+
 ];
 
 const settings = [

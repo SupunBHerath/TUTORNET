@@ -7,10 +7,10 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import CircularProgress from '@mui/material/CircularProgress';
 import './Top.css';
-import { Color } from '../../../../Components/CSS/CSS';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Box, Rating } from '@mui/material';
+import { Box, Rating, Chip } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete'; // Import Autocomplete
 
 interface Teacher {
     _id: string;
@@ -20,16 +20,58 @@ interface Teacher {
     profilePicture: string;
     classType: string;
     rating: number;
+    district: string; // Location information
 }
 
-const SearchBar: React.FC<{ onSearch: (search: { name: string; subject: string; classType: string }) => void }> = ({ onSearch }) => {
+const SearchBar: React.FC<{ onSearch: (search: { name: string; subject: string; classType: string; district: string[] }) => void }> = ({ onSearch }) => {
     const [nameSearch, setNameSearch] = useState('');
     const [subjectSearch, setSubjectSearch] = useState('');
     const [classTypeSearch, setClassTypeSearch] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState<string | null>(null); // State for single selection
+    const [locationSearch, setLocationSearch] = useState(''); // State to manage current input value
+    const [locationSuggestions, setLocationSuggestions] = useState<string[]>([]);
 
     useEffect(() => {
-        onSearch({ name: nameSearch, subject: subjectSearch, classType: classTypeSearch });
-    }, [nameSearch, subjectSearch, classTypeSearch, onSearch]);
+        onSearch({ name: nameSearch, subject: subjectSearch, classType: classTypeSearch, district: selectedLocation ? [selectedLocation] : [] });
+    }, [nameSearch, subjectSearch, classTypeSearch, selectedLocation, onSearch]);
+
+    // Static list of Sri Lanka districts for autocomplete
+    const districts = [
+        'Colombo', 'Gampaha', 'Kalutara', 'Kandy', 'Matale', 'Nuwara Eliya', // Add more districts as needed
+    ];
+
+    const handleLocationChange = (value: string) => {
+        setLocationSearch(value);
+        const filteredSuggestions = districts.filter(district =>
+            district.toLowerCase().includes(value.toLowerCase())
+        );
+        setLocationSuggestions(filteredSuggestions);
+    };
+
+    const handleSelectLocation = (value: string) => {
+        setSelectedLocation(value);
+        setLocationSearch('');
+        setLocationSuggestions([]);
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Enter' && locationSuggestions.length > 0) {
+            handleSelectLocation(locationSuggestions[0]);
+        }
+    };
+
+    const renderSelectedLocation = () => {
+        if (!selectedLocation) {
+            return null;
+        }
+        return (
+            <Chip
+                label={selectedLocation}
+                onDelete={() => setSelectedLocation(null)}
+                className="search-chip"
+            />
+        );
+    };
 
     return (
         <div className="search-bar d-flex gap-3">
@@ -39,7 +81,6 @@ const SearchBar: React.FC<{ onSearch: (search: { name: string; subject: string; 
                 value={nameSearch}
                 onChange={(e) => setNameSearch(e.target.value)}
                 className="search-input"
-                style={{ borderColor: Color.PrimaryColor }}
             />
 
             <TextField
@@ -49,6 +90,7 @@ const SearchBar: React.FC<{ onSearch: (search: { name: string; subject: string; 
                 onChange={(e) => setSubjectSearch(e.target.value)}
                 className="search-input"
             />
+
             <FormControl variant="outlined" className="search-input" style={{ width: '200px' }}>
                 <InputLabel>Class Type</InputLabel>
                 <Select
@@ -65,6 +107,32 @@ const SearchBar: React.FC<{ onSearch: (search: { name: string; subject: string; 
                     <MenuItem value="Individual">Individual</MenuItem>
                 </Select>
             </FormControl>
+
+            <div className="location-search" style={{ width: '200px' }}>
+                <Autocomplete
+                    id="district-autocomplete"
+                    options={districts}
+                    value={selectedLocation}
+                    onChange={(event, newValue) => {
+                        setSelectedLocation(newValue);
+                    }}
+                    inputValue={locationSearch}
+                    onInputChange={(event, newInputValue) => {
+                        handleLocationChange(newInputValue);
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Search by location"
+                            variant="outlined"
+                            className="search-input"
+                            onKeyPress={handleKeyPress}
+                        />
+                    )}
+                />
+    
+               
+            </div>
         </div>
     );
 };
@@ -74,9 +142,10 @@ const TeacherProfile: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
         <div className="teacher-card">
             <Avatar alt={teacher.name} src={teacher.profilePicture} sx={{ width: 150, height: 150 }} className='border border-dark' />
             <div className="teacher-info">
-                <h2><span style={{ color: Color.PrimaryColor }}>{teacher.name}</span></h2>
-                <p>Subject: <span style={{ color: Color.SecondaryColor }}>{teacher.subject}</span></p>
-                <p>Class Type: <span style={{ color: Color.SecondaryColor }}>{teacher.classType}</span></p>
+                <h2>{teacher.name}</h2>
+                <p>Subject: {teacher.subject}</p>
+                <p>Location: {teacher.district}</p>
+                <p>Class Type: {teacher.classType}</p>
                 {teacher.rating !== null && (
                     <Box sx={{ marginTop: 2, marginBottom: 2 }}>
                         <Rating name="read-only" value={teacher.rating} readOnly />
@@ -122,6 +191,7 @@ const TopTeachers: React.FC = () => {
                                 profilePicture: teacher.profilePicture || "https://via.placeholder.com/150",
                                 classType: teacher.classType,
                                 rating: ratingResponse.data.userTotalRatings || 0,
+                                district: teacher.district, // Assign district from API to Teacher interface
                             };
                         })
                     );
@@ -143,29 +213,40 @@ const TopTeachers: React.FC = () => {
         fetchTeachers();
     }, []);
 
-    const handleSearch = (search: { name: string; subject: string; classType: string }) => {
-        const { name, subject, classType } = search;
+    const handleSearch = (search: { name: string; subject: string; classType: string; district: string[] }) => {
+        const { name, subject, classType, district } = search;
+
         const filtered = allTeachers.filter(teacher =>
-            teacher.name?.toLowerCase().includes(name.toLowerCase()) &&
-            teacher.subject?.toLowerCase().includes(subject.toLowerCase()) &&
-            (classType === '' || teacher.classType?.toLowerCase() === classType.toLowerCase())
+            teacher.name.toLowerCase().includes(name.toLowerCase()) &&
+            teacher.subject.toLowerCase().includes(subject.toLowerCase()) &&
+            (classType === '' || teacher.classType.toLowerCase() === classType.toLowerCase()) &&
+            (district.length === 0 || district.some(d => teacher.district.toLowerCase().includes(d.toLowerCase())))
         );
+
         setFilteredTeachers(filtered);
     };
 
-    if (loading) {
-        return <CircularProgress />;
-    }
+    const renderContent = () => {
+        if (loading) {
+            return <CircularProgress />;
+        }
 
-    if (error) {
-        return <div className="error-message">{error}</div>;
-    }
+        if (error) {
+            return <div className="error-message">{error}</div>;
+        }
+
+        return (
+            <div>
+                <SearchBar onSearch={handleSearch} />
+                <TeacherProfilesList teachers={filteredTeachers} />
+            </div>
+        );
+    };
 
     return (
         <div>
             <br /><br /><br />
-            <SearchBar onSearch={handleSearch} />
-            <TeacherProfilesList teachers={filteredTeachers} />
+            {renderContent()}
         </div>
     );
 };

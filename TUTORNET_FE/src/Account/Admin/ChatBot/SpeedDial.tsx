@@ -29,8 +29,8 @@ export default function BasicSpeedDial() {
             <Box
                 sx={{
                     position: 'fixed',
-                   bottom:80,
-                    right:'150px',
+                   bottom:"50px",
+                    right:'50px',
                     zIndex: 1000,
                     transform: 'scale(1.2)',
                 }}
