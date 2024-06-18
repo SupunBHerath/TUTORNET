@@ -88,6 +88,7 @@ export default function LoginForm() {
 
         setTimeout(() => {
           localStorage.setItem('token', data.token);
+          localStorage.setItem('role', data.role);
           const userRole = data.role;
           switch (userRole) {
             case 'Teacher':

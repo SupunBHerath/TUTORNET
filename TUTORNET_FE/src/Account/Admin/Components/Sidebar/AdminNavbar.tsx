@@ -32,18 +32,11 @@ import AdsManagePage from '../../Pages/AdsManage';
 import Notification from '../../Pages/Notification';
 import SubjectTable from '../Table/SubjectTable';
 import FeedbackIcon from '@mui/icons-material/Feedback';
-import { logout } from '../../../../Hook/Logout';
 import axios from 'axios';
-// Define your custom font
-
 
 const drawerWidth = 240;
 
-const handleLogout = () => {
-const navigation = useNavigate()
 
-  logout(navigation);
-};
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -118,7 +111,8 @@ export default function AdminNavbar() {
   const [open, setOpen] = React.useState(false);
   const [activeComponent, setActiveComponent] = React.useState('dashboard');
   const [row, setRow] = React.useState(null);
-  
+  const navigation = useNavigate();
+
   React.useEffect(() => {
     axios.get('/ads/pending')
       .then(response => {
@@ -129,7 +123,11 @@ export default function AdminNavbar() {
       });
   }, [activeComponent]);
 
-
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    navigation('/')
+    
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -175,7 +173,6 @@ export default function AdminNavbar() {
               ...(open && { display: 'none' }),
             }}
           >
-
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" >
@@ -265,14 +262,12 @@ export default function AdminNavbar() {
           </ListItemButton>
           <br />
           <br />
-          <Link to='/' onClick={handleLogout}>
-            <ListItemButton>
+            <ListItemButton onClick={handleLogout}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText primary={<span style={{ fontFamily: Font.PrimaryFont }}>Logout</span>} />
             </ListItemButton>
-          </Link>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

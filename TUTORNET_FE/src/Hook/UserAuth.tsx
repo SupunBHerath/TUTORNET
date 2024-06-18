@@ -29,6 +29,7 @@ const useCookie = () => {
       if (!token) {
         console.log("token not found");
         logout(navigate);
+        
         return;
       }
 
@@ -39,7 +40,7 @@ const useCookie = () => {
           },
         });
 
-        if (response) {
+        if (response.status === 200) {
           setIsValidToken(true);
           setUserData({
             userId: response.data.userId,
@@ -49,6 +50,7 @@ const useCookie = () => {
             profile: response.data.profile
           });
         } else {
+
           setIsValidToken(false);
           logout(navigate);
         }
@@ -58,6 +60,8 @@ const useCookie = () => {
         console.error('Error fetching data:', error);
         setIsValidToken(false);
         logout(navigate);
+        localStorage.removeItem('role');
+
       }
     };
 

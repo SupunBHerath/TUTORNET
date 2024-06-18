@@ -6,13 +6,14 @@ import axios from 'axios';
 import Facebook from '../../Components/LodingPost/LodingPost';
 import TimeDifference from '../../Components/TimeDifference/TimeDifference';
 
-interface Teacher {
-  username: string;
-  profileImage: string;
-}
 
+type UserId = {
+  profilePicture: string;
+  name: string;
+  email: string;
+}
 interface PostData {
-  userId: string;
+  userId: UserId;
   _id: string;
   title: string;
   body: string;
@@ -20,8 +21,6 @@ interface PostData {
   username: string;
   description: string;
   uploadedDay: string;
-  profileImage: string;
-  teacher: Teacher;
 }
 
 const StudentPost: React.FC = () => {
@@ -34,6 +33,8 @@ const StudentPost: React.FC = () => {
         const response = await axios.get<PostData[]>('/post/all');
         const reversedData = response.data.reverse();
         setPostData(reversedData);
+        console.log(reversedData);
+        
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -53,9 +54,9 @@ const StudentPost: React.FC = () => {
           {postData.map((post) => (
             <Grid item xs={12} sm={12} key={post._id}>
               <Post 
-                pp={post.teacher.profileImage}
+                pp={post.userId.profilePicture}
                 img={post.image}
-                title={post.teacher.username}
+                title={post.userId.name}
                 date={<TimeDifference time={post.uploadedDay} />}
                 description={post.description}
               />

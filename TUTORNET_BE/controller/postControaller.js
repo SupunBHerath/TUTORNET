@@ -37,6 +37,7 @@ const post = async (req, res) => {
       const result = await cloudinary.uploader.upload(req.file.path);
 
       const newPost = new Post({
+        userModel: 'Teacher',
         uploadImageId: result.public_id,
         userId: req.body.userId,
         title: req.body.title,
@@ -46,7 +47,7 @@ const post = async (req, res) => {
       });
 
       const savedPost = await newPost.save();
-     
+
       res.status(201).json({ message: 'Successfully uploaded post', data: savedPost });
     });
   } catch (error) {
@@ -57,25 +58,16 @@ const post = async (req, res) => {
 
 const all = async (req, res) => {
   try {
-    const posts = await Post.find();
-
-    const response = await Promise.all(posts.map(async (post) => {
-      const teacher = await Teacher.findById(post.userId);
-      return {
-        ...post.toObject(),
-        teacher: {
-          username: teacher.name,
-          profileImage: teacher.profilePicture,
-        },
-      };
-    }));
-
-    res.status(200).json(response);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message || 'Internal Server Error' });
+    const posts = await Post.find()
+      .populate('userId', 'name profilePicture email'); // Ensure the correct fields are populated
+    console.log(posts);
+    res.status(200).json(posts); // Changed status code to 200 for successful GET request
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
   }
 };
+
 
 
 const owersData = async (req, res) => {

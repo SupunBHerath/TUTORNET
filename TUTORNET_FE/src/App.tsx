@@ -23,16 +23,18 @@ import AdminLayout from './Layout/Admin';
 import About from './Account/Landing_page/Components/About_Us/About_us';
 import FeedbackPage from './Pages/FeedbackPage';
 import Ai from './Pages/Ai';
+import useCookie from './Hook/UserAuth';
+import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
 
-const App = () => {
-  // axios.defaults.baseURL = 'http://localhost:8080/'
-  axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+const App: React.FC = () => {
+  axios.defaults.baseURL = 'http://localhost:8080/';
+  const { userData } = useCookie();
+  const role = userData.role;
 
   return (
     <div>
       <Routes>
-
-        {/* ----------Landing  route -------------------------*/}
+        {/* ----------Landing route -------------------------*/}
         <Route path="/" element={<LandingLayout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<LoginForm />} />
@@ -43,9 +45,15 @@ const App = () => {
           <Route path="about" element={<About />} />
         </Route>
 
-
-        {/* ----------Student  route -------------------------*/}
-        <Route path="/student" element={<StudentLayout />}>
+        {/* ----------Student route -------------------------*/}
+        <Route
+          path="/student"
+          element={
+            <ProtectedRoute roles={['Student']}>
+              <StudentLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<StudentHome />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="profile" element={<Profile />} />
@@ -55,9 +63,15 @@ const App = () => {
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
         </Route>
 
-
-        {/* ----------Teacher  route -------------------------*/}
-        <Route path="/teacher" element={< TeacherLayout/>}>
+        {/* ----------Teacher route -------------------------*/}
+        <Route
+          path="/teacher"
+          element={
+            <ProtectedRoute roles={['Teacher']}>
+              <TeacherLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<TeacherWall />} />
           <Route path="Ads" element={<Ads />} />
           <Route path="about" element={<About />} />
@@ -66,25 +80,23 @@ const App = () => {
           <Route path="search/teacher/:id/:name" element={<TeacherProfile />} />
           <Route path="feedback" element={<FeedbackPage />} />
           <Route path="profile" element={<TecherHome />} />
-          {/* <Route path="Ads" element={<AdsWall />} /> */}
           <Route path="ai" element={<Ai />} />
-
           <Route path="search" element={<SearchPageT />} />
         </Route>
 
-
-
-        {/* ----------Admin  route -------------------------*/}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route  index element={<AdminMain />} />
+        {/* ----------Admin route -------------------------*/}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute roles={['Admin']}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminMain />} />
         </Route>
-
-
       </Routes>
-
-
     </div>
-
   );
 };
 
