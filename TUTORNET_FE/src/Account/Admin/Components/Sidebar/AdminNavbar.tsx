@@ -126,6 +126,7 @@ export default function AdminNavbar() {
   const handleLogout = () => {
     localStorage.removeItem('token'); 
     navigation('/')
+  
     
   };
   const handleDrawerOpen = () => {

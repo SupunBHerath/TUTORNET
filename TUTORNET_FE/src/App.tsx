@@ -23,13 +23,13 @@ import AdminLayout from './Layout/Admin';
 import About from './Account/Landing_page/Components/About_Us/About_us';
 import FeedbackPage from './Pages/FeedbackPage';
 import Ai from './Pages/Ai';
-import useCookie from './Hook/UserAuth';
-import ProtectedRoute from './ProtectedRoute'; // Import the ProtectedRoute component
+import ProtectedRoute from './ProtectedRoute'; 
 
 const App: React.FC = () => {
-  axios.defaults.baseURL = 'http://localhost:8080/';
-  const { userData } = useCookie();
-  const role = userData.role;
+  // axios.defaults.baseURL = 'http://localhost:8080/';
+  
+  axios.defaults.baseURL = 'https://tutornet-5v7a-supunbheraths-projects.vercel.app/'
+;
 
   return (
     <div>
