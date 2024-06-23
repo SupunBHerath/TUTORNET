@@ -11,7 +11,6 @@ import { Color } from '../../../Components/CSS/CSS'
 import axios from 'axios'
 import AdsChart from '../Components/Charts/AdsChart'
 import useCookie from '../../../Hook/UserAuth'
-import BasicSpeedDial from '../ChatBot/SpeedDial'
 
 type RoleDetails = {
   role: string;
@@ -70,7 +69,6 @@ const ADashboard = () => {
         <div className="row text-center">
           <div className="col-md-4">
             <UserChart />
-            <BasicSpeedDial />
             <br />
             <h3>New <span style={{ color: Color.SecondaryColor }}>Account</span> in the last 3 days</h3>
           </div>

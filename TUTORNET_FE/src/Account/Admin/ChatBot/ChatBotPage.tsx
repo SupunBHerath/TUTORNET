@@ -5,7 +5,6 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import axios from 'axios';
 import logo from '../../../../public/logo/Tutor logo.png';
 import { Color, Font } from '../../../Components/CSS/CSS';
-import { CloseRounded } from '@mui/icons-material';
 import useCookie from '../../../Hook/UserAuth';
 import { useNavigate } from 'react-router-dom';
 

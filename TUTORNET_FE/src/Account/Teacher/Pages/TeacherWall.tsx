@@ -4,7 +4,6 @@ import StudentPost from '../../Student/StudentPost';
 import AdsHome from '../../Student/Componets/Ads/AdsHome';
 // import Navi_Bar from '../Components/Navi_Bar/Navi_Bar';
 import ProfileCard from '../Components/ProfileCard/ProfileCard';
-import BasicSpeedDial from '../../Admin/ChatBot/SpeedDial';
 
 
 const TeachWall = () => {
@@ -52,7 +51,6 @@ const TeachWall = () => {
           }}
         >
           <AdsHome />
-          <BasicSpeedDial/>
         </Box>
       </Box>
     </>

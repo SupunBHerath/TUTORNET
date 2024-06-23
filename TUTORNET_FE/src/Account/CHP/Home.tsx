@@ -12,7 +12,6 @@ import { CHPAboutUS } from './CHPAboutUS'
 import { AdsCarousel } from './Components/AdsCarousel'
 import axios from 'axios'
 import ContactUsPage from './Components/ContactUs'
-import BasicSpeedDial from '../Admin/ChatBot/SpeedDial'
 
 interface UserData {
     _id: string;
@@ -62,7 +61,6 @@ const Home = () => {
     return (
         <div className=''>
             <div className="container-fluid ">
-                <BasicSpeedDial/>
                 <div
                     className="headerSesion bg-dark w-100"
                     style={{

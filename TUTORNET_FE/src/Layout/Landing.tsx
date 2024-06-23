@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Account/CHP/Components/Footer';
 import LNavi_Bar from '../Account/CHP/Components/Navi_Bar/STNavi_Bar';
+import BasicSpeedDial from '../Account/Admin/ChatBot/SpeedDial';
 
 const LandingLayout: React.FC = () => {
   return (
@@ -10,6 +11,8 @@ const LandingLayout: React.FC = () => {
         <LNavi_Bar />
       </div>
       <main style={{ paddingTop: '60px' }}>
+        <BasicSpeedDial />
+
         <Outlet />
       </main>
       <Footer />
