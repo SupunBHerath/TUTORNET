@@ -12,6 +12,9 @@ import axios from 'axios';
 import { Color, Font } from '../../../Components/CSS/CSS';
 import { useNavigate } from 'react-router-dom';
 
+
+
+
 interface Ad {
   ads: string;
   location: string;
